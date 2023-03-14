@@ -6,15 +6,21 @@ using UnityEngine;
 public class OverlayInfo : MonoBehaviour
 {
     public bool showTile;
+    public bool debugging;
     void Update()
     {
-        if(showTile)
+        if(showTile && debugging)
         {
             ShowTile();
         }
-        else
+        else if(!showTile && debugging)
         {
             HideTile();
+        }
+
+        if(Input.GetMouseButtonDown(0)) 
+        {
+            HideTile();        
         }
     }
 

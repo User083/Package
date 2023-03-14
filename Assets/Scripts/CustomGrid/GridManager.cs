@@ -11,6 +11,8 @@ public class GridManager : MonoBehaviour
 
     public OverlayInfo overlayTileInfo;
     public GameObject overlayContainer;
+
+    public Dictionary<Vector2Int, OverlayInfo> map;
     private void Awake()
     {
         if(instance != null && instance !=this)
@@ -25,6 +27,7 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         var tileMap = gameObject.GetComponentInChildren<Tilemap>();
+        map = new Dictionary<Vector2Int, OverlayInfo>();
 
         BoundsInt bounds = tileMap.cellBounds;
 
@@ -35,14 +38,17 @@ public class GridManager : MonoBehaviour
                 for (int x = bounds.min.x; x < bounds.max.x; x++)
                 {
                     var tileLocation = new Vector3Int(x, y, z);
+                    var tileKey = new Vector2Int(x, y);
 
-                    if(tileMap.HasTile(tileLocation))
+                    if(tileMap.HasTile(tileLocation) && !map.ContainsKey(tileKey))
                     {
                         var overlayTile = Instantiate(overlayTileInfo, overlayContainer.transform);
                         var cellWorldPosition = tileMap.GetCellCenterWorld(tileLocation);
 
                         overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y, cellWorldPosition.z + 1);
-                        //overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tileMap.GetComponent<TilemapRenderer>().sortingOrder;
+                        overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tileMap.GetComponent<TilemapRenderer>().sortingOrder;
+
+                        map.Add(tileKey, overlayTile);
                     }
                 }
             }
