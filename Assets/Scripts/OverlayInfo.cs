@@ -7,6 +7,17 @@ public class OverlayInfo : MonoBehaviour
 {
     public bool showTile;
     public bool debugging;
+
+    public int gCost;
+    public int hCost;
+
+    public int fCost { get { return gCost + hCost; } }
+
+    public bool isBlocked;
+
+    public OverlayInfo parent;
+
+    public Vector3Int gridLocation;
     void Update()
     {
         if(showTile && debugging)
