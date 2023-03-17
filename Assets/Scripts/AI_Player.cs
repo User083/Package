@@ -17,16 +17,9 @@ public class AI_Player : MonoBehaviour
         curPosition = player.transform.position;
        
     }
-
-    private void OnEnable()
+    private void Update()
     {
-    
-    }
-
-    private void Start()
-    {
-
-     
+        Debug.Log(activeTile);
     }
 
 

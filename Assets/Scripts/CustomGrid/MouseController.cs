@@ -8,14 +8,16 @@ public class MouseController : MonoBehaviour
 {
     public GameObject AIPlayerPrefab;
     private AI_Player playerChar;
-    public bool test = true;
+    private RangeFinder rangeFinder;
 
     private PathfindingCore pathFinder;
     private List<OverlayInfo> path = new List<OverlayInfo>();
+    private List<OverlayInfo> inRangeTiles = new List<OverlayInfo>();
 
     private void Start()
     {
         pathFinder = new PathfindingCore();
+        rangeFinder= new RangeFinder();
     }
     private void LateUpdate()
     {
@@ -29,7 +31,7 @@ public class MouseController : MonoBehaviour
             //to be replaced with event system
             if(Input.GetMouseButtonDown(0))
             {
-                overlayTile.GetComponent<OverlayInfo>().ShowTile();
+               
 
                 if (playerChar == null)
                 {
@@ -38,16 +40,16 @@ public class MouseController : MonoBehaviour
                     
                     playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
                     PositionCharacter(overlayTile);
-                    Debug.Log(playerChar);
+                    GetInRangeTiles();
                     
                     
                 }
                 else
                 {
-                    Debug.Log(playerChar.activeTile);
-                    path = pathFinder.FindPath(playerChar.activeTile, overlayTile);
-
                    
+                    path = pathFinder.FindPath(playerChar.activeTile, overlayTile, inRangeTiles);
+                    
+
                 }
             }
         }
@@ -60,8 +62,20 @@ public class MouseController : MonoBehaviour
 
     }
 
-    private void Update()
+private void GetInRangeTiles()
     {
+        foreach (var item in inRangeTiles)
+        {
+            item.HideTile();
+        }
+
+        inRangeTiles = rangeFinder.GetTilesInRange(playerChar.activeTile, 3);
+
+        foreach (var item in inRangeTiles)
+        {
+            item.ShowTile();
+        }
+
        
     }
 
@@ -74,14 +88,16 @@ public class MouseController : MonoBehaviour
         playerChar.transform.position = Vector2.MoveTowards(playerChar.transform.position, path[0].transform.position, step);
         playerChar.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, zIndex);
 
-        if(Vector2.Distance(playerChar.curPosition, path[0].transform.position) <0.0001f)
+        if(Vector2.Distance(playerChar.transform.position, path[0].transform.position) < 0.000001f)
         {
             PositionCharacter(path[0]);
             path.RemoveAt(0);
         }
-        else
+        
+        if(path.Count == 0)
         {
-            Debug.Log(path[0]);
+         
+            GetInRangeTiles();
         }
     }
 

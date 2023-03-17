@@ -56,4 +56,66 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    public List<OverlayInfo> GetNeighbourTiles(OverlayInfo selectedTile, List<OverlayInfo> inRangeTiles)
+    {
+
+        Dictionary<Vector2Int, OverlayInfo> rangeTiles = new Dictionary<Vector2Int, OverlayInfo>();
+
+        if(inRangeTiles.Count > 0 )
+        {
+            foreach(var item in inRangeTiles)
+            {
+                rangeTiles.Add(item.gridLocation2D, item);
+            }
+        }
+        else
+        {
+            rangeTiles = map;
+        }
+        List<OverlayInfo> neighbours = new List<OverlayInfo>();
+
+        //Top neighbour
+
+        Vector2Int locationCheck = new Vector2Int(selectedTile.gridLocation.x, selectedTile.gridLocation.y + 1);
+            
+        
+        if (rangeTiles.ContainsKey(locationCheck))
+        {
+            if (Mathf.Abs(selectedTile.gridLocation.z - rangeTiles[locationCheck].gridLocation.z) <= 1)
+             neighbours.Add(rangeTiles[locationCheck]);
+        }
+
+        //Bottom neighbour
+
+        locationCheck = new Vector2Int(selectedTile.gridLocation.x, selectedTile.gridLocation.y - 1);
+
+        if (rangeTiles.ContainsKey(locationCheck))
+        {
+            if (Mathf.Abs(selectedTile.gridLocation.z - rangeTiles[locationCheck].gridLocation.z) <= 1)
+                neighbours.Add(rangeTiles[locationCheck]);
+        }
+
+        //Right neighbour
+
+        locationCheck = new Vector2Int(selectedTile.gridLocation.x + 1, selectedTile.gridLocation.y);
+
+        if (rangeTiles.ContainsKey(locationCheck))
+        {
+            if (Mathf.Abs(selectedTile.gridLocation.z - rangeTiles[locationCheck].gridLocation.z) <= 1)
+                neighbours.Add(rangeTiles[locationCheck]);
+        }
+
+        //Left neighbour
+
+        locationCheck = new Vector2Int(selectedTile.gridLocation.x - 1, selectedTile.gridLocation.y);
+
+        if (rangeTiles.ContainsKey(locationCheck))
+        {
+            if (Mathf.Abs(selectedTile.gridLocation.z - rangeTiles[locationCheck].gridLocation.z) <= 1)
+                neighbours.Add(rangeTiles[locationCheck]);
+        }
+
+        return neighbours;
+    }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class OverlayInfo : MonoBehaviour
 {
     public bool showTile;
+    public bool hideTile;
     public bool debugging;
 
     public int gCost;
@@ -18,22 +19,9 @@ public class OverlayInfo : MonoBehaviour
     public OverlayInfo parent;
 
     public Vector3Int gridLocation;
-    void Update()
-    {
-        if(showTile && debugging)
-        {
-            ShowTile();
-        }
-        else if(!showTile && debugging)
-        {
-            HideTile();
-        }
+    public Vector2Int gridLocation2D { get { return new Vector2Int(gridLocation.x, gridLocation.y); } }
 
-        if(Input.GetMouseButtonDown(0)) 
-        {
-            HideTile();        
-        }
-    }
+  
 
     public void ShowTile()
     {
@@ -42,6 +30,8 @@ public class OverlayInfo : MonoBehaviour
 
     public void HideTile()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0f);
     }
+
+    
 }

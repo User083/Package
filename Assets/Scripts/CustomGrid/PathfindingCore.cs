@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class PathfindingCore
 {
-    public List<OverlayInfo> FindPath(OverlayInfo start, OverlayInfo end)
+    public List<OverlayInfo> FindPath(OverlayInfo start, OverlayInfo end, List<OverlayInfo> inRangeTiles)
     {
        List<OverlayInfo> openList = new List<OverlayInfo>();
        List<OverlayInfo> closedList = new List<OverlayInfo>();
        List<OverlayInfo> path = new List<OverlayInfo>();
-
+   
         openList.Add(start);
 
         while (openList.Count > 0)
@@ -23,10 +23,11 @@ public class PathfindingCore
 
             if (selectedTile == end)
             {
-                path = GetPath(start, end);
+                path = GetPath(start, end, inRangeTiles);
+                
             }
 
-            var neighbourTiles = GetNeighbourTiles(selectedTile);
+            var neighbourTiles = GridManager.Instance.GetNeighbourTiles(selectedTile, inRangeTiles);
 
             foreach (var neighbourTile in neighbourTiles)
             {
@@ -47,7 +48,9 @@ public class PathfindingCore
             }
         }
 
-        return path;
+        path.Reverse();
+
+       return path;
 
     }
 
@@ -56,64 +59,20 @@ public class PathfindingCore
         return Mathf.Abs(start.gridLocation.x - neighbour.gridLocation.x) + Mathf.Abs(start.gridLocation.y - neighbour.gridLocation.y);
     }
 
-    private List<OverlayInfo> GetPath(OverlayInfo start, OverlayInfo end)
+    private List<OverlayInfo> GetPath(OverlayInfo start, OverlayInfo end, List<OverlayInfo> inRangeTiles)
     {
         List<OverlayInfo> path = new List<OverlayInfo>();
         OverlayInfo currentTile = end;
-
-        while(currentTile != start)
-        {
-            path.Add(currentTile);
-            currentTile = currentTile.parent;
-        }
+       
+             while(currentTile != start)
+                    {
+                        path.Add(currentTile);
+                        currentTile = currentTile.parent;
+                    }      
 
 
         return path;
     }
 
-    private List<OverlayInfo> GetNeighbourTiles(OverlayInfo selectedTile)
-    {
-        var map = GridManager.Instance.map;
-
-        List<OverlayInfo> neighbours = new List<OverlayInfo>();
-
-        //Top neighbour
-
-        Vector2Int locationCheck = new Vector2Int(selectedTile.gridLocation.x, selectedTile.gridLocation.y + 1);
-
-        if(map.ContainsKey(locationCheck))
-        {
-            neighbours.Add(map[locationCheck]);
-        }
-
-        //Bottom neighbour
-
-        locationCheck = new Vector2Int(selectedTile.gridLocation.x, selectedTile.gridLocation.y - 1);
-
-        if (map.ContainsKey(locationCheck))
-        {
-            neighbours.Add(map[locationCheck]);
-        }
-
-        //Right neighbour
-
-        locationCheck = new Vector2Int(selectedTile.gridLocation.x + 1, selectedTile.gridLocation.y);
-
-        if (map.ContainsKey(locationCheck))
-        {
-            neighbours.Add(map[locationCheck]);
-        }
-
-        //Left neighbour
-
-        locationCheck = new Vector2Int(selectedTile.gridLocation.x - 1, selectedTile.gridLocation.y);
-
-        if (map.ContainsKey(locationCheck))
-        {
-            neighbours.Add(map[locationCheck]);
-        }
-
-        return neighbours;
-    }
 
 }
