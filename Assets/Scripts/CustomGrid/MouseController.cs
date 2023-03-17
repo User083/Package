@@ -8,15 +8,16 @@ public class MouseController : MonoBehaviour
 {
     public GameObject AIPlayerPrefab;
     private AI_Player playerChar;
+    public bool test = true;
 
     private PathfindingCore pathFinder;
     private List<OverlayInfo> path = new List<OverlayInfo>();
 
     private void Start()
     {
-        playerChar= AIPlayerPrefab.GetComponent<AI_Player>();
+        pathFinder = new PathfindingCore();
     }
-    private void LateUpdate()
+    private void Update()
     {
         var focusedTileHit = GetFocusedOnTile();
         if(focusedTileHit.HasValue)
@@ -30,14 +31,21 @@ public class MouseController : MonoBehaviour
             {
                 overlayTile.GetComponent<OverlayInfo>().ShowTile();
 
-                if (playerChar == null)
+                if (test == true)
                 {
                     Debug.LogWarning("no character found in scene");
+
+                    
+                    playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
+                    PositionCharacter(overlayTile);
+                    Debug.Log(playerChar);
+                    test = false;
                     
                 }
                 else
                 {
                     Debug.Log(playerChar.activeTile);
+                    
                     path = pathFinder.FindPath(playerChar.activeTile, overlayTile);
                 }
             }
@@ -53,17 +61,21 @@ public class MouseController : MonoBehaviour
 
     private void MoveOnPath()
     {
-        var step = playerChar.speed * Time.deltaTime;
+        var step = 4f * Time.deltaTime;
 
         var zIndex = path[0].transform.position.z;
 
-        playerChar.curPosition = Vector2.MoveTowards(playerChar.transform.position, path[0].transform.position, step);
-        playerChar.curPosition = new Vector3(playerChar.curPosition.x, playerChar.curPosition.y, zIndex);
+        playerChar.transform.position = Vector2.MoveTowards(playerChar.transform.position, path[0].transform.position, step);
+        playerChar.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, zIndex);
 
         if(Vector2.Distance(playerChar.curPosition, path[0].transform.position) <0.0001f)
         {
             PositionCharacter(path[0]);
             path.RemoveAt(0);
+        }
+        else
+        {
+            Debug.Log(path[0]);
         }
     }
 
@@ -83,9 +95,9 @@ public class MouseController : MonoBehaviour
     }
 
     private void PositionCharacter(OverlayInfo tile)
-    {
-        playerChar.curPosition = new Vector3(tile.transform.position.x, tile.transform.position.y+000.1f, tile.transform.position.z);
+    {   playerChar.activeTile = tile;
+        playerChar.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y+0.0001f, tile.transform.position.z);
         playerChar.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
-        //playerChar.activeTile = tile;
+        
     }
 }

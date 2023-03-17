@@ -14,9 +14,11 @@ public class PathfindingCore
 
         while (openList.Count > 0)
         {
-            OverlayInfo selectedTile = openList.OrderBy(x => x.fCost).First();
+            var selectedTile = openList.OrderBy(x => x.fCost).First();
+            
 
             openList.Remove(selectedTile);
+            closedList.Add(selectedTile);
 
             if (selectedTile == end)
             {
@@ -27,7 +29,7 @@ public class PathfindingCore
 
             foreach (var neighbourTile in neighbourTiles)
             {
-                if(neighbourTile.isBlocked || closedList.Contains(neighbourTile) || Mathf.Abs(selectedTile.gridLocation.z - neighbourTile.gridLocation.z) > 1)
+                if(neighbourTile.isBlocked || closedList.Contains(neighbourTile))
                 {
                     continue;
                 }
