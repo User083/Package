@@ -81,7 +81,7 @@ private void GetInRangeTiles()
 
     private void MoveOnPath()
     {
-        var step = 4f * Time.deltaTime;
+        var step = playerChar.speed * Time.deltaTime;
 
         var zIndex = path[0].transform.position.z;
 
