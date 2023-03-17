@@ -9,6 +9,7 @@ public class PathfindingCore
     {
        List<OverlayInfo> openList = new List<OverlayInfo>();
        List<OverlayInfo> closedList = new List<OverlayInfo>();
+       List<OverlayInfo> path = new List<OverlayInfo>();
 
         openList.Add(start);
 
@@ -22,7 +23,7 @@ public class PathfindingCore
 
             if (selectedTile == end)
             {
-                GetPath(start, end);
+                path = GetPath(start, end);
             }
 
             var neighbourTiles = GetNeighbourTiles(selectedTile);
@@ -46,7 +47,7 @@ public class PathfindingCore
             }
         }
 
-        return new List<OverlayInfo>();
+        return path;
 
     }
 
@@ -66,7 +67,6 @@ public class PathfindingCore
             currentTile = currentTile.parent;
         }
 
-        path.Reverse();
 
         return path;
     }

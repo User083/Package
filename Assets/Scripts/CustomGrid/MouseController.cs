@@ -17,7 +17,7 @@ public class MouseController : MonoBehaviour
     {
         pathFinder = new PathfindingCore();
     }
-    private void Update()
+    private void LateUpdate()
     {
         var focusedTileHit = GetFocusedOnTile();
         if(focusedTileHit.HasValue)
@@ -31,7 +31,7 @@ public class MouseController : MonoBehaviour
             {
                 overlayTile.GetComponent<OverlayInfo>().ShowTile();
 
-                if (test == true)
+                if (playerChar == null)
                 {
                     Debug.LogWarning("no character found in scene");
 
@@ -39,24 +39,30 @@ public class MouseController : MonoBehaviour
                     playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
                     PositionCharacter(overlayTile);
                     Debug.Log(playerChar);
-                    test = false;
+                    
                     
                 }
                 else
                 {
                     Debug.Log(playerChar.activeTile);
-                    
                     path = pathFinder.FindPath(playerChar.activeTile, overlayTile);
+
+                   
                 }
             }
         }
 
         //Move whenever there is a path
-        if(path.Count > 0)
+        if (path.Count > 0)
         {
             MoveOnPath();
         }
-        
+
+    }
+
+    private void Update()
+    {
+       
     }
 
     private void MoveOnPath()
@@ -95,9 +101,9 @@ public class MouseController : MonoBehaviour
     }
 
     private void PositionCharacter(OverlayInfo tile)
-    {   playerChar.activeTile = tile;
+    {   
         playerChar.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y+0.0001f, tile.transform.position.z);
         playerChar.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
-        
+        playerChar.activeTile = tile;
     }
 }

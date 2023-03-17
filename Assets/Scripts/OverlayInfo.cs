@@ -8,7 +8,7 @@ public class OverlayInfo : MonoBehaviour
     public bool showTile;
     public bool debugging;
 
-    public int gCost = 1;
+    public int gCost;
     public int hCost;
 
     public int fCost { get { return gCost + hCost; } }
