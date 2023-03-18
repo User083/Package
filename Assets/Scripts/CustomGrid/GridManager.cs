@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,8 +13,11 @@ public class GridManager : MonoBehaviour
 
     public OverlayInfo overlayTileInfo;
     public GameObject overlayContainer;
-
+    public bool debugging;
+    private BoundsInt bounds;
+    private Tilemap tileMap;
     public Dictionary<Vector2Int, OverlayInfo> map;
+    public Dictionary<OverlayInfo, TileBase> tileTypes;
     private void Awake()
     {
         if(instance != null && instance !=this)
@@ -26,10 +31,12 @@ public class GridManager : MonoBehaviour
     }
     private void Start()
     {
-        var tileMap = gameObject.GetComponentInChildren<Tilemap>();
+        tileMap = gameObject.GetComponentInChildren<Tilemap>();
         map = new Dictionary<Vector2Int, OverlayInfo>();
+        tileTypes = new Dictionary<OverlayInfo, TileBase>();
 
-        BoundsInt bounds = tileMap.cellBounds;
+        bounds = tileMap.cellBounds;
+        
 
         for (int z = bounds.max.z; z >= bounds.min.z; z--)
         {
@@ -39,22 +46,46 @@ public class GridManager : MonoBehaviour
                 {
                     var tileLocation = new Vector3Int(x, y, z);
                     var tileKey = new Vector2Int(x, y);
+                    
+                    
 
                     if(tileMap.HasTile(tileLocation) && !map.ContainsKey(tileKey))
                     {
+                       
                         var overlayTile = Instantiate(overlayTileInfo, overlayContainer.transform);
                         var cellWorldPosition = tileMap.GetCellCenterWorld(tileLocation);
-
+                        TileBase tileType = tileMap.GetTile(tileLocation);
+                                            
+                        
                         overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y, cellWorldPosition.z + 1);
                         overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tileMap.GetComponent<TilemapRenderer>().sortingOrder;
 
                         overlayTile.gridLocation = tileLocation;
+                       
 
                         map.Add(tileKey, overlayTile);
+                        tileTypes.Add(overlayTile, tileType);
+                        
                     }
                 }
             }
+        }   
+
+        updateTileStatus();
+    }
+
+    public void updateTileStatus()
+    {
+      
+        foreach(KeyValuePair<OverlayInfo, TileBase> item in tileTypes)
+        {
+            if(item.Value.ToString().Contains("water"))
+            {
+                item.Key.setBlocked(true);
+            }
         }
+            
+        
     }
 
     public List<OverlayInfo> GetNeighbourTiles(OverlayInfo selectedTile, List<OverlayInfo> inRangeTiles)

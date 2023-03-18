@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showTile: 0
+  hideTile: 0
   debugging: 0
   gCost: 0
   hCost: 0
