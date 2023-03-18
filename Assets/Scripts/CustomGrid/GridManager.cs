@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,7 +14,7 @@ public class GridManager : MonoBehaviour
     public GameObject overlayContainer;
     public bool debugging;
     private BoundsInt bounds;
-    private Tilemap tileMap;
+    public Tilemap tileMap;
     public Dictionary<Vector2Int, OverlayInfo> map;
     public Dictionary<OverlayInfo, TileBase> tileTypes;
     private void Awake()
@@ -31,7 +30,7 @@ public class GridManager : MonoBehaviour
     }
     private void Start()
     {
-        tileMap = gameObject.GetComponentInChildren<Tilemap>();
+        
         map = new Dictionary<Vector2Int, OverlayInfo>();
         tileTypes = new Dictionary<OverlayInfo, TileBase>();
 
@@ -79,7 +78,7 @@ public class GridManager : MonoBehaviour
       
         foreach(KeyValuePair<OverlayInfo, TileBase> item in tileTypes)
         {
-            if(item.Value.ToString().Contains("water"))
+            if(item.Value.ToString().Contains("water") || item.Value.ToString().Contains("tree"))
             {
                 item.Key.setBlocked(true);
             }
