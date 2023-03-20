@@ -78,10 +78,21 @@ public class GridManager : MonoBehaviour
       
         foreach(KeyValuePair<OverlayInfo, TileBase> item in tileTypes)
         {
-            if(item.Value.ToString().Contains("water") || item.Value.ToString().Contains("tree"))
+         
+
+            if(item.Value.ToString().Contains("obst"))
             {
                 item.Key.setBlocked(true);
             }
+            else if(item.Value.ToString().Contains("goal"))
+            {
+                item.Key.setEnd(true);
+            }
+            else if (item.Value.ToString().Contains("start"))
+            {
+                item.Key.setStart(true);
+            }
+
         }
             
         

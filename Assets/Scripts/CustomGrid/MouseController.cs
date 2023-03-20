@@ -8,97 +8,56 @@ public class MouseController : MonoBehaviour
 {
     public GameObject AIPlayerPrefab;
     private AI_Player playerChar;
-    private RangeFinder rangeFinder;
+    private OverlayInfo overlayTile;
 
-    private PathfindingCore pathFinder;
-    private List<OverlayInfo> path = new List<OverlayInfo>();
-    private List<OverlayInfo> inRangeTiles = new List<OverlayInfo>();
-
-    private void Start()
+    private void OnEnable()
     {
-        pathFinder = new PathfindingCore();
-        rangeFinder= new RangeFinder();
+      
     }
-    private void LateUpdate()
+
+    private void Update()
+    {
+        
+        UpdateCursor();
+     
+
+    }
+
+    public void UpdateCursor()
     {
         var focusedTileHit = GetFocusedOnTile();
-        if(focusedTileHit.HasValue)
+        
+        if (focusedTileHit.HasValue)
         {
-            OverlayInfo overlayTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayInfo>();
+            overlayTile = focusedTileHit.Value.collider.gameObject.GetComponent<OverlayInfo>();
             transform.position = overlayTile.transform.position;
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = overlayTile.GetComponent<SpriteRenderer>().sortingOrder;
 
             //to be replaced with event system
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))
             {
-               
 
                 if (playerChar == null)
                 {
-                    Debug.LogWarning("no character found in scene");
 
-                    
-                    playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
-                    PositionCharacter(overlayTile);
-                    GetInRangeTiles();
-                    
-                    
+                    SpawnChar(overlayTile);
+
                 }
                 else
                 {
-                   
-                    path = pathFinder.FindPath(playerChar.activeTile, overlayTile, inRangeTiles);
-                    
+
+                    playerChar.FindPath(overlayTile);
 
                 }
             }
         }
-
-        //Move whenever there is a path
-        if (path.Count > 0)
-        {
-            MoveOnPath();
-        }
-
     }
 
-private void GetInRangeTiles()
+    public void SpawnChar(OverlayInfo overlayTile)
     {
-        foreach (var item in inRangeTiles)
-        {
-            item.HideTile();
-        }
-
-        inRangeTiles = rangeFinder.GetTilesInRange(playerChar.activeTile, 3);
-
-        foreach (var item in inRangeTiles)
-        {
-            item.ShowTile();
-        }
-
-       
-    }
-
-    private void MoveOnPath()
-    {
-        var step = playerChar.speed * Time.deltaTime;
-
-        var zIndex = path[0].transform.position.z;
-
-        playerChar.transform.position = Vector2.MoveTowards(playerChar.transform.position, path[0].transform.position, step);
-        playerChar.transform.position = new Vector3(playerChar.transform.position.x, playerChar.transform.position.y, zIndex);
-
-        if(Vector2.Distance(playerChar.transform.position, path[0].transform.position) < 0.000001f)
-        {
-            PositionCharacter(path[0]);
-            path.RemoveAt(0);
-        }
-        
-        if(path.Count == 0)
-        {
-         
-            GetInRangeTiles();
-        }
+        playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
+        playerChar.PositionCharacter(overlayTile);
+        playerChar.CalculateRange();
     }
 
     public RaycastHit2D? GetFocusedOnTile()
@@ -116,10 +75,5 @@ private void GetInRangeTiles()
         return null;
     }
 
-    private void PositionCharacter(OverlayInfo tile)
-    {   
-        playerChar.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y+0.0001f, tile.transform.position.z);
-        playerChar.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
-        playerChar.activeTile = tile;
-    }
+
 }

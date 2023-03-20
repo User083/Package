@@ -8,7 +8,8 @@ public class OverlayInfo : MonoBehaviour
 {
     public bool showTile;
     public bool hideTile;
-    public bool debugging;
+    public bool isStart;
+    public bool isEnd;
 
     public int gCost;
     public int hCost;
@@ -56,6 +57,18 @@ public class OverlayInfo : MonoBehaviour
         isBlocked = status;
     }
 
+    public void setStart(bool status)
+    {
+        isStart = status;
+    }
 
-    
+    public void setEnd(bool status)
+    {
+        isEnd = status;
+    }
+
+
+
+
+
 }
