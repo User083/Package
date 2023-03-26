@@ -109,7 +109,7 @@ public class GridManager : MonoBehaviour
 
         Dictionary<Vector2Int, OverlayInfo> rangeTiles = new Dictionary<Vector2Int, OverlayInfo>();
 
-        if(inRangeTiles.Count > 0 )
+        if(inRangeTiles.Count > 0)
         {
             foreach(var item in inRangeTiles)
             {

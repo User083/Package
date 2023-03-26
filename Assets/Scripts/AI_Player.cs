@@ -10,6 +10,7 @@ public class AI_Player : MonoBehaviour
     private PathfindingCore pathFinder;
     public List<OverlayInfo> path = new List<OverlayInfo>();
     public List<OverlayInfo> inRangeTiles = new List<OverlayInfo>();
+    public List<OverlayInfo> pathToEnd = new List<OverlayInfo>();
     public OverlayInfo activeTile = null;
     public float speed = 4f;
     public int range = 3;
@@ -25,7 +26,8 @@ public class AI_Player : MonoBehaviour
     }
     private void Start()
     {
-        
+        FindEnd();
+        Debug.Log(pathToEnd.Count);
     }
 
     private void LateUpdate()
@@ -89,7 +91,10 @@ public class AI_Player : MonoBehaviour
         
         path = pathFinder.FindPath(activeTile, overlayTile, inRangeTiles);
     }
-
+    public void FindEnd()
+    {
+        pathToEnd = pathFinder.FindPath(activeTile, GameManager.Instance.endTile, new List<OverlayInfo>());
+    }
     public void PositionCharacter(OverlayInfo tile)
     {
         transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
