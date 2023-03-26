@@ -10,8 +10,10 @@ public class GameManager : MonoBehaviour
 
     public bool Debugging;
 
-    public GameObject player;
-    private AI_Player playerChar;
+    public GameObject AIPlayerPrefab;
+    public AI_Player playerChar;
+    public OverlayInfo startTile;
+    public OverlayInfo endTile;
 
     public int turnCount = 3;
 
@@ -26,12 +28,16 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
 
-        if(player!= null)
-        {
-            playerChar= player.GetComponent<AI_Player>();
-        }
-
+       
+    }
+    private void OnEnable()
+    {
         
+    }
+
+    private void Start()
+    {
+        SpawnCharacter(startTile);
     }
 
     public void endPlayerTurn()
@@ -45,7 +51,18 @@ public class GameManager : MonoBehaviour
         Debug.Log(turnCount);
     }
 
+    public void SpawnCharacter(OverlayInfo start)
+    {
+        playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
+        playerChar.PositionCharacter(start);
+        playerChar.CalculateRange();
+    }
 
+    public void Win(GameObject player)
+    {
+        Debug.Log("Reached end tile!");
+        player.SetActive(false);
+    }
 
 
 }

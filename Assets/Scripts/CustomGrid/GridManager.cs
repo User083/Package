@@ -27,15 +27,19 @@ public class GridManager : MonoBehaviour
         {
             instance = this;
         }
-    }
-    private void Start()
-    {
+
+        GenerateGrid();
         
+    }
+
+
+    public void GenerateGrid()
+    {
         map = new Dictionary<Vector2Int, OverlayInfo>();
         tileTypes = new Dictionary<OverlayInfo, TileBase>();
 
         bounds = tileMap.cellBounds;
-        
+
 
         for (int z = bounds.max.z; z >= bounds.min.z; z--)
         {
@@ -45,30 +49,30 @@ public class GridManager : MonoBehaviour
                 {
                     var tileLocation = new Vector3Int(x, y, z);
                     var tileKey = new Vector2Int(x, y);
-                    
-                    
 
-                    if(tileMap.HasTile(tileLocation) && !map.ContainsKey(tileKey))
+
+
+                    if (tileMap.HasTile(tileLocation) && !map.ContainsKey(tileKey))
                     {
-                       
+
                         var overlayTile = Instantiate(overlayTileInfo, overlayContainer.transform);
                         var cellWorldPosition = tileMap.GetCellCenterWorld(tileLocation);
                         TileBase tileType = tileMap.GetTile(tileLocation);
-                                            
-                        
+
+
                         overlayTile.transform.position = new Vector3(cellWorldPosition.x, cellWorldPosition.y, cellWorldPosition.z + 1);
                         overlayTile.GetComponent<SpriteRenderer>().sortingOrder = tileMap.GetComponent<TilemapRenderer>().sortingOrder;
 
                         overlayTile.gridLocation = tileLocation;
-                       
+
 
                         map.Add(tileKey, overlayTile);
                         tileTypes.Add(overlayTile, tileType);
-                        
+
                     }
                 }
             }
-        }   
+        }
 
         updateTileStatus();
     }
@@ -87,10 +91,12 @@ public class GridManager : MonoBehaviour
             else if(item.Value.ToString().Contains("goal"))
             {
                 item.Key.setEnd(true);
+                GameManager.Instance.endTile = item.Key;
             }
             else if (item.Value.ToString().Contains("start"))
             {
                 item.Key.setStart(true);
+                GameManager.Instance.startTile = item.Key;
             }
 
         }

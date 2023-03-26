@@ -14,6 +14,7 @@ public class AI_Player : MonoBehaviour
     public float speed = 4f;
     public int range = 3;
     public GameObject player;
+  
     private bool moveCompleted;
 
     private void OnEnable()
@@ -94,6 +95,11 @@ public class AI_Player : MonoBehaviour
         transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
         GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
         activeTile = tile;
+
+        if(activeTile == GameManager.Instance.endTile)
+        {
+            GameManager.Instance.Win(this.gameObject);
+        }
     }
 
 

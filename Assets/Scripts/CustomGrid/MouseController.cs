@@ -12,7 +12,13 @@ public class MouseController : MonoBehaviour
 
     private void OnEnable()
     {
-      
+        
+    }
+
+    private void Start()
+    {
+        playerChar = GameManager.Instance.playerChar;
+
     }
 
     private void Update()
@@ -40,7 +46,7 @@ public class MouseController : MonoBehaviour
                 if (playerChar == null)
                 {
 
-                    SpawnChar(overlayTile);
+                    //SpawnChar(overlayTile);
 
                 }
                 else
