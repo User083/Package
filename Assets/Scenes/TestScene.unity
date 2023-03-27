@@ -1403,7 +1403,7 @@ MonoBehaviour:
   playerChar: {fileID: 0}
   startTile: {fileID: 0}
   endTile: {fileID: 0}
-  turnCount: 3
+  turnCount: 5
 --- !u!4 &373969320
 Transform:
   m_ObjectHideFlags: 0

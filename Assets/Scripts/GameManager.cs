@@ -46,15 +46,15 @@ public class GameManager : MonoBehaviour
 
     public void endPlayerTurn()
     {
-        if(turnCount >= 0)
+        if(turnCount > 0)
         {
             turnCount--;
-            startEnemyTurn(enemy);
             playerChar.playerTurn = false;
+            startEnemyTurn(enemy); 
         }
         else
         {
-            EndGame(playerChar.gameObject, "Ran out of turns!");
+            EndGame("Ran out of turns!");
         }
         Debug.Log("Player turn ends");
 
@@ -78,7 +78,15 @@ public class GameManager : MonoBehaviour
     public void endEnemyTurn()
     {
         Debug.Log("Enemy turn ends");
-        startPlayerTurn();
+        if (playerChar.isActiveAndEnabled)
+        {
+            startPlayerTurn();
+        }
+        else
+        {
+            EndGame("Agent is dead");
+        }
+        
     }
 
     public void SpawnCharacter(OverlayInfo start)
@@ -94,10 +102,17 @@ public class GameManager : MonoBehaviour
         enemy.PositionCharacter(start);
         enemy.CalculateRange();
     }
-    public void EndGame(GameObject player, string condition)
+    public void EndGame(string condition)
     {
         Debug.Log("Game over! " + condition );
-        player.SetActive(false);
+        playerChar.gameObject.SetActive(false);
+    }
+
+    public void KillPlayer()
+    {
+        Debug.Log("Agent died");
+        playerChar.gameObject.SetActive(false);
+
     }
 
     

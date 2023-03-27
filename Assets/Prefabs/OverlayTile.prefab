@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 506518516614694550}
   - component: {fileID: -1440936923998005691}
   - component: {fileID: 7739566316703078842}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: OverlayTile
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2101535657
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -100,11 +100,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showTile: 0
   hideTile: 0
-  debugging: 0
+  isStart: 0
+  isEnd: 0
   gCost: 0
   hCost: 0
   isBlocked: 0
   parent: {fileID: 0}
+  tileType: {fileID: 0}
   gridLocation: {x: 0, y: 0, z: 0}
 --- !u!61 &7739566316703078842
 BoxCollider2D:
