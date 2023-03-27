@@ -15,7 +15,9 @@ public class AI_Player : MonoBehaviour
     public float speed = 4f;
     public int range = 3;
     public GameObject player;
-  
+    private SpriteRenderer renderer;
+    
+
     private bool moveCompleted;
 
     private void OnEnable()
@@ -23,6 +25,8 @@ public class AI_Player : MonoBehaviour
         pathFinder = new PathfindingCore();
         rangeFinder = new RangeFinder();
         playerChar = this;
+        renderer = gameObject.GetComponent<SpriteRenderer>();
+        
     }
     private void Start()
     {
@@ -49,6 +53,7 @@ public class AI_Player : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, path[0].transform.position, step);
         transform.position = new Vector3(transform.position.x, transform.position.y, zIndex);
 
+        
         if (Vector2.Distance(transform.position, path[0].transform.position) < 0.000001f)
         {
             PositionCharacter(path[0]);
@@ -62,6 +67,9 @@ public class AI_Player : MonoBehaviour
             moveCompleted = true;
             GameManager.Instance.endPlayerTurn();
         }
+
+        
+        
     }
 
     public void CalculateRange()
@@ -90,6 +98,7 @@ public class AI_Player : MonoBehaviour
     {
         
         path = pathFinder.FindPath(activeTile, overlayTile, inRangeTiles);
+        SpriteDirection(overlayTile);
     }
     public void FindEnd()
     {
@@ -108,6 +117,13 @@ public class AI_Player : MonoBehaviour
     }
 
 
-
+    private void SpriteDirection(OverlayInfo destination)
+    {
+       //if overlayInfo.transform.position 
+        if (destination.transform.position.x > activeTile.transform.position.x)
+            renderer.flipX = false;
+        else if (destination.transform.position.x < activeTile.transform.position.x)
+            renderer.flipX = true;
+    }
 
 }
