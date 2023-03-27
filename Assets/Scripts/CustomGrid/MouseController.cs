@@ -24,7 +24,7 @@ public class MouseController : MonoBehaviour
     private void Update()
     {
         
-        UpdateCursor();
+        //UpdateCursor();
      
 
     }

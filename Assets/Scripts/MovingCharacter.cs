@@ -19,6 +19,7 @@ public class MovingCharacter : MonoBehaviour
     public List<OverlayInfo> path = new List<OverlayInfo>();
     public List<OverlayInfo> inRangeTiles = new List<OverlayInfo>();
     public OverlayInfo activeTile = null;
+    public bool isAttacking;
     
     private void Awake()
     {
@@ -77,6 +78,10 @@ public class MovingCharacter : MonoBehaviour
     public void FindPath(OverlayInfo overlayTile)
     {
         path = pathFinder.FindPath(activeTile, overlayTile, inRangeTiles);
+        if(isAttacking)
+        {
+            path.RemoveAt(path.Count - 1);
+        }
         SpriteDirection(overlayTile);
     }
 

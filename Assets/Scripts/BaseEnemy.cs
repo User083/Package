@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BaseEnemy : MovingCharacter
@@ -8,9 +9,6 @@ public class BaseEnemy : MovingCharacter
     private AI_Player player;
     public int attackDamage = 20;
     public bool awareOfPlayer;
-
- 
-
 
     private void OnEnable()
     {
@@ -37,20 +35,25 @@ public class BaseEnemy : MovingCharacter
         {
             //Chase or attack player
             Debug.Log("Enemy spotted player");
+            isAttacking= true;
             speed = 4;
+            range = 2;
             FindPath(player.activeTile);
         }
         else
         {
             //Wander to random in range tile
+            isAttacking = false;
             speed = 2;
-            int i = Random.Range(0, inRangeTiles.Count - 1);
-            FindPath(inRangeTiles[i]);
+            range = 4;
+            FindPath(GetWanderTile());
         }
  
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //Damage Player on collision
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
@@ -58,8 +61,6 @@ public class BaseEnemy : MovingCharacter
             Debug.Log("Player damaged");
         }
     }
-
-
     private bool CheckForPlayer()
     {
         if(inRangeTiles.Contains(player.activeTile))
@@ -72,5 +73,22 @@ public class BaseEnemy : MovingCharacter
         }
   
     }
+
+    private OverlayInfo GetWanderTile()
+    {
+        List<OverlayInfo> tempList = new List<OverlayInfo>();
+
+        foreach (OverlayInfo tile in inRangeTiles)
+        {
+            if (tile.isBlocked == false)
+            {
+                tempList.Add(tile);
+            }
+        }
+        int i = Random.Range(0, tempList.Count);
+
+        return tempList.ElementAt(i);
+    }
+
 
 }

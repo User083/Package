@@ -115,5 +115,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //Stop the turn cycle of movement to give AI chance to choose their action
+    public void TriggerCombat()
+    {
+
+    }
+
     
 }
