@@ -1398,6 +1398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Debugging: 0
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
+  EnemyPrefab: {fileID: 4753837478718451258, guid: 906517840fe4ba94fa1e646406514c2d, type: 3}
+  enemy: {fileID: 0}
   playerChar: {fileID: 0}
   startTile: {fileID: 0}
   endTile: {fileID: 0}

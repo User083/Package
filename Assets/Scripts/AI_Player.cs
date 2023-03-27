@@ -10,15 +10,17 @@ public class AI_Player : MovingCharacter
     private void OnEnable()
     {
        playerChar = this;
+        isPlayer = true;
  
     }
 
 
     private void LateUpdate()
     {
-        if (path.Count > 0)
+        if (path.Count > 0 && playerTurn)
         {
             playerChar.MoveTo();
+           
         }
     }
 

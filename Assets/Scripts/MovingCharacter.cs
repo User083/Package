@@ -14,6 +14,8 @@ public class MovingCharacter : MonoBehaviour
     public int range = 3;
     public GameObject prefab;
     private SpriteRenderer renderer;
+    public bool isPlayer = false;
+    public bool playerTurn;
 
 
     private void Awake()
@@ -34,6 +36,7 @@ public class MovingCharacter : MonoBehaviour
     }
     public void MoveTo()
     {
+        updateActiveTile(false);
         var step = speed * Time.deltaTime;
 
         var zIndex = path[0].transform.position.z;
@@ -50,8 +53,16 @@ public class MovingCharacter : MonoBehaviour
 
         if (path.Count == 0)
         {
-
-            CalculateRange();
+          
+            CalculateRange();  
+            if(isPlayer)
+            {
+                GameManager.Instance.endPlayerTurn();
+            }
+            else
+            {
+                GameManager.Instance.endEnemyTurn();
+            }
 
         }
 
@@ -95,10 +106,12 @@ public class MovingCharacter : MonoBehaviour
         GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
         activeTile = tile;
 
-        if (activeTile == GameManager.Instance.endTile)
+        if (activeTile == GameManager.Instance.endTile && isPlayer)
         {
-            GameManager.Instance.Win(this.gameObject);
+            GameManager.Instance.EndGame(this.gameObject, "Package Delivered!");
         }
+
+        updateActiveTile(true);
     }
 
 
@@ -109,5 +122,10 @@ public class MovingCharacter : MonoBehaviour
             renderer.flipX = false;
         else if (destination.transform.position.x < activeTile.transform.position.x)
             renderer.flipX = true;
+    }
+
+    public void updateActiveTile(bool state)
+    {
+        activeTile.isBlocked = state;
     }
 }

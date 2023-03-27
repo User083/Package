@@ -121,3 +121,4 @@ MonoBehaviour:
   speed: 4
   range: 3
   prefab: {fileID: 4753837478718451258}
+  isPlayer: 1

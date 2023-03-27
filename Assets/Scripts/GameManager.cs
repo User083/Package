@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public bool Debugging;
 
     public GameObject AIPlayerPrefab;
+    public GameObject EnemyPrefab;
+    public BaseEnemy enemy;
     public AI_Player playerChar;
     public OverlayInfo startTile;
     public OverlayInfo endTile;
@@ -38,17 +40,42 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SpawnCharacter(startTile);
+        SpawnEnemy(GridManager.Instance.GetRandomTile());
+        startPlayerTurn();
     }
 
     public void endPlayerTurn()
     {
-        turnCount--;
-        startPlayerTurn();
+        if(turnCount > 0)
+        {
+            turnCount--;
+            startEnemyTurn(enemy);
+            playerChar.playerTurn = false;
+        }
+        else
+        {
+            EndGame(playerChar.gameObject, "Ran out of turns!");
+        }
+        Debug.Log("Player turn ends");
+
     }
 
     private void startPlayerTurn()
     {
-        Debug.Log(turnCount);
+        Debug.Log("Player turn starts. " + turnCount + " turns left.");
+        playerChar.playerTurn = true;
+    }
+
+    public void startEnemyTurn(BaseEnemy self)
+    {
+        Debug.Log("Enemy turn starts");
+        self.EnemyTurn();
+    }
+
+    public void endEnemyTurn()
+    {
+        Debug.Log("Enemy turn ends");
+        startPlayerTurn();
     }
 
     public void SpawnCharacter(OverlayInfo start)
@@ -58,11 +85,17 @@ public class GameManager : MonoBehaviour
         playerChar.CalculateRange();
     }
 
-    public void Win(GameObject player)
+    public void SpawnEnemy(OverlayInfo start)
     {
-        Debug.Log("Reached end tile!");
+        enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
+        enemy.PositionCharacter(start);
+        enemy.CalculateRange();
+    }
+    public void EndGame(GameObject player, string condition)
+    {
+        Debug.Log("Game over! " + condition );
         player.SetActive(false);
     }
 
-
+    
 }

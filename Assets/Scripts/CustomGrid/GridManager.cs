@@ -17,6 +17,7 @@ public class GridManager : MonoBehaviour
     public Tilemap tileMap;
     public Dictionary<Vector2Int, OverlayInfo> map;
     public Dictionary<OverlayInfo, TileBase> tileTypes;
+    private List<OverlayInfo> overlays;
     private void Awake()
     {
         if(instance != null && instance !=this)
@@ -74,10 +75,11 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        updateTileStatus();
+        SetTileStatus();
+        overlays = map.Values.ToList();
     }
 
-    public void updateTileStatus()
+    public void SetTileStatus()
     {
       
         foreach(KeyValuePair<OverlayInfo, TileBase> item in tileTypes)
@@ -100,9 +102,25 @@ public class GridManager : MonoBehaviour
             }
 
         }
-            
-        
     }
+
+    public OverlayInfo GetRandomTile()
+    {
+        
+        List<OverlayInfo> tempList = new List<OverlayInfo>();
+        
+        foreach (OverlayInfo tile in overlays)
+        {
+            if(tile.isBlocked == false)
+            {
+                tempList.Add(tile);
+            }
+        }
+        int i = Random.Range(0, tempList.Count);
+
+        return tempList.ElementAt(i);
+    }
+
 
     public List<OverlayInfo> GetNeighbourTiles(OverlayInfo selectedTile, List<OverlayInfo> inRangeTiles)
     {
