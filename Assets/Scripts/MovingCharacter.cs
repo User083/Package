@@ -70,7 +70,15 @@ public class MovingCharacter : MonoBehaviour
         {
             foreach (var item in inRangeTiles)
             {
-                item.ShowTile();
+                if(isPlayer)
+                {
+                    item.ShowTile();
+                }
+                else
+                {
+                    item.ShowEnemyTile();
+                }
+                
             }
         }
     }

@@ -144,6 +144,8 @@ MonoBehaviour:
   path: []
   inRangeTiles: []
   activeTile: {fileID: 0}
+  isAttacking: 0
   maxHealth: 100
   currentHealth: 0
+  hitEffect: {fileID: 7859461751996822025, guid: 46e22c392680661489f4dccb0db75c2a, type: 3}
   pathToEnd: []

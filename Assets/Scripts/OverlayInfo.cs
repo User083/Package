@@ -43,14 +43,34 @@ public class OverlayInfo : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
         }
-       
-        
+  
+    }
+
+    public void ShowEnemyTile()
+    {
+        if (GridManager.Instance.debugging)
+        {
+            if (isBlocked)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(225, 0, 0, 0.3f);
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 225, 0.3f);
+            }
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        }
     }
 
     public void HideTile()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0f);
     }
+
+
 
     public void setBlocked(bool status)
     {

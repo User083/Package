@@ -8,6 +8,8 @@ public class AI_Player : MovingCharacter
     private AI_Player playerChar;
     public int maxHealth = 100;
     public int currentHealth;
+
+
     public List<OverlayInfo> pathToEnd = new List<OverlayInfo>();
     private void OnEnable()
     {
@@ -22,7 +24,8 @@ public class AI_Player : MovingCharacter
         if (pathToEnd.Count > 0 && playerTurn)
         {
             MovePlayerTo();
-
+            
+           
         }
         else if(playerTurn)
         {
@@ -38,6 +41,7 @@ public class AI_Player : MovingCharacter
 
     public void takeDamage(int damage)
     {
+        
         if(currentHealth > damage)
         {
             currentHealth = currentHealth - damage;
@@ -46,6 +50,7 @@ public class AI_Player : MovingCharacter
         {
             GameManager.Instance.KillPlayer();
         }
+        
     }
 
     public void MovePlayerTo()
