@@ -114,6 +114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c9c0bcdeb3d164b9e7c16ffb44445b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  path: []
+  inRangeTiles: []
+  pathToEnd: []
   activeTile: {fileID: 0}
   speed: 4
-  player: {fileID: 4753837478718451258}
+  range: 3
+  prefab: {fileID: 4753837478718451258}
