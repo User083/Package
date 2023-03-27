@@ -22,14 +22,11 @@ public class BaseEnemy : MovingCharacter
 
     private void LateUpdate()
     {
-        if (path.Count > 0)
+        if (path.Count > 0 && !playerTurn)
         {
             MoveTo();
         }
-        else
-        {
-            Debug.Log("Enemy can't find path");
-        }
+
     }
 
     public void EnemyTurn()

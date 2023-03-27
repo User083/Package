@@ -17,11 +17,24 @@ public class AI_Player : MovingCharacter
 
     private void LateUpdate()
     {
-        if (path.Count > 0 && playerTurn)
+        if (pathToEnd.Count > 0 && playerTurn)
         {
-            playerChar.MoveTo();
+            MovePlayerTo();
+            
            
         }
+        else if(playerTurn)
+        {
+            Debug.Log(pathToEnd.Count);
+        }
+
+   
     }
+    private void Start()
+    {
+       
+    }
+
+
 
 }

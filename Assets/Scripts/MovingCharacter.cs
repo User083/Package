@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MovingCharacter : MonoBehaviour
@@ -16,6 +17,7 @@ public class MovingCharacter : MonoBehaviour
     private SpriteRenderer renderer;
     public bool isPlayer = false;
     public bool playerTurn;
+    public bool isMoving;
 
 
     private void Awake()
@@ -31,14 +33,14 @@ public class MovingCharacter : MonoBehaviour
     }
     private void Start()
     {
-        FindEnd();
         
+
     }
     public void MoveTo()
     {
         updateActiveTile(false);
+        isMoving = true;
         var step = speed * Time.deltaTime;
-
         var zIndex = path[0].transform.position.z;
 
         transform.position = Vector2.MoveTowards(transform.position, path[0].transform.position, step);
@@ -49,23 +51,48 @@ public class MovingCharacter : MonoBehaviour
         {
             PositionCharacter(path[0]);
             path.RemoveAt(0);
+            isMoving = false;
         }
 
         if (path.Count == 0)
         {
           
-            CalculateRange();  
-            if(isPlayer)
-            {
-                GameManager.Instance.endPlayerTurn();
-            }
-            else
-            {
-                GameManager.Instance.endEnemyTurn();
-            }
+            CalculateRange();
+            GameManager.Instance.endEnemyTurn();
+            isMoving= false;    
 
         }
 
+    }
+
+    public void MovePlayerTo()
+    {
+        updateActiveTile(false);
+        isMoving = true;
+        var step = speed * Time.deltaTime;
+        var zIndex = pathToEnd[0].transform.position.z;
+
+        transform.position = Vector2.MoveTowards(transform.position, pathToEnd[0].transform.position, step);
+        transform.position = new Vector3(transform.position.x, transform.position.y, zIndex);
+
+
+        if (Vector2.Distance(transform.position, pathToEnd[0].transform.position) < 0.000001f)
+        {
+            PositionCharacter(pathToEnd[0]);
+            pathToEnd.RemoveAt(0);
+            isMoving = false;
+
+        }
+        
+        if (pathToEnd.Count <= 0)
+        {
+
+            CalculateRange();
+            isMoving = false;
+            GameManager.Instance.endPlayerTurn();
+            
+
+        }
     }
 
     public void CalculateRange()
@@ -99,6 +126,19 @@ public class MovingCharacter : MonoBehaviour
     public void FindEnd()
     {
         pathToEnd = pathFinder.FindPath(activeTile, GameManager.Instance.endTile, new List<OverlayInfo>());
+
+       
+        
+
+        if (pathToEnd.Count > range - 1)
+        {
+            var toRemove = pathToEnd.Count - (range - 1);
+            pathToEnd.RemoveRange(range - 1, toRemove);
+            
+        }
+  
+            
+
     }
     public void PositionCharacter(OverlayInfo tile)
     {

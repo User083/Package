@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     public void endPlayerTurn()
     {
-        if(turnCount > 0)
+        if(turnCount >= 0)
         {
             turnCount--;
             startEnemyTurn(enemy);
@@ -64,12 +64,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Player turn starts. " + turnCount + " turns left.");
         playerChar.playerTurn = true;
+        playerChar.FindEnd();
+      
     }
 
     public void startEnemyTurn(BaseEnemy self)
     {
         Debug.Log("Enemy turn starts");
         self.EnemyTurn();
+     
     }
 
     public void endEnemyTurn()
