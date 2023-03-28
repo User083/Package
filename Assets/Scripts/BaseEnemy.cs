@@ -77,8 +77,7 @@ public class BaseEnemy : MovingCharacter
         {
             //Chase or attack player
             Debug.Log("Enemy spotted player");
-            OverlayInfo attackTile = GetAttackTile(GridManager.Instance.GetNeighbourTiles(player.activeTile, inRangeTiles));
-            Debug.Log(attackTile);
+            OverlayInfo attackTile = GetRandomTile(GridManager.Instance.GetNeighbourTiles(player.activeTile, inRangeTiles));
             if(attackTile != null)
             {
                 state = State.Pursue;
@@ -91,24 +90,44 @@ public class BaseEnemy : MovingCharacter
             else
             {
                 //Wander to random in range tile
-                FindPath(GetWanderTile());
+                OverlayInfo randomTile = GetRandomTile(inRangeTiles);
+                if(randomTile != null)
+                {
+                    FindPath(randomTile);
+                    state = State.Wander;
+                    speed = 2;
+                    range = 4;
+                    GameManager.Instance.Delay(1f);
+                    UpdateState();
+                }
+                else
+                {
+                    state = State.EndTurn;
+                    GameManager.Instance.Delay(1f);
+                    UpdateState();
+                }
+
+            }
+            
+        }
+        else
+        {
+            OverlayInfo randomTile = GetRandomTile(inRangeTiles);
+            if (randomTile != null)
+            {
+                FindPath(randomTile);
                 state = State.Wander;
                 speed = 2;
                 range = 4;
                 GameManager.Instance.Delay(1f);
                 UpdateState();
             }
-            
-        }
-        else
-        {
-            //Wander to random in range tile
-            FindPath(GetWanderTile());           
-            state = State.Wander;
-            speed = 2;
-            range = 4;
-            GameManager.Instance.Delay(1f);
-            UpdateState();
+            else
+            {
+                state = State.EndTurn;
+                GameManager.Instance.Delay(1f);
+                UpdateState();
+            }
         }
         
     }
@@ -178,23 +197,7 @@ public class BaseEnemy : MovingCharacter
   
     }
 
-    private OverlayInfo GetWanderTile()
-    {
-        List<OverlayInfo> tempList = new List<OverlayInfo>();
-
-        foreach (OverlayInfo tile in inRangeTiles)
-        {
-            if (tile.isBlocked == false)
-            {
-                tempList.Add(tile);
-            }
-        }
-        int i = Random.Range(0, tempList.Count);
-
-        return tempList.ElementAt(i);
-    }
-
-    private OverlayInfo GetAttackTile(List<OverlayInfo> list)
+    private OverlayInfo GetRandomTile(List<OverlayInfo> list)
     {
         List<OverlayInfo> tempList = new List<OverlayInfo>();
 
@@ -205,9 +208,17 @@ public class BaseEnemy : MovingCharacter
                 tempList.Add(tile);
             }
         }
-        int i = Random.Range(0, tempList.Count);
+        if (tempList.Count > 0)
+        {
+            int i = Random.Range(0, tempList.Count - 1);
 
-        return tempList.ElementAt(i);
+            return tempList.ElementAt(i);
+        }
+        else
+        {
+            Debug.LogWarning("No random tile available");
+            return null; 
+        }
     }
 
 }

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
     public bool Debugging;
+    public UIManager UIManager;
 
     [Header("Turn-Based Variables")]
     public int turnCount = 3;
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString());
     }
 
     private void PlayerTurn()
@@ -140,9 +142,11 @@ public class GameManager : MonoBehaviour
     public void EndGame(string condition)
     {
         Debug.Log("Game over! " + condition );
-        playerChar.gameObject.SetActive(false);
+        UIManager.UpdateGameOver(condition);
+        //playerChar.gameObject.SetActive(false);
         turnState = TurnState.GameOver;
         UpdateState();
+        
     }
 
     //Stop the turn cycle of movement to give AI chance to choose their action
