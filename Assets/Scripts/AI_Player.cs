@@ -141,15 +141,33 @@ public class AI_Player : MovingCharacter
             Debug.Log("Nearby enemies: " + enemyCount);
             FindEnd();
             GameManager.Instance.Delay(1f);
-            state = State.Seek;
-            UpdateState();
+            if (pathToEnd.Count > 0)
+            {
+                state = State.Seek;
+                UpdateState();
+            }
+            else
+            {
+                state = State.EndTurn;
+                UpdateState();
+            }
         }
         else
         {
             FindEnd();
             GameManager.Instance.Delay(1f);
-            state = State.Seek;
-            UpdateState();
+            if (pathToEnd.Count > 0)
+            {
+                state = State.Seek;
+                UpdateState();
+            }
+            else
+            {
+                state = State.EndTurn;
+                UpdateState();
+            }
+
+
         }
     }
 
