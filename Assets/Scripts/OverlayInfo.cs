@@ -17,8 +17,11 @@ public class OverlayInfo : MonoBehaviour
     public int fCost { get { return gCost + hCost; } }
 
     public bool isBlocked;
+    public bool hasEnemy;
+    public bool hasTrap;
 
     public OverlayInfo parent;
+    public List<OverlayInfo> myNeighbours = new List<OverlayInfo>();
 
     public Tile tileType;
 

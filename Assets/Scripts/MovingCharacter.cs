@@ -9,7 +9,7 @@ public class MovingCharacter : MonoBehaviour
     public float speed = 4f;
     public int range = 3;
     public GameObject prefab;
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
     public bool isPlayer = false;
     public bool playerTurn;
 
@@ -25,32 +25,9 @@ public class MovingCharacter : MonoBehaviour
     {
         pathFinder = new PathfindingCore();
         rangeFinder = new RangeFinder();
-        renderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
     }
-    public void MoveTo()
-    {
-        updateActiveTile(false);
 
-        var step = speed * Time.deltaTime;
-        var zIndex = path[0].transform.position.z;
-
-        transform.position = Vector2.MoveTowards(transform.position, path[0].transform.position, step);
-        transform.position = new Vector3(transform.position.x, transform.position.y, zIndex);
-
-
-        if (Vector2.Distance(transform.position, path[0].transform.position) < 0.000001f)
-        {
-            PositionCharacter(path[0]);
-            path.RemoveAt(0);
-        }
-
-        if (path.Count == 0)
-        {
-            CalculateRange();
-            GameManager.Instance.endEnemyTurn();
-        }
-
-    }
 
     //Calculate range of tiles character can move
     public void CalculateRange()
@@ -83,15 +60,7 @@ public class MovingCharacter : MonoBehaviour
         }
     }
 
-    public void FindPath(OverlayInfo overlayTile)
-    {
-        path = pathFinder.FindPath(activeTile, overlayTile, inRangeTiles);
-        if(isAttacking)
-        {
-            path.RemoveAt(path.Count - 1);
-        }
-        SpriteDirection(overlayTile);
-    }
+
 
     public void PositionCharacter(OverlayInfo tile)
     {
@@ -101,25 +70,24 @@ public class MovingCharacter : MonoBehaviour
 
         if (activeTile == GameManager.Instance.endTile && isPlayer)
         {
-            GameManager.Instance.EndGame("Package Delivered!");
+            GameManager.Instance.endTileReached= true;
         }
 
-        if(!isPlayer)
-        {
-            updateActiveTile(true);
-        }
+           updateActiveTile(true);
+
     }
 
-    private void SpriteDirection(OverlayInfo destination)
+    public void SpriteDirection(OverlayInfo destination)
     {
         if (destination.transform.position.x > activeTile.transform.position.x)
-            renderer.flipX = false;
+            spriteRenderer.flipX = false;
         else if (destination.transform.position.x < activeTile.transform.position.x)
-            renderer.flipX = true;
+            spriteRenderer.flipX = true;
     }
 
     public void updateActiveTile(bool state)
     {
         activeTile.isBlocked = state;
+        activeTile.hasEnemy = state;
     }
 }

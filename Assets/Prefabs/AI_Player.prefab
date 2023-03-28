@@ -97,7 +97,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -147,5 +147,6 @@ MonoBehaviour:
   isAttacking: 0
   maxHealth: 100
   currentHealth: 0
-  hitEffect: {fileID: 7859461751996822025, guid: 46e22c392680661489f4dccb0db75c2a, type: 3}
+  isDead: 0
+  state: 0
   pathToEnd: []

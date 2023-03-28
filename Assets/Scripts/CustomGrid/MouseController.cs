@@ -52,7 +52,7 @@ public class MouseController : MonoBehaviour
                 else
                 {
 
-                    playerChar.FindPath(overlayTile);
+                    //playerChar.FindEnd(overlayTile);
 
                 }
             }

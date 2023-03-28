@@ -8,6 +8,9 @@ public class AI_Player : MovingCharacter
     private AI_Player playerChar;
     public int maxHealth = 100;
     public int currentHealth;
+    public bool isDead;
+    public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
+    public State state;
 
 
     public List<OverlayInfo> pathToEnd = new List<OverlayInfo>();
@@ -16,27 +19,51 @@ public class AI_Player : MovingCharacter
        playerChar = this;
         isPlayer = true;
         currentHealth = maxHealth;
+        state = State.Wait;
     }
 
 
     private void LateUpdate()
     {
-        if (pathToEnd.Count > 0 && playerTurn)
+        if(GameManager.Instance.turnState == GameManager.TurnState.PlayerTurn)
         {
-            MovePlayerTo();
-            
+            if(state == State.Seek)
+            {
+                MovePlayerTo();
+            }
            
         }
-        else if(playerTurn)
-        {
-            Debug.Log(pathToEnd.Count);
-        }
 
-   
+        
+
     }
-    private void Start()
+    public void UpdateState()
     {
-       
+        switch (state)
+        {
+            case State.Wait:
+                Debug.Log("Player state: " + state);
+                break;
+            case State.Evaluate:
+                Debug.Log("Player state: " + state);
+                Evaluate();
+                break;
+            case State.Seek:
+                Debug.Log("Player state: " + state);
+                break;
+            case State.Flee:
+                Debug.Log("Player state: " + state);
+                break;
+            case State.Combat:
+                Debug.Log("Player state: " + state);
+                break;
+            case State.EndTurn:
+                EndMyTurn();
+                Debug.Log("Player state: " + state);
+                break;
+            default:
+                break;
+        }
     }
 
     public void takeDamage(int damage)
@@ -48,13 +75,15 @@ public class AI_Player : MovingCharacter
         }
         else
         {
-            GameManager.Instance.KillPlayer();
+            isDead = true;
         }
         
     }
 
+    //Might turn this into a while loop
     public void MovePlayerTo()
     {
+        updateActiveTile(false);
         var step = speed * Time.deltaTime;
         var zIndex = pathToEnd[0].transform.position.z;
 
@@ -69,8 +98,9 @@ public class AI_Player : MovingCharacter
         }
         if (pathToEnd.Count <= 0)
         {
+            state = State.EndTurn;
+            UpdateState();
             CalculateRange();
-            GameManager.Instance.endPlayerTurn();
         }
     }
 
@@ -85,5 +115,52 @@ public class AI_Player : MovingCharacter
             pathToEnd.RemoveRange(range - 1, toRemove);
         }
     }
+
+    //Find any enemies within range
+    private List<OverlayInfo> NearbyEnemies()
+    {
+        List<OverlayInfo> enemyList = new List<OverlayInfo>();
+        foreach(var tile in inRangeTiles)
+        {
+            if(tile.hasEnemy)
+            {
+                enemyList.Add(tile);
+            }
+        }
+        return enemyList;
+    }
+
+    //State methods
+        //Evaluate appropriate move
+    public void Evaluate()
+    {
+        var enemyCount = NearbyEnemies().Count;
+
+        if(enemyCount > 0)
+        {
+            Debug.Log("Nearby enemies: " + enemyCount);
+            FindEnd();
+            GameManager.Instance.Delay(1f);
+            state = State.Seek;
+            UpdateState();
+        }
+        else
+        {
+            FindEnd();
+            GameManager.Instance.Delay(1f);
+            state = State.Seek;
+            UpdateState();
+        }
+    }
+
+        //End turn
+    public void EndMyTurn()
+    {
+        state = State.Wait;
+        GameManager.Instance.turnState = GameManager.TurnState.EnemyTurn;
+        UpdateState();
+        GameManager.Instance.UpdateState();
+    }
+
 
 }
