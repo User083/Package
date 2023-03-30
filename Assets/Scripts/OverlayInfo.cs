@@ -1,25 +1,33 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class OverlayInfo : MonoBehaviour
 {
+
+    [Header ("status")]
     public bool showTile;
     public bool hideTile;
     public bool isStart;
     public bool isEnd;
-
-    public int gCost;
-    public int hCost;
-
-    public int fCost { get { return gCost + hCost; } }
-
     public bool isBlocked;
     public bool hasEnemy;
     public bool hasTrap;
+    public bool isTree;
+    public bool isRoad;
+    public bool hasHealth;
+    public int trapDamage = 20;
 
+    
+
+    [Header("pathfinding")]
+    public int gCost;
+    public int hCost;
+    public int fCost { get { return gCost + hCost; } }
     public OverlayInfo parent;
     public List<OverlayInfo> myNeighbours = new List<OverlayInfo>();
 
@@ -36,6 +44,14 @@ public class OverlayInfo : MonoBehaviour
             if (isBlocked)
             {
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(225, 0, 0, 0.3f);
+            }
+            else if (isTree)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(225, 225, 0, 0.5f);
+            }
+            else if (hasTrap)
+            {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(165, 165, 0, 0.5f);
             }
             else
             {
@@ -91,7 +107,40 @@ public class OverlayInfo : MonoBehaviour
     }
 
 
+    public void setStatus()
+    {
+        if(isTree)
+        {
+            gCost = gCost + 1;
+        }
 
+        if(hasTrap && GameManager.Instance.playerChar.currentHealth < 50)
+        {
+            gCost = gCost + 3;
+        }
+        else
+        {
+            gCost = gCost + 1;
+        }
+
+        if(isRoad && gCost >= 1)
+        {
+            gCost = gCost - 1;
+        }
+
+        if(hasEnemy)
+        {
+            gCost = gCost + 2;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player" && hasTrap)
+        {
+            GameManager.Instance.DamagePlayer(trapDamage);
+        }
+    }
 
 
 }

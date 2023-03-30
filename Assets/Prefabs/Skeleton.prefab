@@ -118,6 +118,7 @@ MonoBehaviour:
   speed: 2
   range: 4
   prefab: {fileID: 4753837478718451258}
+  spriteRenderer: {fileID: 0}
   isPlayer: 0
   playerTurn: 0
   path: []
@@ -125,8 +126,9 @@ MonoBehaviour:
   activeTile: {fileID: 0}
   isAttacking: 0
   enemyScript: {fileID: 0}
-  attackDamage: 30
+  attackDamage: 20
   awareOfPlayer: 0
+  moveComplete: 0
   state: 0
 --- !u!50 &946637431329375163
 Rigidbody2D:

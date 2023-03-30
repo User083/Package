@@ -66,19 +66,7 @@ public class AI_Player : MovingCharacter
         }
     }
 
-    public void takeDamage(int damage)
-    {
-        
-        if(currentHealth > damage)
-        {
-            currentHealth = currentHealth - damage;
-        }
-        else
-        {
-            isDead = true;
-        }
-        
-    }
+
 
     //Might turn this into a while loop
     public void MovePlayerTo()
@@ -113,7 +101,9 @@ public class AI_Player : MovingCharacter
         {
             var toRemove = pathToEnd.Count - (range - 1);
             pathToEnd.RemoveRange(range - 1, toRemove);
+            
         }
+        SpriteDirection(pathToEnd[pathToEnd.Count - 1]);
     }
 
     //Find any enemies within range
@@ -179,6 +169,8 @@ public class AI_Player : MovingCharacter
         UpdateState();
         GameManager.Instance.UpdateState();
     }
+
+
 
 
 }

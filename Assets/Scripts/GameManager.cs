@@ -20,13 +20,16 @@ public class GameManager : MonoBehaviour
     public GameObject AIPlayerPrefab;
     public GameObject EnemyPrefab;
     public BaseEnemy enemy;
+    public List<BaseEnemy> enemyList = new List<BaseEnemy>();
     public AI_Player playerChar;
     public OverlayInfo startTile;
     public OverlayInfo endTile;
+    public Sprite deadPlayer;
+    public Sprite openDoor;
 
     [Header("Conditions")]
     public bool endTileReached;
-    
+       
 
 
 
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
         
         SpawnCharacter(startTile);
         SpawnEnemy(GridManager.Instance.GetRandomTile());
+        SpawnEnemy(GridManager.Instance.GetRandomTile());
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
@@ -64,7 +68,6 @@ public class GameManager : MonoBehaviour
         switch (turnState)
         {
             case TurnState.Processing:
-                Delay(1f);
                 ProcessTurns();
                 Debug.Log(turnState);
                 break;
@@ -73,7 +76,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log(turnState);
                 break; 
             case TurnState.EnemyTurn:
-                EnemyTurn(enemy);
+                EnemyTurn();
                 Debug.Log(turnState);
                 break;
             case TurnState.GameOver:
@@ -110,7 +113,7 @@ public class GameManager : MonoBehaviour
 
         if (turnCount <=0)
         {
-            EndGame("Run out of turns - Mission Failure");
+            EndGame("Ran out of turns - Mission Failure");
             return;
         }
 
@@ -118,12 +121,21 @@ public class GameManager : MonoBehaviour
         turnState = TurnState.PlayerTurn;
         UpdateState();
     }
-    public void EnemyTurn(BaseEnemy self)
+    public void EnemyTurn()
     {
-        Debug.Log("Enemy turn starts");
-        self.state = BaseEnemy.State.Evaluate;
-        self.UpdateState();
-     
+        if(enemyList.Count > 0)
+        {
+            foreach(var enemy in enemyList)
+            {
+                enemy.state = BaseEnemy.State.Evaluate;
+                enemy.UpdateState();
+            }
+        }
+        else
+        {
+            Debug.Log("No Enemies left");
+        }
+    
     }
 
     public void SpawnCharacter(OverlayInfo start)
@@ -136,23 +148,19 @@ public class GameManager : MonoBehaviour
     public void SpawnEnemy(OverlayInfo start)
     {
         enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
+        enemyList.Add(enemy);
         enemy.PositionCharacter(start);
         enemy.CalculateRange();
     }
     public void EndGame(string condition)
     {
         Debug.Log("Game over! " + condition );
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString());
         UIManager.UpdateGameOver(condition);
         //playerChar.gameObject.SetActive(false);
         turnState = TurnState.GameOver;
         UpdateState();
         
-    }
-
-    //Stop the turn cycle of movement to give AI chance to choose their action
-    public void TriggerCombat()
-    {
-
     }
 
     //Utility methods
@@ -161,4 +169,33 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
+    public void checkEnemiesState()
+    {
+        foreach(var enemy in enemyList)
+        {
+            if(!enemy.moveComplete)
+            {
+                return;
+            }
+        }
+        
+        turnState = TurnState.Processing;
+        UpdateState();
+    }
+
+    public void DamagePlayer(int damage)
+    {
+
+        if (playerChar.currentHealth > damage)
+        {
+            playerChar.currentHealth = playerChar.currentHealth - damage;
+        }
+        else
+        {
+            playerChar.currentHealth = 0;
+            playerChar.isDead = true;
+            playerChar.spriteRenderer.sprite = deadPlayer;
+        }
+
+    }
 }

@@ -9,6 +9,7 @@ public class BaseEnemy : MovingCharacter
     private AI_Player player;
     public int attackDamage = 20;
     public bool awareOfPlayer;
+    public bool moveComplete;
     public enum State { Wait, Evaluate, Wander, Pursue, Attack, EndTurn }
     public State state;
 
@@ -65,15 +66,16 @@ public class BaseEnemy : MovingCharacter
 
     public void EndMyTurn()
     {
+        moveComplete = true;
         state = State.Wait;
         UpdateState();
-        GameManager.Instance.turnState = GameManager.TurnState.Processing;
-        GameManager.Instance.UpdateState();
+        GameManager.Instance.checkEnemiesState();
     }
 
     public void Evaluate()
     {
-        if(CheckForPlayer())
+        moveComplete = false;
+        if (CheckForPlayer())
         {
             //Chase or attack player
             Debug.Log("Enemy spotted player");
@@ -174,13 +176,17 @@ public class BaseEnemy : MovingCharacter
     public void FindPath(OverlayInfo overlayTile)
     {
         path = pathFinder.FindPath(activeTile, overlayTile, inRangeTiles);
+        if(path.Contains(GameManager.Instance.endTile))
+        {
+            path.Remove(GameManager.Instance.endTile);
+        }
         SpriteDirection(overlayTile);
     }
     //Damage Player on collision
 
     public void AttackPlayer()
     {
-        player.takeDamage(attackDamage);
+        GameManager.Instance.DamagePlayer(attackDamage);
         state = State.EndTurn;
         UpdateState();
     }

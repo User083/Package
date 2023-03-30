@@ -9,7 +9,7 @@ public class MovingCharacter : MonoBehaviour
     public float speed = 4f;
     public int range = 3;
     public GameObject prefab;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     public bool isPlayer = false;
     public bool playerTurn;
 

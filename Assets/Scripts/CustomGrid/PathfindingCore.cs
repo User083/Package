@@ -37,7 +37,10 @@ public class PathfindingCore
                 }
 
                 neighbourTile.gCost = GetManhattenDistance(start, neighbourTile);
+                neighbourTile.setStatus();
+                
                 neighbourTile.hCost = GetManhattenDistance(end, neighbourTile);
+
 
                 neighbourTile.parent = selectedTile;
 

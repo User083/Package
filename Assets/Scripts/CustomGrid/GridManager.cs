@@ -100,6 +100,28 @@ public class GridManager : MonoBehaviour
                 item.Key.setStart(true);
                 GameManager.Instance.startTile = item.Key;
             }
+            else if (item.Value.ToString().Contains("trap"))
+            {
+                item.Key.hasTrap= true;
+            }
+            else if (item.Value.ToString().Contains("health"))
+            {
+                item.Key.hasHealth = true;
+            }
+            else if (item.Value.ToString().Contains("tree"))
+            {
+                item.Key.isTree = true;
+            }
+            else if (item.Value.ToString().Contains("road"))
+            {
+                item.Key.isRoad = true;
+            }
+            else if (item.Value.ToString().Contains("water"))
+            {
+                item.Key.setBlocked(true);
+            }
+
+          
 
         }
     }
