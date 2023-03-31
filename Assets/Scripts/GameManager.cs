@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour
     public bool endTileReached;
        
 
-
-
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -110,7 +108,14 @@ public class GameManager : MonoBehaviour
         }
 
         //Agent ran out of turns to complete mission
-        if (turnCount <=0)
+        if (turnCount <=0 && lifeCount > 0)
+        {
+            ResetPlayer();
+            turnState = TurnState.PlayerTurn;
+            UpdateState();
+            return;
+
+        } else if(turnCount <=0 && lifeCount <=0)
         {
             EndGame("Ran out of turns - Mission Failure");
             return;
