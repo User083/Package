@@ -13,7 +13,7 @@ public class PathfindingCore
    
         openList.Add(start);
 
-        while (openList.Count > 0)
+        while (openList.Count() > 0)
         {
             var selectedTile = openList.OrderBy(x => x.fCost).First();
             

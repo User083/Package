@@ -6,7 +6,6 @@ using UnityEngine;
 public class AI_Player : MovingCharacter
 {
     private AI_Player playerChar;
-    public int maxHealth = 100;
     public int currentHealth;
     public bool isDead;
     public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
@@ -18,7 +17,7 @@ public class AI_Player : MovingCharacter
     {
        playerChar = this;
         isPlayer = true;
-        currentHealth = maxHealth;
+        currentHealth = GameManager.Instance.agentMaxHealth;
         state = State.Wait;
     }
 
@@ -84,7 +83,7 @@ public class AI_Player : MovingCharacter
             pathToEnd.RemoveAt(0);
 
         }
-        if (pathToEnd.Count <= 0)
+        if (pathToEnd.Count() <= 0)
         {
             state = State.EndTurn;
             UpdateState();
@@ -97,13 +96,13 @@ public class AI_Player : MovingCharacter
     {
         pathToEnd = pathFinder.FindPath(activeTile, GameManager.Instance.endTile, new List<OverlayInfo>());
 
-        if (pathToEnd.Count > range - 1)
+        if (pathToEnd.Count() > range - 1)
         {
-            var toRemove = pathToEnd.Count - (range - 1);
+            var toRemove = pathToEnd.Count() - (range - 1);
             pathToEnd.RemoveRange(range - 1, toRemove);
             
         }
-        SpriteDirection(pathToEnd[pathToEnd.Count - 1]);
+        SpriteDirection(pathToEnd[pathToEnd.Count() - 1]);
     }
 
     //Find any enemies within range
@@ -124,14 +123,14 @@ public class AI_Player : MovingCharacter
         //Evaluate appropriate move
     public void Evaluate()
     {
-        var enemyCount = NearbyEnemies().Count;
+        var enemyCount = NearbyEnemies().Count();
 
         if(enemyCount > 0)
         {
             Debug.Log("Nearby enemies: " + enemyCount);
             FindEnd();
             GameManager.Instance.Delay(1f);
-            if (pathToEnd.Count > 0)
+            if (pathToEnd.Count() > 0)
             {
                 state = State.Seek;
                 UpdateState();
@@ -146,7 +145,7 @@ public class AI_Player : MovingCharacter
         {
             FindEnd();
             GameManager.Instance.Delay(1f);
-            if (pathToEnd.Count > 0)
+            if (pathToEnd.Count() > 0)
             {
                 state = State.Seek;
                 UpdateState();

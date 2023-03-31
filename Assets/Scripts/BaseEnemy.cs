@@ -7,7 +7,7 @@ public class BaseEnemy : MovingCharacter
 {
     public BaseEnemy enemyScript;
     private AI_Player player;
-    public int attackDamage = 20;
+    public int attackDamage;
     public bool awareOfPlayer;
     public bool moveComplete;
     public enum State { Wait, Evaluate, Wander, Pursue, Attack, EndTurn }
@@ -23,6 +23,7 @@ public class BaseEnemy : MovingCharacter
     private void Start()
     {
         player = GameManager.Instance.playerChar;
+        attackDamage = GameManager.Instance.enemyDamage;
     }
 
     private void LateUpdate()
@@ -31,7 +32,16 @@ public class BaseEnemy : MovingCharacter
         {
             if(state == State.Wander || state == State.Pursue)
             {
-                MoveTo();
+                if(path.Count() > 0)
+                {
+                    MoveTo();
+                }
+                else
+                {
+                    state = State.EndTurn;
+                    UpdateState();
+                }
+                
             }
             
         }
@@ -214,9 +224,9 @@ public class BaseEnemy : MovingCharacter
                 tempList.Add(tile);
             }
         }
-        if (tempList.Count > 0)
+        if (tempList.Count() > 0)
         {
-            int i = Random.Range(0, tempList.Count - 1);
+            int i = Random.Range(0, tempList.Count() - 1);
 
             return tempList.ElementAt(i);
         }

@@ -11,8 +11,15 @@ public class GameManager : MonoBehaviour
     public UIManager UIManager;
 
     [Header("Turn-Based Variables")]
-    public int turnCount = 3;
-    
+    public int maxTurnCount = 7;
+    private int turnCount;
+    public int lifeCount = 3;
+
+    [Header("Central Control")]
+    public int trapDamage = 20;
+    public int agentMaxHealth = 100;
+    public int enemyDamage = 20;
+
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
     
@@ -25,7 +32,7 @@ public class GameManager : MonoBehaviour
     public OverlayInfo startTile;
     public OverlayInfo endTile;
     public Sprite deadPlayer;
-    public Sprite openDoor;
+    public Sprite livingPlayer;
 
     [Header("Conditions")]
     public bool endTileReached;
@@ -42,7 +49,9 @@ public class GameManager : MonoBehaviour
         else
         {
             instance = this;
-        } 
+        }
+
+        turnCount = maxTurnCount;
     }
 
 
@@ -55,12 +64,6 @@ public class GameManager : MonoBehaviour
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
-    }
-
-    private void LateUpdate()
-    {
-        
-        
     }
 
     public void UpdateState()
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString());
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString());
     }
 
     private void PlayerTurn()
@@ -99,21 +102,31 @@ public class GameManager : MonoBehaviour
 
     public void ProcessTurns()
     {
+        //Agent successfully reached end
         if (endTileReached)
         {
             EndGame("Package Delivered - Mission Success");
             return;
         }
 
-        if (playerChar.isDead)
-        {
-            EndGame("Agent died - Mission Failure");
-            return;
-        }
-
+        //Agent ran out of turns to complete mission
         if (turnCount <=0)
         {
             EndGame("Ran out of turns - Mission Failure");
+            return;
+        }
+
+        //Handle Agent death and respawn on life counter
+        if(playerChar.isDead && lifeCount > 0)
+        {
+            ResetPlayer();
+            turnState = TurnState.PlayerTurn;
+            UpdateState();
+            return;
+        }
+        else if (playerChar.isDead && lifeCount <= 0)
+        {
+            EndGame("Ran out of lives - Mission Failure");
             return;
         }
 
@@ -155,7 +168,7 @@ public class GameManager : MonoBehaviour
     public void EndGame(string condition)
     {
         Debug.Log("Game over! " + condition );
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString());
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString());
         UIManager.UpdateGameOver(condition);
         //playerChar.gameObject.SetActive(false);
         turnState = TurnState.GameOver;
@@ -196,6 +209,18 @@ public class GameManager : MonoBehaviour
             playerChar.isDead = true;
             playerChar.spriteRenderer.sprite = deadPlayer;
         }
+
+    }
+
+    public void ResetPlayer()
+    {
+
+        playerChar.currentHealth = agentMaxHealth;
+        playerChar.isDead = false;
+        playerChar.spriteRenderer.sprite = livingPlayer;
+        playerChar.PositionCharacter(startTile);
+        lifeCount--;
+        turnCount = maxTurnCount;
 
     }
 }

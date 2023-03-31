@@ -20,7 +20,7 @@ public class OverlayInfo : MonoBehaviour
     public bool isTree;
     public bool isRoad;
     public bool hasHealth;
-    public int trapDamage = 20;
+    public int trapDamage;
 
     
 
@@ -36,7 +36,10 @@ public class OverlayInfo : MonoBehaviour
     public Vector3Int gridLocation;
     public Vector2Int gridLocation2D { get { return new Vector2Int(gridLocation.x, gridLocation.y); } }
 
-
+    private void Start()
+    {
+        trapDamage = GameManager.Instance.trapDamage;
+    }
     public void ShowTile()
     {
        if(GridManager.Instance.debugging)

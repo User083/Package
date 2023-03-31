@@ -2712,7 +2712,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Debugging: 0
   UIManager: {fileID: 587367520}
+  maxTurnCount: 7
   turnCount: 8
+  lifeCount: 3
   turnState: 0
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
   EnemyPrefab: {fileID: 4753837478718451258, guid: 906517840fe4ba94fa1e646406514c2d, type: 3}
@@ -2722,7 +2724,7 @@ MonoBehaviour:
   startTile: {fileID: 0}
   endTile: {fileID: 0}
   deadPlayer: {fileID: 21300000, guid: 0c257eec3eb8876498c8a7da6d9d6aa0, type: 3}
-  openDoor: {fileID: 0}
+  livingPlayer: {fileID: -735747027, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   endTileReached: 0
 --- !u!4 &373969320
 Transform:
@@ -5160,7 +5162,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1964837217
 MonoBehaviour:
   m_ObjectHideFlags: 0
