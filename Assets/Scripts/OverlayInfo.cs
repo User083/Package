@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
@@ -21,6 +22,8 @@ public class OverlayInfo : MonoBehaviour
     public bool isRoad;
     public bool hasHealth;
     public int trapDamage;
+    public int healAmount;
+    private GameObject tileObject = null;
 
     
 
@@ -39,6 +42,7 @@ public class OverlayInfo : MonoBehaviour
     private void Start()
     {
         trapDamage = GameManager.Instance.trapDamage;
+        healAmount = GameManager.Instance.potionHeal;
     }
     public void ShowTile()
     {
@@ -135,13 +139,42 @@ public class OverlayInfo : MonoBehaviour
         {
             gCost = gCost + 2;
         }
+
+        if (hasHealth && gCost >= 1 && GameManager.Instance.playerChar.currentHealth < 50)
+        {
+            gCost = 0;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
+
         if (collision.gameObject.tag == "Player" && hasTrap)
         {
             GameManager.Instance.DamagePlayer(trapDamage);
+        }
+
+        if (collision.gameObject.tag == "Player" && hasHealth)
+        {
+            GameManager.Instance.HealPlayer(healAmount);
+            hasHealth= false;
+            if(tileObject != null)
+            {
+                Destroy(tileObject);
+            }
+            
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "HealthPotion")
+        {
+            hasHealth = true;
+            tileObject = collision.gameObject;
+            tileObject.GetComponent<Collider>().enabled = false;
+           
         }
     }
 

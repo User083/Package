@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public int trapDamage = 20;
     public int agentMaxHealth = 100;
     public int enemyDamage = 20;
+    public int potionHeal = 20;
 
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
@@ -206,7 +207,7 @@ public class GameManager : MonoBehaviour
 
         if (playerChar.currentHealth > damage)
         {
-            playerChar.currentHealth = playerChar.currentHealth - damage;
+            playerChar.currentHealth -= damage;
         }
         else
         {
@@ -217,6 +218,14 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void HealPlayer(int healAmount)
+    {
+        playerChar.currentHealth += healAmount;
+        if(playerChar.currentHealth < agentMaxHealth)
+        {
+            playerChar.currentHealth = agentMaxHealth;
+        }
+    }
     public void ResetPlayer()
     {
 

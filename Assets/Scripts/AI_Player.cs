@@ -92,9 +92,9 @@ public class AI_Player : MovingCharacter
     }
 
     //Find and calculate best path to the goal for the current turn
-    public void FindEnd()
+    public void FindEnd(OverlayInfo destination)
     {
-        pathToEnd = pathFinder.FindPath(activeTile, GameManager.Instance.endTile, new List<OverlayInfo>());
+        pathToEnd = pathFinder.FindPath(activeTile, destination, new List<OverlayInfo>());
 
         if (pathToEnd.Count() > range - 1)
         {
@@ -124,39 +124,25 @@ public class AI_Player : MovingCharacter
     public void Evaluate()
     {
         var enemyCount = NearbyEnemies().Count();
+        
 
-        if(enemyCount > 0)
+        //if(enemyCount > 0)
+        //{
+        //    Debug.Log("Nearby enemies: " + enemyCount);
+        //    FindEnd(GameManager.Instance.endTile);
+        //    GameManager.Instance.Delay(1f);
+        //    CheckPath();
+        //}
+        if(GetHealthPercentage() < 50 && FindHealth() != null)
         {
-            Debug.Log("Nearby enemies: " + enemyCount);
-            FindEnd();
-            GameManager.Instance.Delay(1f);
-            if (pathToEnd.Count() > 0)
-            {
-                state = State.Seek;
-                UpdateState();
-            }
-            else
-            {
-                state = State.EndTurn;
-                UpdateState();
-            }
+                FindEnd(FindHealth());
+                CheckPath();      
         }
         else
         {
-            FindEnd();
+            FindEnd(GameManager.Instance.endTile);
             GameManager.Instance.Delay(1f);
-            if (pathToEnd.Count() > 0)
-            {
-                state = State.Seek;
-                UpdateState();
-            }
-            else
-            {
-                state = State.EndTurn;
-                UpdateState();
-            }
-
-
+            CheckPath();
         }
     }
 
@@ -169,7 +155,35 @@ public class AI_Player : MovingCharacter
         GameManager.Instance.UpdateState();
     }
 
+    public OverlayInfo FindHealth()
+    {
+        foreach(var tile in inRangeTiles)
+        {
+            if(tile.hasHealth)
+            {
+                return tile;
+            }
+        }
 
+        return null;
+    }
 
+    public float GetHealthPercentage()
+    {
+        return Mathf.RoundToInt(currentHealth / GameManager.Instance.agentMaxHealth * 100);
+    }
 
+    public void CheckPath()
+    {
+        if (pathToEnd.Count() > 0)
+        {
+            state = State.Seek;
+            UpdateState();
+        }
+        else
+        {
+            state = State.EndTurn;
+            UpdateState();
+        }
+    }
 }

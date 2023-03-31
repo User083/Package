@@ -104,10 +104,6 @@ public class GridManager : MonoBehaviour
             {
                 item.Key.hasTrap= true;
             }
-            else if (item.Value.ToString().Contains("health"))
-            {
-                item.Key.hasHealth = true;
-            }
             else if (item.Value.ToString().Contains("tree"))
             {
                 item.Key.isTree = true;
