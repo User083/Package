@@ -148,7 +148,13 @@ public class OverlayInfo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.tag == "HealthPotion" && hasHealth == false)
+        {
+            hasHealth = true;
+            tileObject = collision.gameObject;
+            //tileObject.GetComponent<Collider>().enabled = false;
 
+        }
 
         if (collision.gameObject.tag == "Player" && hasTrap)
         {
@@ -167,16 +173,6 @@ public class OverlayInfo : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "HealthPotion")
-        {
-            hasHealth = true;
-            tileObject = collision.gameObject;
-            tileObject.GetComponent<Collider>().enabled = false;
-           
-        }
-    }
 
 
 }
