@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 255); justify-content: center; align-items: center;">
+        <ui:GroupBox style="align-items: stretch; justify-content: center;">
+            <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="start-button" style="font-size: 30px;" />
+            <ui:Button tabindex="-1" text="Quit" display-tooltip-when-elided="true" name="quit-button" style="font-size: 30px;" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>

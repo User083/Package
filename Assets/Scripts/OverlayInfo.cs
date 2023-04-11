@@ -170,6 +170,8 @@ public class OverlayInfo : MonoBehaviour
             if(hasPackage)
             {
                 GameManager.Instance.packageTile = null;
+                GameManager.Instance.UpdateScore(GameManager.Instance.packageRecoveryScore);
+                GameManager.Instance.playerChar.hasPackage = true;
                 Destroy(tileObject);
                 hasPackage = false;
             }

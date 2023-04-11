@@ -9,18 +9,24 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } }
     public bool Debugging;
     public UIManager UIManager;
+    [SerializeField] private HUDManager HUDManager;
 
     [Header("Turn-Based Variables")]
     public int maxTurnCount = 7;
     private int turnCount;
     public int lifeCount = 3;
+    private int score;
 
     [Header("Central Control")]
     public int trapDamage = 20;
     public int agentMaxHealth = 100;
     public int enemyDamage = 20;
     public int potionHeal = 20;
-
+    public int deathScore = -20;
+    public int turnScore = -10;
+    public int deliveredScore = 50;
+    public int survivedScore = 20;
+    public int packageRecoveryScore = 20;
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
 
@@ -98,6 +104,10 @@ public class GameManager : MonoBehaviour
     {
         playerChar.state = AI_Player.State.Evaluate;
         playerChar.UpdateState();
+        if(playerChar.hasPackage)
+        {
+            UpdateScore(5);
+        }
   
     }
 
@@ -105,15 +115,18 @@ public class GameManager : MonoBehaviour
     {
         //Agent successfully reached end
         ToggleDebug();
+        
         if (endTileReached)
         {
             if(playerChar.hasPackage)
             {
+                UpdateScore(deliveredScore);
                 EndGame("Package Delivered - Mission Success");
                 return;
             }
             else
             {
+                UpdateScore(survivedScore);
                 EndGame("Agent survived but package not delivered - Mission Failure");
                 return;
             }
@@ -123,6 +136,7 @@ public class GameManager : MonoBehaviour
         //Agent ran out of turns to complete mission
         if (turnCount <=0 && lifeCount > 0)
         {
+            UpdateScore(turnScore);
             ResetPlayer();
             turnState = TurnState.PlayerTurn;
             UpdateState();
@@ -137,6 +151,7 @@ public class GameManager : MonoBehaviour
         //Handle Agent death and respawn on life counter
         if(playerChar.isDead && lifeCount > 0)
         {
+            UpdateScore(deathScore);
             ResetPlayer();
             playerChar.hasPackage = false;
             turnState = TurnState.PlayerTurn;
@@ -152,6 +167,7 @@ public class GameManager : MonoBehaviour
         turnCount--;
         turnState = TurnState.PlayerTurn;
         UpdateState();
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString());
     }
     public void EnemyTurn()
     {
@@ -191,6 +207,7 @@ public class GameManager : MonoBehaviour
             enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString(), PackageState());
         UIManager.UpdateGameOver(condition);
         turnState = TurnState.GameOver;
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString());
         UpdateState();
         
     }
@@ -291,5 +308,12 @@ public class GameManager : MonoBehaviour
         {
             UIManager.ToggleVisibility(false);
         }
+    }
+
+    public void UpdateScore(int scoreInc)
+    {
+  
+            score += scoreInc;
+
     }
 }

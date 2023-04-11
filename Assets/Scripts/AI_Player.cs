@@ -204,11 +204,5 @@ public class AI_Player : MovingCharacter
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Package")
-        {
-            hasPackage = true;
-        }
-    }
+
 }
