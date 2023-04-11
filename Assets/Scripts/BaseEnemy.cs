@@ -52,22 +52,17 @@ public class BaseEnemy : MovingCharacter
         switch(state)
         {
            case State.Wait:
-                Debug.Log("Enemy state: " + state);
                 break;
            case State.Evaluate:
                 Evaluate();
-                Debug.Log("Enemy state: " + state);
                 break; 
            case State.Wander:
-                Debug.Log("Enemy state: " + state);
                 break;
             case State.Attack:
                 AttackPlayer();
-                Debug.Log("Enemy state: " + state);
                 break;
             case State.EndTurn:
                 EndMyTurn();
-                Debug.Log("Enemy state: " + state);
                 break;
             default:
                 break;

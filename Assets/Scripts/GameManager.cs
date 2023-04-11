@@ -23,10 +23,14 @@ public class GameManager : MonoBehaviour
 
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
-    
-    [Header("Game References")]
+
+    [Header("Prefabs")]
+    public GameObject packagePrefab;
     public GameObject AIPlayerPrefab;
     public GameObject EnemyPrefab;
+    public GameObject PotionPrefab;
+
+    [Header("Game References")]
     public BaseEnemy enemy;
     public List<BaseEnemy> enemyList = new List<BaseEnemy>();
     public AI_Player playerChar;
@@ -211,9 +215,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            playerChar.currentHealth = 0;
-            playerChar.isDead = true;
-            playerChar.spriteRenderer.sprite = deadPlayer;
+            KillPlayer();
         }
 
     }
@@ -236,5 +238,14 @@ public class GameManager : MonoBehaviour
         lifeCount--;
         turnCount = maxTurnCount;
 
+    }
+
+    public void KillPlayer()
+    {
+        playerChar.currentHealth = 0;
+        playerChar.isDead = true;
+        playerChar.spriteRenderer.sprite = deadPlayer;
+        playerChar.hasPackage = false;
+        Instantiate(packagePrefab, playerChar.activeTile.transform.position, Quaternion.identity);
     }
 }

@@ -8,6 +8,8 @@ public class AI_Player : MovingCharacter
     private AI_Player playerChar;
     public int currentHealth;
     public bool isDead;
+    public bool hasPackage;
+    
     public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
     public State state;
 
@@ -19,6 +21,7 @@ public class AI_Player : MovingCharacter
         isPlayer = true;
         currentHealth = GameManager.Instance.agentMaxHealth;
         state = State.Wait;
+        hasPackage = true;
     }
 
 
@@ -41,24 +44,18 @@ public class AI_Player : MovingCharacter
         switch (state)
         {
             case State.Wait:
-                Debug.Log("Player state: " + state);
                 break;
             case State.Evaluate:
-                Debug.Log("Player state: " + state);
                 Evaluate();
                 break;
             case State.Seek:
-                Debug.Log("Player state: " + state);
                 break;
             case State.Flee:
-                Debug.Log("Player state: " + state);
                 break;
             case State.Combat:
-                Debug.Log("Player state: " + state);
                 break;
             case State.EndTurn:
                 EndMyTurn();
-                Debug.Log("Player state: " + state);
                 break;
             default:
                 break;

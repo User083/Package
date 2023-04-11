@@ -2778,8 +2778,10 @@ MonoBehaviour:
   enemyDamage: 30
   potionHeal: 20
   turnState: 0
+  packagePrefab: {fileID: 7813442608483767924, guid: 43f4c60bfa4e4ea4498125043b5b4215, type: 3}
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
   EnemyPrefab: {fileID: 4753837478718451258, guid: 906517840fe4ba94fa1e646406514c2d, type: 3}
+  PotionPrefab: {fileID: 659814523168528720, guid: c309fe19c5013644ab10663b40245c95, type: 3}
   enemy: {fileID: 0}
   enemyList: []
   playerChar: {fileID: 0}

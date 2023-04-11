@@ -1,11 +1,8 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
+
 
 public class OverlayInfo : MonoBehaviour
 {
@@ -21,6 +18,7 @@ public class OverlayInfo : MonoBehaviour
     public bool isTree;
     public bool isRoad;
     public bool hasHealth;
+    public bool hasPackage;
     public int trapDamage;
     public int healAmount;
     private GameObject tileObject = null;
@@ -148,31 +146,40 @@ public class OverlayInfo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "HealthPotion" && hasHealth == false)
+        if (collision.gameObject.tag == "HealthPotion" && !hasHealth)
         {
             hasHealth = true;
             tileObject = collision.gameObject;
-            //tileObject.GetComponent<Collider>().enabled = false;
-
         }
 
-        if (collision.gameObject.tag == "Player" && hasTrap)
+        if (collision.gameObject.tag == "Package" && !hasPackage)
         {
-            GameManager.Instance.DamagePlayer(trapDamage);
+            hasPackage = true;
+            tileObject = collision.gameObject;
         }
 
-        if (collision.gameObject.tag == "Player" && hasHealth)
+        if (collision.gameObject.tag == "Player")
         {
-            GameManager.Instance.HealPlayer(healAmount);
-            hasHealth= false;
-            if(tileObject != null)
+            if(hasHealth)
             {
+                GameManager.Instance.HealPlayer(healAmount);
+                hasHealth = false;
+                Destroy(tileObject);
+            }
+
+            if(hasTrap)
+            {
+                GameManager.Instance.DamagePlayer(trapDamage);
+            }
+
+            if(hasPackage)
+            {
+                GameManager.Instance.playerChar.hasPackage = true;
+                hasPackage = false;
                 Destroy(tileObject);
             }
             
         }
     }
-
-
 
 }
