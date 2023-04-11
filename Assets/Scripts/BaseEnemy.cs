@@ -10,6 +10,7 @@ public class BaseEnemy : MovingCharacter
     public int attackDamage;
     public bool awareOfPlayer;
     public bool moveComplete;
+    public bool hasPackage;
     public enum State { Wait, Evaluate, Wander, Pursue, Attack, EndTurn }
     public State state;
 
@@ -229,6 +230,14 @@ public class BaseEnemy : MovingCharacter
         {
             Debug.LogWarning("No random tile available");
             return null; 
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Package")
+        {
+            hasPackage= true;
         }
     }
 

@@ -10,6 +10,7 @@ public class AI_Player : MovingCharacter
     public bool isDead;
     public bool hasPackage;
     
+    
     public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
     public State state;
 
@@ -134,7 +135,12 @@ public class AI_Player : MovingCharacter
         //    GameManager.Instance.Delay(1f);
         //    CheckPath();
         //}
-        if(GetHealthPercentage() < 50 && FindHealth() != null)
+        if(!hasPackage && FindPackage(GameManager.Instance.packageTile))
+        {
+                FindEnd(GameManager.Instance.packageTile);
+                CheckPath();
+        }
+        else if(GetHealthPercentage() < 50 && FindHealth() != null)
         {
                 FindEnd(FindHealth());
                 CheckPath();      
@@ -169,6 +175,16 @@ public class AI_Player : MovingCharacter
         return null;
     }
 
+    public bool FindPackage(OverlayInfo packageTile)
+    {
+        if(inRangeTiles.Contains(packageTile))
+        {
+            return true;
+        }
+        else
+        { return false; }
+    }
+
     public float GetHealthPercentage()
     {
         return Mathf.RoundToInt(currentHealth / GameManager.Instance.agentMaxHealth * 100);
@@ -185,6 +201,14 @@ public class AI_Player : MovingCharacter
         {
             state = State.EndTurn;
             UpdateState();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Package")
+        {
+            hasPackage = true;
         }
     }
 }

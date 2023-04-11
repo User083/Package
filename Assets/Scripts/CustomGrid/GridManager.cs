@@ -12,7 +12,6 @@ public class GridManager : MonoBehaviour
 
     public OverlayInfo overlayTileInfo;
     public GameObject overlayContainer;
-    public bool debugging;
     private BoundsInt bounds;
     public Tilemap tileMap;
     public Dictionary<Vector2Int, OverlayInfo> map;

@@ -87,7 +87,7 @@ public class MovingCharacter : MonoBehaviour
 
     public void updateActiveTile(bool state)
     {
-        if(!activeTile.isEnd)
+        if(!activeTile.isEnd && !activeTile.hasPackage)
         {
             activeTile.isBlocked = state;
             activeTile.hasEnemy = state;

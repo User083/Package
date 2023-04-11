@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public AI_Player playerChar;
     public OverlayInfo startTile;
     public OverlayInfo endTile;
+    public OverlayInfo packageTile = null;
     public Sprite deadPlayer;
     public Sprite livingPlayer;
 
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        ToggleDebug();
         SpawnCharacter(startTile);
         SpawnEnemy(GridManager.Instance.GetRandomTile());
         SpawnEnemy(GridManager.Instance.GetRandomTile());
@@ -75,15 +76,12 @@ public class GameManager : MonoBehaviour
         {
             case TurnState.Processing:
                 ProcessTurns();
-                Debug.Log(turnState);
                 break;
             case TurnState.PlayerTurn:
                 PlayerTurn();
-                Debug.Log(turnState);
                 break; 
             case TurnState.EnemyTurn:
                 EnemyTurn();
-                Debug.Log(turnState);
                 break;
             case TurnState.GameOver:
                 Debug.Break();
@@ -91,25 +89,35 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString());
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), 
+                            enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString(),
+                            PackageState());
     }
 
     private void PlayerTurn()
     {
-        Debug.Log("Player turn starts. " + turnCount + " turns left.");
         playerChar.state = AI_Player.State.Evaluate;
         playerChar.UpdateState();
-       
-      
+  
     }
 
     public void ProcessTurns()
     {
         //Agent successfully reached end
+        ToggleDebug();
         if (endTileReached)
         {
-            EndGame("Package Delivered - Mission Success");
-            return;
+            if(playerChar.hasPackage)
+            {
+                EndGame("Package Delivered - Mission Success");
+                return;
+            }
+            else
+            {
+                EndGame("Agent survived but package not delivered - Mission Failure");
+                return;
+            }
+
         }
 
         //Agent ran out of turns to complete mission
@@ -130,6 +138,7 @@ public class GameManager : MonoBehaviour
         if(playerChar.isDead && lifeCount > 0)
         {
             ResetPlayer();
+            playerChar.hasPackage = false;
             turnState = TurnState.PlayerTurn;
             UpdateState();
             return;
@@ -178,9 +187,9 @@ public class GameManager : MonoBehaviour
     public void EndGame(string condition)
     {
         Debug.Log("Game over! " + condition );
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString());
+        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), 
+            enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString(), PackageState());
         UIManager.UpdateGameOver(condition);
-        //playerChar.gameObject.SetActive(false);
         turnState = TurnState.GameOver;
         UpdateState();
         
@@ -244,8 +253,43 @@ public class GameManager : MonoBehaviour
     {
         playerChar.currentHealth = 0;
         playerChar.isDead = true;
-        playerChar.spriteRenderer.sprite = deadPlayer;
-        playerChar.hasPackage = false;
-        Instantiate(packagePrefab, playerChar.activeTile.transform.position, Quaternion.identity);
+        playerChar.spriteRenderer.sprite = deadPlayer;  
+        if(playerChar.hasPackage)
+        {
+            Instantiate(packagePrefab, playerChar.activeTile.transform.position, Quaternion.identity);
+            packageTile = playerChar.activeTile;
+        }
+    }
+
+    public string PackageState()
+    {
+        var temp = "";
+
+        if (playerChar.hasPackage)
+        {
+            temp = "Agent Possession";
+        }
+        else if (packageTile != null)
+        {
+            temp = "Dropped";
+        }
+        else
+        {
+            temp = "Enemy Possession";
+        }
+
+        return temp;
+    }
+
+    public void ToggleDebug()
+    {
+        if(Debugging)
+        {
+            UIManager.ToggleVisibility(true);
+        }
+        else
+        {
+            UIManager.ToggleVisibility(false);
+        }
     }
 }

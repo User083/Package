@@ -44,7 +44,7 @@ public class OverlayInfo : MonoBehaviour
     }
     public void ShowTile()
     {
-       if(GridManager.Instance.debugging)
+       if(GameManager.Instance.Debugging)
         {
             if (isBlocked)
             {
@@ -63,16 +63,13 @@ public class OverlayInfo : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 225, 0, 0.3f);
             }
         }
-        else
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
+
   
     }
 
     public void ShowEnemyTile()
     {
-        if (GridManager.Instance.debugging)
+        if (GameManager.Instance.Debugging)
         {
             if (isBlocked)
             {
@@ -83,10 +80,7 @@ public class OverlayInfo : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0, 225, 0.3f);
             }
         }
-        else
-        {
-            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        }
+
     }
 
     public void HideTile()
@@ -156,15 +150,16 @@ public class OverlayInfo : MonoBehaviour
         {
             hasPackage = true;
             tileObject = collision.gameObject;
+            isBlocked = false;
         }
 
         if (collision.gameObject.tag == "Player")
         {
             if(hasHealth)
             {
-                GameManager.Instance.HealPlayer(healAmount);
-                hasHealth = false;
+                GameManager.Instance.HealPlayer(healAmount);                
                 Destroy(tileObject);
+                hasHealth = false;
             }
 
             if(hasTrap)
@@ -174,11 +169,21 @@ public class OverlayInfo : MonoBehaviour
 
             if(hasPackage)
             {
-                GameManager.Instance.playerChar.hasPackage = true;
-                hasPackage = false;
+                GameManager.Instance.packageTile = null;
                 Destroy(tileObject);
+                hasPackage = false;
             }
             
+        }
+
+        if(collision.gameObject.tag == "Enemy")
+        {
+            if(hasPackage)
+            {
+                Destroy(tileObject);
+                hasPackage = false;
+                GameManager.Instance.packageTile = null;
+            }
         }
     }
 

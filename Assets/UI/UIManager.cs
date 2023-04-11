@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     private Label agentHealthInfo;
     private Label agentLivesInfo;
     private Label gameOverInfo;
+    private Label PackageInfo;
+    private VisualElement root;
 
     private void Awake()
     {
@@ -22,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        var root = DebugDoc.rootVisualElement;
+        root = DebugDoc.rootVisualElement;
 
         turnInfo = root.Q<Label>("label-turn");
         gameStateInfo = root.Q<Label>("label-gamestate");
@@ -30,23 +32,35 @@ public class UIManager : MonoBehaviour
         enemyStateInfo = root.Q<Label>("label-enemystate");
         agentHealthInfo = root.Q<Label>("label-playerhealth");
         agentLivesInfo = root.Q<Label>("label-playerlives");
+        PackageInfo = root.Q<Label>("label-package");
         gameOverInfo = root.Q<Label>("label-gameover");
+
+
+
     }
 
-    public void UpdateUI(string turn, string gameState, string playerState, string enemyState, string health, string lifeCount)
+
+    public void UpdateUI(string turn, string gameState, string playerState, string enemyState, string health, string lifeCount, string hasPackage)
     {
-        turnInfo.text = "Turn: " + turn;
+        
+        turnInfo.text = "Turns Remaining: " + turn;
         gameStateInfo.text = "Game State: " + gameState;
         agentStateInfo.text = "Agent State: " + playerState;
         enemyStateInfo.text = "Enemy State: " + enemyState;
-        agentHealthInfo.text = "Agent Health: " + health + "/100";
-        agentLivesInfo.text = "Agent Lives: " + lifeCount + "/3";
+        agentHealthInfo.text = "Agent Health: " + health + GameManager.Instance.agentMaxHealth.ToString();
+        agentLivesInfo.text = "Agent Lives: " + lifeCount + GameManager.Instance.lifeCount.ToString();
+        PackageInfo.text = "Package State: " + hasPackage;
 
     }
 
     public void UpdateGameOver(string gameOver)
     {
         gameOverInfo.text = "Game Over: " + gameOver;
+    }
+
+    public void ToggleVisibility(bool state)
+    {
+        root.visible = state;
     }
 }
 
