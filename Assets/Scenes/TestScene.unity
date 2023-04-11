@@ -2710,7 +2710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7340d35f56db8942a8362584f559365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Debugging: 1
+  Debugging: 0
   UIManager: {fileID: 1866702459}
   HUDManager: {fileID: 1611420735}
   maxTurnCount: 8
