@@ -28,8 +28,12 @@ public class GridManager : MonoBehaviour
             instance = this;
         }
 
-        GenerateGrid();
         
+        
+    }
+    private void OnEnable()
+    {
+        GenerateGrid();
     }
 
 
