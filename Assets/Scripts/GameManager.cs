@@ -70,9 +70,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+
         SpawnCharacter(startTile);
-        
+
         ToggleDebug();
 
     }
@@ -80,7 +80,9 @@ public class GameManager : MonoBehaviour
     public void StartSimulation()
     {
         ApplySettings();
+        
         SpawnEnemies();
+        
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
@@ -155,21 +157,23 @@ public class GameManager : MonoBehaviour
     public void ProcessTurns()
     {
         //Agent successfully reached end
-        ToggleDebug();
-        
-        if (endTileReached)
+
+        if(playerChar!= null)
         {
-            if(playerChar.hasPackage)
+            if (endTileReached)
             {
-                UpdateScore(deliveredScore);
-                EndGame("Package Delivered - Mission Success");
-                return;
-            }
-            else
-            {
-                UpdateScore(survivedScore);
-                EndGame("Agent survived but package not delivered - Mission Failure");
-                return;
+                if (playerChar.hasPackage)
+                {
+                    UpdateScore(deliveredScore);
+                    EndGame("Package Delivered - Mission Success");
+                    return;
+                }
+                else
+                {
+                    UpdateScore(survivedScore);
+                    EndGame("Agent survived but package not delivered - Mission Failure");
+                    return;
+                }
             }
 
         }
@@ -234,6 +238,7 @@ public class GameManager : MonoBehaviour
             foreach (var enemy in enemyList)
             {
                 enemy.range = HUDManager.enemiesRange.value;
+                enemy.attackDamage = HUDManager.enemyDamage.value;
 
             }
         }
@@ -268,8 +273,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetSim()
     {
-        Destroy(playerChar.gameObject); 
-        playerChar = null;
+        ResetPlayer();
         if (enemyList.Count > 0)
         {
             foreach (var enemy in enemyList)
@@ -279,7 +283,10 @@ public class GameManager : MonoBehaviour
             }
         }
         enemyList.Clear();
-        
+        GridManager.Instance.ResetAllOverlays();
+        endTileReached= false;
+        HUDManager.restart.SetEnabled(false);
+
     }
 
     //Utility methods
@@ -320,9 +327,11 @@ public class GameManager : MonoBehaviour
     public void HealPlayer(int healAmount)
     {
         playerChar.currentHealth += healAmount;
-        if(playerChar.currentHealth < agentMaxHealth)
+        playerChar.healthBar.value = playerChar.currentHealth;
+        if (playerChar.currentHealth < agentMaxHealth)
         {
             playerChar.currentHealth = agentMaxHealth;
+            playerChar.healthBar.value = playerChar.currentHealth;
         }
     }
     public void ResetPlayer()

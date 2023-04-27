@@ -4,12 +4,13 @@
         <ui:VisualElement style="width: 18%; justify-content: space-between; background-color: rgba(92, 37, 92, 0.56); align-items: stretch;">
             <ui:Label tabindex="-1" text="Simulation Settings:" display-tooltip-when-elided="true" name="hud-label-title" class="text" style="font-size: 18px; -unity-font-style: bold;" />
             <ui:Toggle label="Debug Info:" name="hud-toggle-debug" class="text" />
-            <ui:IntegerField label="Max Turns:" value="15" name="hud-integerfield-turns" class="text" />
+            <ui:IntegerField label="Max Turns:" value="10" name="hud-integerfield-turns" class="text" />
             <ui:IntegerField label="Agent Lives:" value="3" name="hud-integerfield-lives" class="text" />
-            <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="5" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="4" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" class="text" />
             <ui:IntegerField label="Agent Health:" value="100" name="hud-integerfield-health" class="text" />
-            <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="5" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
             <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="10" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
+            <ui:IntegerField label="Enemy Damage:" value="30" name="hud-integerfield-enemydp" class="text" />
             <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
             <ui:IntegerField label="Trap Damage:" value="20" name="hud-integerfield-trap" class="text" />
             <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="hud-button-start" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; width: auto; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 88, 49); border-right-color: rgb(132, 88, 49); border-top-color: rgb(132, 88, 49); border-bottom-color: rgb(132, 88, 49);" />

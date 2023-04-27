@@ -21,6 +21,7 @@ public class HUDManager : MonoBehaviour
     public IntegerField lives;
     public Toggle debug;
     public Button restart;
+    public IntegerField enemyDamage;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class HUDManager : MonoBehaviour
         Quit = root.Q<Button>("button-quit");
         agentHealth = root.Q<IntegerField>("hud-integerfield-health");
         trapDamage = root.Q<IntegerField>("hud-integerfield-trap");
+        enemyDamage = root.Q<IntegerField>("hud-integerfield-enemydp");
         healing = root.Q<IntegerField>("hud-integerfield-healing");
         turns = root.Q<IntegerField>("hud-integerfield-turns");
         lives = root.Q<IntegerField>("hud-integerfield-lives");
@@ -44,7 +46,7 @@ public class HUDManager : MonoBehaviour
         restart = root.Q<Button>("hud-button-restart");
         debug = root.Q<Toggle>("hud-toggle-debug");
         start.clickable.clicked += () => StartSim();
-        restart.clickable.clicked += () => StartSim();
+        restart.clickable.clicked += () => Restart();
         restart.SetEnabled(false);
     }
 
@@ -78,6 +80,7 @@ public class HUDManager : MonoBehaviour
         enemiesRange.SetEnabled(toggle);
         agentRange.SetEnabled(toggle);
         enemySlider.SetEnabled(toggle);
+        enemyDamage.SetEnabled(toggle);
         start.SetEnabled(toggle);
         debug.SetEnabled(toggle);
     }
@@ -85,7 +88,6 @@ public class HUDManager : MonoBehaviour
     public void Restart()
     {
         ToggleEnabled(true);
-        restart.SetEnabled(false);
         GameManager.Instance.ResetSim();
     }
 }

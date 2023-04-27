@@ -164,6 +164,13 @@ public class GridManager : MonoBehaviour
         return tempList.ElementAt(i);
     }
 
+    public void ResetAllOverlays()
+    {
+        foreach(var overlay in overlays)
+        {
+            overlay.HideTile();
+        }
+    }
 
     public List<OverlayInfo> GetNeighbourTiles(OverlayInfo selectedTile, List<OverlayInfo> inRangeTiles)
     {
