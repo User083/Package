@@ -10,6 +10,17 @@ public class HUDManager : MonoBehaviour
     private Label Score;
     private Label Turn;
     private Button Quit;
+    public SliderInt enemySlider;
+    public IntegerField agentHealth;
+    public IntegerField trapDamage;
+    public IntegerField healing;
+    public SliderInt agentRange;
+    public SliderInt enemiesRange;
+    private Button start;
+    public IntegerField turns;
+    public IntegerField lives;
+    public Toggle debug;
+    public Button restart;
 
     private void Awake()
     {
@@ -21,12 +32,25 @@ public class HUDManager : MonoBehaviour
         Score = root.Q<Label>("label-score");
         Turn = root.Q<Label>("label-turn");
         Quit = root.Q<Button>("button-quit");
+        agentHealth = root.Q<IntegerField>("hud-integerfield-health");
+        trapDamage = root.Q<IntegerField>("hud-integerfield-trap");
+        healing = root.Q<IntegerField>("hud-integerfield-healing");
+        turns = root.Q<IntegerField>("hud-integerfield-turns");
+        lives = root.Q<IntegerField>("hud-integerfield-lives");
+        agentRange = root.Q<SliderInt>("hud-sliderint-range");
+        enemySlider = root.Q<SliderInt>("hud-sliderint-enemies");
+        enemiesRange = root.Q<SliderInt>("hud-sliderint-enemiesrange");
+        start = root.Q<Button>("hud-button-start");
+        restart = root.Q<Button>("hud-button-restart");
+        debug = root.Q<Toggle>("hud-toggle-debug");
+        start.clickable.clicked += () => StartSim();
+        restart.clickable.clicked += () => StartSim();
+        restart.SetEnabled(false);
     }
 
     private void Start()
     {
-        Turn.text = "Turn: " + GameManager.Instance.maxTurnCount.ToString() + "/" + GameManager.Instance.maxTurnCount.ToString();
-        Score.text = "Score: 0";
+
         Quit.clickable.clicked += () => SceneManager.LoadScene("MainMenu");
     }
 
@@ -34,5 +58,34 @@ public class HUDManager : MonoBehaviour
     {
         Turn.text = "Turn: " + turn + "/" + GameManager.Instance.maxTurnCount.ToString();
         Score.text = "Score: " + score;
+    }
+
+    public void StartSim()
+    {
+        GameManager.Instance.StartSimulation();
+        Turn.text = "Turn: " + GameManager.Instance.maxTurnCount.ToString() + "/" + GameManager.Instance.maxTurnCount.ToString();
+        Score.text = "Score: 0";
+        ToggleEnabled(false);
+    }
+
+    public void ToggleEnabled(bool toggle)
+    {
+        turns.SetEnabled(toggle);
+        lives.SetEnabled(toggle);
+        healing.SetEnabled(toggle);
+        agentHealth.SetEnabled(toggle);
+        trapDamage.SetEnabled(toggle);
+        enemiesRange.SetEnabled(toggle);
+        agentRange.SetEnabled(toggle);
+        enemySlider.SetEnabled(toggle);
+        start.SetEnabled(toggle);
+        debug.SetEnabled(toggle);
+    }
+
+    public void Restart()
+    {
+        ToggleEnabled(true);
+        restart.SetEnabled(false);
+        GameManager.Instance.ResetSim();
     }
 }

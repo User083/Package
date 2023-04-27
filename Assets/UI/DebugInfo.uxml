@@ -1,9 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/default.uss?fileID=7433441132597879392&amp;guid=1b021cf0535895240a208029bfe98441&amp;type=3#default" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-        <ui:VisualElement style="width: 25%; background-color: rgba(0, 0, 0, 0.67);">
-            <ui:Label tabindex="-1" text="Game Info:" display-tooltip-when-elided="true" class="title" />
-            <ui:Label tabindex="-1" text="Turns Remaining:" display-tooltip-when-elided="true" name="label-turn" class="normal-text" />
+        <ui:VisualElement style="width: 85%;" />
+        <ui:VisualElement style="width: 15%; background-color: rgba(0, 0, 0, 0.67); align-items: stretch; justify-content: center; -unity-text-align: upper-center;">
+            <ui:Label tabindex="-1" text="Game State:" display-tooltip-when-elided="true" class="title" />
+            <ui:Label tabindex="-1" text="Turns Remaining:" display-tooltip-when-elided="true" name="label-turn" class="normal-text" style="-unity-text-align: middle-left;" />
             <ui:Label tabindex="-1" text="Game State:" display-tooltip-when-elided="true" name="label-gamestate" class="normal-text" />
             <ui:Label tabindex="-1" text="Agent State:" display-tooltip-when-elided="true" name="label-playerstate" class="normal-text" />
             <ui:Label tabindex="-1" text="Enemy State:" display-tooltip-when-elided="true" name="label-enemystate" class="normal-text" />
@@ -12,6 +13,5 @@
             <ui:Label tabindex="-1" text="Agent Lives:" display-tooltip-when-elided="true" name="label-playerlives" class="normal-text" />
             <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="normal-text" />
         </ui:VisualElement>
-        <ui:VisualElement style="width: 70%;" />
     </ui:VisualElement>
 </ui:UXML>

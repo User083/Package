@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     [Header("Turn-Based Variables")]
     public int maxTurnCount = 7;
     private int turnCount;
-    public int lifeCount = 3;
+    public int maxLifeCount = 3;
+    private int lifeCount;
     private int score;
 
     [Header("Central Control")]
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int deliveredScore = 50;
     public int survivedScore = 20;
     public int packageRecoveryScore = 20;
+    public int enemiesToSpawn = 2;
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
 
@@ -62,18 +64,57 @@ public class GameManager : MonoBehaviour
         }
 
         turnCount = maxTurnCount;
+        lifeCount = maxLifeCount;
     }
 
 
     private void Start()
     {
-        ToggleDebug();
+        
         SpawnCharacter(startTile);
-        SpawnEnemy(GridManager.Instance.GetRandomTile());
-        SpawnEnemy(GridManager.Instance.GetRandomTile());
+        
+        ToggleDebug();
+
+    }
+
+    public void StartSimulation()
+    {
+        ApplySettings();
+        SpawnEnemies();
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
+    }
+
+    private void ApplySettings()
+    {
+        maxTurnCount = HUDManager.turns.value;
+        agentMaxHealth = HUDManager.agentHealth.value;
+        playerChar.healthBar.maxValue = agentMaxHealth;
+        playerChar.currentHealth= agentMaxHealth;
+        playerChar.healthBar.value = playerChar.currentHealth;
+        trapDamage = HUDManager.trapDamage.value;
+        potionHeal = HUDManager.healing.value;
+        maxLifeCount = HUDManager.lives.value;
+        playerChar.range = HUDManager.agentRange.value;
+        Debugging = HUDManager.debug.value;
+        enemiesToSpawn= HUDManager.enemySlider.value;
+        turnCount = maxTurnCount;
+        lifeCount = maxLifeCount;
+        UpdateEnemyStats();
+        ToggleDebug();
+        
+    } 
+
+    private void SpawnEnemies()
+    {
+        if(enemiesToSpawn > 0)
+        {
+            for (int i = 0; i < enemiesToSpawn; i++)
+            {
+                SpawnEnemy(GridManager.Instance.GetRandomSpawnTile());
+            }
+        }
     }
 
     public void UpdateState()
@@ -90,7 +131,7 @@ public class GameManager : MonoBehaviour
                 EnemyTurn();
                 break;
             case TurnState.GameOver:
-                Debug.Break();
+                //Debug.Break();
                 break;
             default:
                 break;
@@ -186,6 +227,18 @@ public class GameManager : MonoBehaviour
     
     }
 
+    public void UpdateEnemyStats()
+    {
+        if (enemyList.Count > 0)
+        {
+            foreach (var enemy in enemyList)
+            {
+                enemy.range = HUDManager.enemiesRange.value;
+
+            }
+        }
+    }
+
     public void SpawnCharacter(OverlayInfo start)
     {
         playerChar = Instantiate(AIPlayerPrefab).GetComponent<AI_Player>();
@@ -209,6 +262,23 @@ public class GameManager : MonoBehaviour
         turnState = TurnState.GameOver;
         HUDManager.UpdateUI(turnCount.ToString(), score.ToString());
         UpdateState();
+        HUDManager.restart.SetEnabled(true);
+        
+    }
+
+    public void ResetSim()
+    {
+        Destroy(playerChar.gameObject); 
+        playerChar = null;
+        if (enemyList.Count > 0)
+        {
+            foreach (var enemy in enemyList)
+            {
+                Destroy(enemy.gameObject);
+
+            }
+        }
+        enemyList.Clear();
         
     }
 
@@ -238,6 +308,7 @@ public class GameManager : MonoBehaviour
         if (playerChar.currentHealth > damage)
         {
             playerChar.currentHealth -= damage;
+            playerChar.healthBar.value = playerChar.currentHealth;
         }
         else
         {
@@ -258,6 +329,7 @@ public class GameManager : MonoBehaviour
     {
 
         playerChar.currentHealth = agentMaxHealth;
+        playerChar.healthBar.value = playerChar.currentHealth;
         playerChar.isDead = false;
         playerChar.spriteRenderer.sprite = livingPlayer;
         playerChar.PositionCharacter(startTile);
@@ -269,6 +341,7 @@ public class GameManager : MonoBehaviour
     public void KillPlayer()
     {
         playerChar.currentHealth = 0;
+        playerChar.healthBar.value = playerChar.currentHealth;
         playerChar.isDead = true;
         playerChar.spriteRenderer.sprite = deadPlayer;  
         if(playerChar.hasPackage)

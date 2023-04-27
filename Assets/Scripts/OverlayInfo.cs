@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,7 +22,9 @@ public class OverlayInfo : MonoBehaviour
     public bool hasPackage;
     public int trapDamage;
     public int healAmount;
+    public bool noSpawn;
     private GameObject tileObject = null;
+    public TextMeshProUGUI gCostLabel;
 
     
 
@@ -62,6 +65,8 @@ public class OverlayInfo : MonoBehaviour
             {
                 gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 225, 0, 0.3f);
             }
+            gCostLabel.color = new Color(0, 0, 0, 1);
+            gCostLabel.text = "F: " + fCost.ToString();
         }
 
   
@@ -86,6 +91,7 @@ public class OverlayInfo : MonoBehaviour
     public void HideTile()
     {
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0f);
+        gCostLabel.color = new Color(0, 0, 0, 0);
     }
 
 
@@ -113,7 +119,7 @@ public class OverlayInfo : MonoBehaviour
             gCost = gCost + 1;
         }
 
-        if(hasTrap && GameManager.Instance.playerChar.currentHealth < 50)
+        if(hasTrap && GameManager.Instance.playerChar.GetHealthPercentage() < 50)
         {
             gCost = gCost + 3;
         }
@@ -132,7 +138,7 @@ public class OverlayInfo : MonoBehaviour
             gCost = gCost + 2;
         }
 
-        if (hasHealth && gCost >= 1 && GameManager.Instance.playerChar.currentHealth < 50)
+        if (hasHealth && GameManager.Instance.playerChar.GetHealthPercentage() < 50)
         {
             gCost = 0;
         }

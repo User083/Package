@@ -47,8 +47,8 @@ public class UIManager : MonoBehaviour
         gameStateInfo.text = "Game State: " + gameState;
         agentStateInfo.text = "Agent State: " + playerState;
         enemyStateInfo.text = "Enemy State: " + enemyState;
-        agentHealthInfo.text = "Agent Health: " + health + GameManager.Instance.agentMaxHealth.ToString();
-        agentLivesInfo.text = "Agent Lives: " + lifeCount + GameManager.Instance.lifeCount.ToString();
+        agentHealthInfo.text = "Agent Health: " + health + "/" + GameManager.Instance.agentMaxHealth.ToString();
+        agentLivesInfo.text = "Agent Lives: " + lifeCount + "/" + GameManager.Instance.maxLifeCount.ToString();
         PackageInfo.text = "Package State: " + hasPackage;
 
     }

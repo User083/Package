@@ -1,15 +1,27 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=649d43e526bf9624e88bb0edd955ee4c&amp;type=3#Style" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-        <ui:VisualElement style="width: 5%;" />
+        <ui:VisualElement style="width: 18%; justify-content: space-between; background-color: rgba(92, 37, 92, 0.56); align-items: stretch;">
+            <ui:Label tabindex="-1" text="Simulation Settings:" display-tooltip-when-elided="true" name="hud-label-title" class="text" style="font-size: 18px; -unity-font-style: bold;" />
+            <ui:Toggle label="Debug Info:" name="hud-toggle-debug" class="text" />
+            <ui:IntegerField label="Max Turns:" value="15" name="hud-integerfield-turns" class="text" />
+            <ui:IntegerField label="Agent Lives:" value="3" name="hud-integerfield-lives" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="5" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" class="text" />
+            <ui:IntegerField label="Agent Health:" value="100" name="hud-integerfield-health" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="5" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="10" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
+            <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
+            <ui:IntegerField label="Trap Damage:" value="20" name="hud-integerfield-trap" class="text" />
+            <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="hud-button-start" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; width: auto; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 88, 49); border-right-color: rgb(132, 88, 49); border-top-color: rgb(132, 88, 49); border-bottom-color: rgb(132, 88, 49);" />
+            <ui:Button tabindex="-1" text="Restart" display-tooltip-when-elided="true" name="hud-button-restart" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 87, 49); border-right-color: rgb(132, 87, 49); border-top-color: rgb(132, 87, 49); border-bottom-color: rgb(132, 87, 49);" />
+        </ui:VisualElement>
         <ui:VisualElement style="flex-direction: column; width: 90%;">
-            <ui:VisualElement style="height: 10%; flex-direction: row; justify-content: space-around; align-items: center; background-color: rgba(0, 0, 0, 0.81);">
+            <ui:VisualElement style="height: 5%; flex-direction: row; justify-content: space-around; align-items: center; background-color: rgba(0, 0, 0, 0.57);">
                 <ui:Label tabindex="-1" text="Turn:" display-tooltip-when-elided="true" name="label-turn" style="font-size: 20px; color: rgb(255, 255, 255);" />
                 <ui:Label tabindex="-1" text="Score:" display-tooltip-when-elided="true" name="label-score" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                <ui:Button tabindex="-1" text="X" display-tooltip-when-elided="true" name="button-quit" style="background-color: rgb(159, 0, 0); color: rgb(255, 255, 255); border-left-color: rgb(14, 0, 0); border-right-color: rgb(14, 0, 0); border-top-color: rgb(14, 0, 0); border-bottom-color: rgb(14, 0, 0);" />
             </ui:VisualElement>
             <ui:VisualElement style="height: 90%;" />
-        </ui:VisualElement>
-        <ui:VisualElement style="width: 5%; align-items: center;">
-            <ui:Button tabindex="-1" text="X" display-tooltip-when-elided="true" name="button-quit" style="background-color: rgb(159, 0, 0); color: rgb(255, 255, 255); border-left-color: rgb(14, 0, 0); border-right-color: rgb(14, 0, 0); border-top-color: rgb(14, 0, 0); border-bottom-color: rgb(14, 0, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -2362,7 +2362,7 @@ TextureImporter:
         height: 100
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 0, z: 2, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -2866,7 +2866,7 @@ TextureImporter:
         height: 99
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -7116,6 +7116,7 @@ TextureImporter:
       Tileset_81: -1069939141
       Tileset_13: 1367093538
       Tileset_67: 1199126345
+      Tileset_89: -603103231
       Tileset_95: 1747545038
       Tileset_110: -290357900
       Tileset_10: -1896087252
@@ -7128,7 +7129,6 @@ TextureImporter:
       Tileset_232: 1709664452
       Tileset_151: -1960927383
       Tileset_261: -1623449383
-      Tileset_281: 1455517651
       Tileset_332: -502578918
       Tileset_5: 1367932133
       Tileset_187: 258937963
@@ -7272,11 +7272,11 @@ TextureImporter:
       Tileset_112: 56014839
       Tileset_246: -2041888410
       Tileset_197: 2091317467
-      Tileset_116: 1649049420
+      Tileset_85: 717998315
       Tileset_212: 1281920798
       Tileset_282: -264327909
       Tileset_47: 1194723735
-      Tileset_85: 717998315
+      Tileset_116: 1649049420
       Tileset_266: 388677544
       Tileset_18: 852506961
       Tileset_192: -1227715359
@@ -7435,13 +7435,13 @@ TextureImporter:
       Tileset_84: 1441388168
       Tileset_139: 1806919492
       Tileset_62: -1224146533
+      Tileset_281: 1455517651
       Tileset_21: -2099766732
-      Tileset_118: 1018975896
       Tileset_200: -2016576947
-      Tileset_270: -769843800
       Tileset_124: -1262711439
+      Tileset_270: -769843800
       Tileset_292: 43507729
-      Tileset_89: -603103231
+      Tileset_118: 1018975896
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

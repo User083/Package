@@ -119,8 +119,12 @@ public class GridManager : MonoBehaviour
             {
                 item.Key.setBlocked(true);
             }
+            else if (item.Value.ToString().Contains("NoSpawn"))
+            {
+                item.Key.noSpawn = true;
+            }
 
-          
+
 
         }
     }
@@ -132,7 +136,25 @@ public class GridManager : MonoBehaviour
         
         foreach (OverlayInfo tile in overlays)
         {
-            if(tile.isBlocked == false)
+            if(!tile.isBlocked)
+            {
+                tempList.Add(tile);
+            }
+        }
+        int i = Random.Range(0, tempList.Count());
+
+        return tempList.ElementAt(i);
+    }
+
+
+    public OverlayInfo GetRandomSpawnTile()
+    {
+
+        List<OverlayInfo> tempList = new List<OverlayInfo>();
+
+        foreach (OverlayInfo tile in overlays)
+        {
+            if (!tile.isBlocked && !tile.noSpawn)
             {
                 tempList.Add(tile);
             }

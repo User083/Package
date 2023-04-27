@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AI_Player : MovingCharacter
 {
@@ -9,6 +10,7 @@ public class AI_Player : MovingCharacter
     public int currentHealth;
     public bool isDead;
     public bool hasPackage;
+    public Slider healthBar;
     
     
     public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
@@ -35,9 +37,7 @@ public class AI_Player : MovingCharacter
                 MovePlayerTo();
             }
            
-        }
-
-        
+        } 
 
     }
     public void UpdateState()
