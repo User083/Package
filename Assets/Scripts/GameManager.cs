@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Turn-Based Variables")]
     public int maxTurnCount = 7;
-    private int turnCount;
+    public int turnCount;
     public int maxLifeCount = 3;
     private int lifeCount;
     private int score;
@@ -358,6 +358,7 @@ public class GameManager : MonoBehaviour
     {
         playerChar.currentHealth += healAmount;
         playerChar.healthBar.value = playerChar.currentHealth;
+        Debug.Log("Current Health: " + playerChar.currentHealth);
         if (playerChar.currentHealth < agentMaxHealth)
         {
             playerChar.currentHealth = agentMaxHealth;
@@ -424,5 +425,10 @@ public class GameManager : MonoBehaviour
         item.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
         item.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
 
+    }
+
+    public float GetTurnPercent()
+    {
+        return turnCount / maxTurnCount * 100;
     }
 }

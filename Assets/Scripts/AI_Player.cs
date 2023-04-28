@@ -140,7 +140,12 @@ public class AI_Player : MovingCharacter
                 FindEnd(GameManager.Instance.packageTile);
                 CheckPath();
         }
-        else if(GetHealthPercentage() < 50 && FindHealth() != null)
+        else if (GetHealthPercentage() <= 50f && FindHealth() != null && !inRangeTiles.Contains(GameManager.Instance.endTile) && GameManager.Instance.GetTurnPercent() >= 50f)
+        {
+            FindEnd(FindHealth());
+            CheckPath();
+        }
+        else if(GetHealthPercentage() <= 30f && FindHealth() != null && !inRangeTiles.Contains(GameManager.Instance.endTile))
         {
                 FindEnd(FindHealth());
                 CheckPath();      

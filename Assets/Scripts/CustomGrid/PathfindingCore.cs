@@ -36,12 +36,12 @@ public class PathfindingCore
                     continue;
                 }
 
-                //neighbourTile.gCost = GetManhattenDistance(start, neighbourTile);
-                neighbourTile.gCost = GetEuclideanDistance(start, neighbourTile);
+                neighbourTile.gCost = GetManhattenDistance(start, neighbourTile);
+                //neighbourTile.gCost = GetEuclideanDistance(start, neighbourTile);
                 neighbourTile.setStatus();
                 
-                //neighbourTile.hCost = GetManhattenDistance(end, neighbourTile);
-                neighbourTile.hCost = GetEuclideanDistance(end, neighbourTile);
+                neighbourTile.hCost = GetManhattenDistance(end, neighbourTile);
+                //neighbourTile.hCost = GetEuclideanDistance(end, neighbourTile);
 
                 neighbourTile.parent = selectedTile;
 
