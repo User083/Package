@@ -136,7 +136,7 @@ public class GridManager : MonoBehaviour
         
         foreach (OverlayInfo tile in overlays)
         {
-            if(!tile.isBlocked)
+            if(!tile.isBlocked && !tile.hasTrap)
             {
                 tempList.Add(tile);
             }

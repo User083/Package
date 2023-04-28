@@ -255,6 +255,7 @@ public class BaseEnemy : MovingCharacter
             {
                 var trap = Instantiate(trapPrefab);
                 GameManager.Instance.PositionItem(tile, trap);
+                GameManager.Instance.dropTrapList.Add(trap);
             }
             
         }

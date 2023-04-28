@@ -302,7 +302,16 @@ public class GameManager : MonoBehaviour
             }
             potionList.Clear();
         }
-        
+
+        if (dropTrapList.Count > 0)
+        {
+            foreach (var trap in dropTrapList)
+            {
+                Destroy(trap);
+            }
+            dropTrapList.Clear();
+        }
+
         GridManager.Instance.ResetAllOverlays();
         endTileReached= false;
         HUDManager.restart.SetEnabled(false);

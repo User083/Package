@@ -66,7 +66,7 @@ public class PathfindingCore
 
     private int GetEuclideanDistance(OverlayInfo start, OverlayInfo neighbour)
     {
-        float difference = Mathf.Sqrt(Mathf.Abs(Magnitude(start.gridLocation2D - neighbour.gridLocation2D)));
+        float difference = Mathf.Sqrt(Magnitude(start.gridLocation2D - neighbour.gridLocation2D));
            
         
         return Mathf.RoundToInt(difference);
