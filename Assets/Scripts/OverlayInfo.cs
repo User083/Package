@@ -128,11 +128,6 @@ public class OverlayInfo : MonoBehaviour
             gCost = gCost + 1;
         }
 
-        if(isRoad && gCost >= 1)
-        {
-            gCost = gCost - 1;
-        }
-
         if(hasEnemy)
         {
             gCost = gCost + 2;
@@ -155,6 +150,16 @@ public class OverlayInfo : MonoBehaviour
         if (collision.gameObject.tag == "Package" && !hasPackage)
         {
             hasPackage = true;
+            tileObject = collision.gameObject;
+            isBlocked = false;
+            GameManager.Instance.packageTile = this;
+            GameManager.Instance.UpdateUI();
+        }
+
+        if (collision.gameObject.tag == "EnemyTrap" && !hasPackage && !hasHealth)
+        {
+            hasTrap= true;
+            
             tileObject = collision.gameObject;
             isBlocked = false;
         }

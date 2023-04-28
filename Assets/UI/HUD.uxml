@@ -11,6 +11,7 @@
             <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
             <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="10" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:IntegerField label="Enemy Damage:" value="30" name="hud-integerfield-enemydp" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Trap Drop Chance:" value="5" high-value="100" name="hud-sliderint-drop" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:SliderInt picking-mode="Ignore" label="No. Potions: " value="3" high-value="6" name="hud-sliderint-potionno" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
             <ui:IntegerField label="Trap Damage:" value="20" name="hud-integerfield-trap" class="text" />

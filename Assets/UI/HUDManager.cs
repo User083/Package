@@ -20,6 +20,7 @@ public class HUDManager : MonoBehaviour
     public IntegerField healing;
     public SliderInt agentRange;
     public SliderInt potions;
+    public SliderInt dropChance;
     public SliderInt enemiesRange;
     private Button start;
     public IntegerField turns;
@@ -49,6 +50,7 @@ public class HUDManager : MonoBehaviour
         turns = root.Q<IntegerField>("hud-integerfield-turns");
         lives = root.Q<IntegerField>("hud-integerfield-lives");
         agentRange = root.Q<SliderInt>("hud-sliderint-range");
+        dropChance = root.Q<SliderInt>("hud-sliderint-drop");
         enemySlider = root.Q<SliderInt>("hud-sliderint-enemies");
         enemiesRange = root.Q<SliderInt>("hud-sliderint-enemiesrange");
         potions = root.Q<SliderInt>("hud-sliderint-potionno");
@@ -94,6 +96,8 @@ public class HUDManager : MonoBehaviour
         enemyDamage.SetEnabled(toggle);
         start.SetEnabled(toggle);
         debug.SetEnabled(toggle);
+        dropChance.SetEnabled(toggle);
+        potions.SetEnabled(toggle);
     }
 
     public void Restart()

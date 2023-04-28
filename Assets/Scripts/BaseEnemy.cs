@@ -11,6 +11,8 @@ public class BaseEnemy : MovingCharacter
     public bool awareOfPlayer;
     public bool moveComplete;
     public bool hasPackage;
+    public GameObject trapPrefab;
+    public GameObject packagePrefab;
     public enum State { Wait, Evaluate, Wander, Pursue, Attack, EndTurn }
     public State state;
 
@@ -114,7 +116,7 @@ public class BaseEnemy : MovingCharacter
                     GameManager.Instance.Delay(1f);
                     UpdateState();
                 }
-
+                
             }
             
         }
@@ -136,6 +138,8 @@ public class BaseEnemy : MovingCharacter
                 GameManager.Instance.Delay(1f);
                 UpdateState();
             }
+            DropTrap();
+            DropPackage();
         }
         
     }
@@ -238,6 +242,37 @@ public class BaseEnemy : MovingCharacter
         if(collision.gameObject.tag == "Package")
         {
             hasPackage= true;
+        }
+    }
+
+    private void DropTrap()
+    {
+        int chance = Random.Range(0, 100);
+        if(chance <= GameManager.Instance.trapDropChance)
+        {
+            var tile = GetRandomTile(inRangeTiles);
+            if(tile != null)
+            {
+                var trap = Instantiate(trapPrefab);
+                GameManager.Instance.PositionItem(tile, trap);
+            }
+            
+        }
+
+    }
+
+    private void DropPackage()
+    {
+        if(hasPackage)
+        {
+            var tile = GetRandomTile(inRangeTiles);
+            if (tile != null)
+            {
+                var package = Instantiate(packagePrefab);
+                GameManager.Instance.PositionItem(tile, package);
+                hasPackage= false;
+            }
+
         }
     }
 

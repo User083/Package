@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     public int packageRecoveryScore = 20;
     public int enemiesToSpawn = 2;
     public int potionsToSpawn = 3;
+    public int trapDropChance = 5;
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
 
@@ -105,6 +106,7 @@ public class GameManager : MonoBehaviour
         turnCount = maxTurnCount;
         lifeCount = maxLifeCount;
         potionsToSpawn = HUDManager.potions.value;
+        trapDropChance = HUDManager.dropChance.value;
         UpdateEnemyStats();
         
 
@@ -156,8 +158,8 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+
+        UpdateUI();
     }
 
     private void PlayerTurn()
@@ -229,7 +231,7 @@ public class GameManager : MonoBehaviour
         turnCount--;
         turnState = TurnState.PlayerTurn;
         UpdateState();
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+        UpdateUI();
     }
     public void EnemyTurn()
     {
@@ -273,7 +275,7 @@ public class GameManager : MonoBehaviour
     {
         HUDManager.UpdateGameOver(condition);
         turnState = TurnState.GameOver;
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+        UpdateUI();
         UpdateState();
         HUDManager.restart.SetEnabled(true);
         
@@ -404,6 +406,10 @@ public class GameManager : MonoBehaviour
             score += scoreInc;
     }
 
+    public void UpdateUI()
+    {
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+    }
     public void PositionItem(OverlayInfo tile, GameObject item)
     {
         item.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);

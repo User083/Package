@@ -36,11 +36,12 @@ public class PathfindingCore
                     continue;
                 }
 
-                neighbourTile.gCost = GetManhattenDistance(start, neighbourTile);
+                //neighbourTile.gCost = GetManhattenDistance(start, neighbourTile);
+                neighbourTile.gCost = GetEuclideanDistance(start, neighbourTile);
                 neighbourTile.setStatus();
                 
-                neighbourTile.hCost = GetManhattenDistance(end, neighbourTile);
-
+                //neighbourTile.hCost = GetManhattenDistance(end, neighbourTile);
+                neighbourTile.hCost = GetEuclideanDistance(end, neighbourTile);
 
                 neighbourTile.parent = selectedTile;
 
@@ -60,6 +61,28 @@ public class PathfindingCore
     private int GetManhattenDistance(OverlayInfo start, OverlayInfo neighbour)
     {
         return Mathf.Abs(start.gridLocation.x - neighbour.gridLocation.x) + Mathf.Abs(start.gridLocation.y - neighbour.gridLocation.y);
+
+    }
+
+    private int GetEuclideanDistance(OverlayInfo start, OverlayInfo neighbour)
+    {
+        float difference = Mathf.Sqrt(Mathf.Abs(Magnitude(start.gridLocation2D - neighbour.gridLocation2D)));
+           
+        
+        return Mathf.RoundToInt(difference);
+    }
+
+    public float Magnitude(Vector2 a)
+    {
+        if (a.GetType() == typeof(Vector2))
+        {
+            return Mathf.Sqrt((a.x * a.x) + (a.y * a.y));
+        }
+        else
+        {
+            return 0;
+        }
+
     }
 
     private List<OverlayInfo> GetPath(OverlayInfo start, OverlayInfo end, List<OverlayInfo> inRangeTiles)
