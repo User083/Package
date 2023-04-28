@@ -20,9 +20,13 @@
             <ui:VisualElement style="height: 5%; flex-direction: row; justify-content: space-around; align-items: center; background-color: rgba(0, 0, 0, 0.57);">
                 <ui:Label tabindex="-1" text="Turn:" display-tooltip-when-elided="true" name="label-turn" style="font-size: 20px; color: rgb(255, 255, 255);" />
                 <ui:Label tabindex="-1" text="Score:" display-tooltip-when-elided="true" name="label-score" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                <ui:Label tabindex="-1" text="Lives:" display-tooltip-when-elided="true" name="label-lives" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                <ui:Label tabindex="-1" text="State:" display-tooltip-when-elided="true" name="label-state" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                <ui:Label tabindex="-1" text="Package:" display-tooltip-when-elided="true" name="label-package" style="font-size: 20px; color: rgb(255, 255, 255);" />
                 <ui:Button tabindex="-1" text="X" display-tooltip-when-elided="true" name="button-quit" style="background-color: rgb(159, 0, 0); color: rgb(255, 255, 255); border-left-color: rgb(14, 0, 0); border-right-color: rgb(14, 0, 0); border-top-color: rgb(14, 0, 0); border-bottom-color: rgb(14, 0, 0);" />
             </ui:VisualElement>
             <ui:VisualElement style="height: 90%;" />
+            <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="text" style="justify-content: center; -unity-text-align: upper-center; font-size: 22px; color: rgba(219, 0, 0, 255); -unity-font-style: bold;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

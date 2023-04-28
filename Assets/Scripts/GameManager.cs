@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
     public bool Debugging;
-    public UIManager UIManager;
     [SerializeField] private HUDManager HUDManager;
 
     [Header("Turn-Based Variables")]
@@ -29,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int survivedScore = 20;
     public int packageRecoveryScore = 20;
     public int enemiesToSpawn = 2;
+    public int potionsToSpawn = 3;
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
 
@@ -73,16 +73,13 @@ public class GameManager : MonoBehaviour
 
         SpawnCharacter(startTile);
 
-        ToggleDebug();
-
     }
 
     public void StartSimulation()
     {
-        ApplySettings();
-        
+        ApplySettings();        
         SpawnEnemies();
-        
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
@@ -90,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     private void ApplySettings()
     {
+        score = 0;
         maxTurnCount = HUDManager.turns.value;
         agentMaxHealth = HUDManager.agentHealth.value;
         playerChar.healthBar.maxValue = agentMaxHealth;
@@ -104,8 +102,8 @@ public class GameManager : MonoBehaviour
         turnCount = maxTurnCount;
         lifeCount = maxLifeCount;
         UpdateEnemyStats();
-        ToggleDebug();
         
+
     } 
 
     private void SpawnEnemies()
@@ -117,6 +115,11 @@ public class GameManager : MonoBehaviour
                 SpawnEnemy(GridManager.Instance.GetRandomSpawnTile());
             }
         }
+    }
+
+    private void SpawnPotions()
+    {
+
     }
 
     public void UpdateState()
@@ -133,14 +136,12 @@ public class GameManager : MonoBehaviour
                 EnemyTurn();
                 break;
             case TurnState.GameOver:
-                //Debug.Break();
                 break;
             default:
                 break;
         }
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), 
-                            enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString(),
-                            PackageState());
+        
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
     }
 
     private void PlayerTurn()
@@ -212,7 +213,7 @@ public class GameManager : MonoBehaviour
         turnCount--;
         turnState = TurnState.PlayerTurn;
         UpdateState();
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString());
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
     }
     public void EnemyTurn()
     {
@@ -260,12 +261,9 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame(string condition)
     {
-        Debug.Log("Game over! " + condition );
-        UIManager.UpdateUI(turnCount.ToString(), turnState.ToString(), playerChar.state.ToString(), 
-            enemy.state.ToString(), playerChar.currentHealth.ToString(), lifeCount.ToString(), PackageState());
-        UIManager.UpdateGameOver(condition);
+        HUDManager.UpdateGameOver(condition);
         turnState = TurnState.GameOver;
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString());
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
         UpdateState();
         HUDManager.restart.SetEnabled(true);
         
@@ -286,6 +284,7 @@ public class GameManager : MonoBehaviour
         GridManager.Instance.ResetAllOverlays();
         endTileReached= false;
         HUDManager.restart.SetEnabled(false);
+        HUDManager.UpdateGameOver("");
 
     }
 
@@ -378,18 +377,6 @@ public class GameManager : MonoBehaviour
         }
 
         return temp;
-    }
-
-    public void ToggleDebug()
-    {
-        if(Debugging)
-        {
-            UIManager.ToggleVisibility(true);
-        }
-        else
-        {
-            UIManager.ToggleVisibility(false);
-        }
     }
 
     public void UpdateScore(int scoreInc)

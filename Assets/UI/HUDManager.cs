@@ -9,6 +9,10 @@ public class HUDManager : MonoBehaviour
     private VisualElement root;
     private Label Score;
     private Label Turn;
+    private Label Lives;
+    private Label State;
+    private Label Package;
+    private Label GameOver;
     private Button Quit;
     public SliderInt enemySlider;
     public IntegerField agentHealth;
@@ -32,6 +36,10 @@ public class HUDManager : MonoBehaviour
     {
         Score = root.Q<Label>("label-score");
         Turn = root.Q<Label>("label-turn");
+        Lives = root.Q<Label>("label-lives");
+        GameOver = root.Q<Label>("label-gameover");
+        State = root.Q<Label>("label-state");
+        Package = root.Q<Label>("label-package");
         Quit = root.Q<Button>("button-quit");
         agentHealth = root.Q<IntegerField>("hud-integerfield-health");
         trapDamage = root.Q<IntegerField>("hud-integerfield-trap");
@@ -56,17 +64,18 @@ public class HUDManager : MonoBehaviour
         Quit.clickable.clicked += () => SceneManager.LoadScene("MainMenu");
     }
 
-    public void UpdateUI(string turn, string score)
+    public void UpdateUI(string turn, string score, string lives, string state, string package)
     {
         Turn.text = "Turn: " + turn + "/" + GameManager.Instance.maxTurnCount.ToString();
         Score.text = "Score: " + score;
+        Lives.text = "Lives: " + lives + "/" + GameManager.Instance.maxLifeCount.ToString(); 
+        State.text = "State: " + state;
+        Package.text = "Package: " + package;
     }
 
     public void StartSim()
     {
         GameManager.Instance.StartSimulation();
-        Turn.text = "Turn: " + GameManager.Instance.maxTurnCount.ToString() + "/" + GameManager.Instance.maxTurnCount.ToString();
-        Score.text = "Score: 0";
         ToggleEnabled(false);
     }
 
@@ -89,5 +98,10 @@ public class HUDManager : MonoBehaviour
     {
         ToggleEnabled(true);
         GameManager.Instance.ResetSim();
+    }
+
+    public void UpdateGameOver(string condition)
+    {
+        GameOver.text = condition;
     }
 }
