@@ -28,8 +28,6 @@ public class GridManager : MonoBehaviour
             instance = this;
         }
 
-        
-        
     }
     private void OnEnable()
     {
@@ -154,7 +152,7 @@ public class GridManager : MonoBehaviour
 
         foreach (OverlayInfo tile in overlays)
         {
-            if (!tile.isBlocked && !tile.noSpawn)
+            if (!tile.isBlocked && !tile.noSpawn && !tile.hasTrap)
             {
                 tempList.Add(tile);
             }
@@ -162,6 +160,29 @@ public class GridManager : MonoBehaviour
         int i = Random.Range(0, tempList.Count());
 
         return tempList.ElementAt(i);
+    }
+
+    public OverlayInfo GetRandomSpawnRangeTile(List<OverlayInfo> tiles)
+    {
+
+        List<OverlayInfo> tempList = new List<OverlayInfo>();
+
+        foreach (OverlayInfo tile in overlays)
+        {
+            if (!tile.isBlocked && !tile.noSpawn && !tiles.Contains(tile))
+            {
+                tempList.Add(tile);
+            }
+        }
+
+        if(tempList.Count > 0)
+        {
+            int i = Random.Range(0, tempList.Count());
+
+            return tempList.ElementAt(i);
+        }
+
+        return null;
     }
 
     public void ResetAllOverlays()

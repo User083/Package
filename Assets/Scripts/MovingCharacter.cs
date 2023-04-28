@@ -64,9 +64,15 @@ public class MovingCharacter : MonoBehaviour
 
     public void PositionCharacter(OverlayInfo tile)
     {
-        transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
-        GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
-        activeTile = tile;
+        var newTile = tile;
+        if(tile == null)
+        {
+            newTile = GridManager.Instance.GetRandomSpawnTile();
+            Debug.LogWarning("No position tile - random tile generated");
+        }
+        transform.position = new Vector3(newTile.transform.position.x, newTile.transform.position.y + 0.0001f, newTile.transform.position.z);
+        GetComponent<SpriteRenderer>().sortingOrder = newTile.GetComponent<SpriteRenderer>().sortingOrder;
+        activeTile = newTile;
 
         if (activeTile == GameManager.Instance.endTile && isPlayer)
         {

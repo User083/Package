@@ -4411,6 +4411,7 @@ MonoBehaviour:
   Debugging: 0
   HUDManager: {fileID: 1611420735}
   maxTurnCount: 8
+  turnCount: 0
   maxLifeCount: 3
   trapDamage: 30
   agentMaxHealth: 50
@@ -4423,6 +4424,7 @@ MonoBehaviour:
   packageRecoveryScore: 10
   enemiesToSpawn: 2
   potionsToSpawn: 3
+  trapDropChance: 5
   turnState: 0
   packagePrefab: {fileID: 7813442608483767924, guid: 43f4c60bfa4e4ea4498125043b5b4215, type: 3}
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
@@ -4436,7 +4438,7 @@ MonoBehaviour:
   startTile: {fileID: 0}
   endTile: {fileID: 0}
   packageTile: {fileID: 0}
-  deadPlayer: {fileID: 21300000, guid: 0c257eec3eb8876498c8a7da6d9d6aa0, type: 3}
+  deadPlayer: {fileID: 21300000, guid: 000952bcf22f0414a8e68a30d9b6c934, type: 3}
   livingPlayer: {fileID: 21300000, guid: f651d5ba7737ccd48a8b34b3ecada7df, type: 3}
   endTileReached: 0
 --- !u!4 &373969320
@@ -4588,73 +4590,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: df6690ff82f235e4598c4a523325a05e, type: 3}
---- !u!1 &801533600
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 801533603}
-  - component: {fileID: 801533602}
-  - component: {fileID: 801533601}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &801533601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801533600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &801533602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801533600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &801533603
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 801533600}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1317327451 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -1440936923998005691, guid: df6690ff82f235e4598c4a523325a05e, type: 3}
@@ -9146,5 +9081,5 @@ Transform:
   m_Children:
   - {fileID: 1611420733}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

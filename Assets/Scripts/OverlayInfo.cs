@@ -168,7 +168,7 @@ public class OverlayInfo : MonoBehaviour
         {
             if(hasHealth)
             {
-                GameManager.Instance.HealPlayer(healAmount);                
+                GameManager.Instance.HealPlayer(GameManager.Instance.potionHeal);                
                 Destroy(tileObject);
                 hasHealth = false;
             }
@@ -198,6 +198,13 @@ public class OverlayInfo : MonoBehaviour
                 GameManager.Instance.packageTile = null;
             }
         }
+    }
+
+    public void DestroyObject()
+    {
+        hasPackage = false;
+        Destroy(tileObject);
+        GameManager.Instance.packageTile = null;
     }
 
 }

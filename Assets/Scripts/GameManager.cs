@@ -70,11 +70,13 @@ public class GameManager : MonoBehaviour
         lifeCount = maxLifeCount;
     }
 
+    List<OverlayInfo> emptyList = new List<OverlayInfo>();
 
     private void Start()
     {
 
         SpawnCharacter(startTile);
+        
 
     }
 
@@ -114,14 +116,25 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        if(enemiesToSpawn > 0)
+        if(enemiesToSpawn > 0)     
         {
+            List<OverlayInfo> tempList = new List<OverlayInfo>();
+
             for (int i = 0; i < enemiesToSpawn; i++)
             {
                 enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
                 enemyList.Add(enemy);
-                enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnTile());
+                if (tempList.Count > 0)
+                {
+                    enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnRangeTile(tempList));
+
+                }
+                else
+                {
+                    enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnTile());
+                }   
                 enemy.CalculateRange();
+                tempList = GridManager.Instance.GetNeighbourTiles(enemy.activeTile, enemy.inRangeTiles);
             }
         }
     }
@@ -130,11 +143,20 @@ public class GameManager : MonoBehaviour
     {
         if (potionsToSpawn > 0)
         {
+            OverlayInfo tempTile = null;
             for (int i = 0; i < potionsToSpawn; i++)
             {
                 var potion = Instantiate(PotionPrefab);
                 potionList.Add(potion);
-                PositionItem(GridManager.Instance.GetRandomSpawnTile(), potion);
+                if (tempTile != null)
+                {
+                    PositionItem(GridManager.Instance.GetRandomSpawnRangeTile(GridManager.Instance.GetNeighbourTiles(tempTile, emptyList)), potion);
+                }
+                else
+                {
+                    PositionItem(GridManager.Instance.GetRandomSpawnTile(), potion);
+                }
+                
             }
         }
     }
@@ -312,6 +334,13 @@ public class GameManager : MonoBehaviour
             dropTrapList.Clear();
         }
 
+        if(packageTile != null)
+        {
+            packageTile.DestroyObject();
+        }
+
+        playerChar.hasPackage = true;
+
         GridManager.Instance.ResetAllOverlays();
         endTileReached= false;
         HUDManager.restart.SetEnabled(false);
@@ -356,14 +385,8 @@ public class GameManager : MonoBehaviour
 
     public void HealPlayer(int healAmount)
     {
-        playerChar.currentHealth += healAmount;
+        playerChar.currentHealth += Mathf.Clamp(healAmount, 0, agentMaxHealth); ;
         playerChar.healthBar.value = playerChar.currentHealth;
-        Debug.Log("Current Health: " + playerChar.currentHealth);
-        if (playerChar.currentHealth < agentMaxHealth)
-        {
-            playerChar.currentHealth = agentMaxHealth;
-            playerChar.healthBar.value = playerChar.currentHealth;
-        }
     }
     public void ResetPlayer()
     {
