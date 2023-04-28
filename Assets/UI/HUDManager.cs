@@ -19,6 +19,7 @@ public class HUDManager : MonoBehaviour
     public IntegerField trapDamage;
     public IntegerField healing;
     public SliderInt agentRange;
+    public SliderInt potions;
     public SliderInt enemiesRange;
     private Button start;
     public IntegerField turns;
@@ -50,6 +51,7 @@ public class HUDManager : MonoBehaviour
         agentRange = root.Q<SliderInt>("hud-sliderint-range");
         enemySlider = root.Q<SliderInt>("hud-sliderint-enemies");
         enemiesRange = root.Q<SliderInt>("hud-sliderint-enemiesrange");
+        potions = root.Q<SliderInt>("hud-sliderint-potionno");
         start = root.Q<Button>("hud-button-start");
         restart = root.Q<Button>("hud-button-restart");
         debug = root.Q<Toggle>("hud-toggle-debug");

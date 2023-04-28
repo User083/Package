@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     [Header("Game References")]
     public BaseEnemy enemy;
     public List<BaseEnemy> enemyList = new List<BaseEnemy>();
+    public List<GameObject> potionList = new List<GameObject>();
+    public List<GameObject> dropTrapList = new List<GameObject>();
     public AI_Player playerChar;
     public OverlayInfo startTile;
     public OverlayInfo endTile;
@@ -79,6 +81,7 @@ public class GameManager : MonoBehaviour
     {
         ApplySettings();        
         SpawnEnemies();
+        SpawnPotions();
         HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
         Delay(2f);
         turnState = TurnState.PlayerTurn;
@@ -101,6 +104,7 @@ public class GameManager : MonoBehaviour
         enemiesToSpawn= HUDManager.enemySlider.value;
         turnCount = maxTurnCount;
         lifeCount = maxLifeCount;
+        potionsToSpawn = HUDManager.potions.value;
         UpdateEnemyStats();
         
 
@@ -112,15 +116,27 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < enemiesToSpawn; i++)
             {
-                SpawnEnemy(GridManager.Instance.GetRandomSpawnTile());
+                enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
+                enemyList.Add(enemy);
+                enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnTile());
+                enemy.CalculateRange();
             }
         }
     }
 
     private void SpawnPotions()
     {
-
+        if (potionsToSpawn > 0)
+        {
+            for (int i = 0; i < potionsToSpawn; i++)
+            {
+                var potion = Instantiate(PotionPrefab);
+                potionList.Add(potion);
+                PositionItem(GridManager.Instance.GetRandomSpawnTile(), potion);
+            }
+        }
     }
+
 
     public void UpdateState()
     {
@@ -252,13 +268,7 @@ public class GameManager : MonoBehaviour
         playerChar.CalculateRange();
     }
 
-    public void SpawnEnemy(OverlayInfo start)
-    {
-        enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
-        enemyList.Add(enemy);
-        enemy.PositionCharacter(start);
-        enemy.CalculateRange();
-    }
+
     public void EndGame(string condition)
     {
         HUDManager.UpdateGameOver(condition);
@@ -279,8 +289,18 @@ public class GameManager : MonoBehaviour
                 Destroy(enemy.gameObject);
 
             }
+            enemyList.Clear();
         }
-        enemyList.Clear();
+
+        if(potionList.Count > 0)
+        {
+            foreach(var potion in potionList)
+            {
+                Destroy(potion);
+            }
+            potionList.Clear();
+        }
+        
         GridManager.Instance.ResetAllOverlays();
         endTileReached= false;
         HUDManager.restart.SetEnabled(false);
@@ -381,8 +401,13 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int scoreInc)
     {
-  
             score += scoreInc;
+    }
+
+    public void PositionItem(OverlayInfo tile, GameObject item)
+    {
+        item.transform.position = new Vector3(tile.transform.position.x, tile.transform.position.y + 0.0001f, tile.transform.position.z);
+        item.GetComponent<SpriteRenderer>().sortingOrder = tile.GetComponent<SpriteRenderer>().sortingOrder;
 
     }
 }

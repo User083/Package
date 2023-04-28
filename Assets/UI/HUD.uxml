@@ -11,6 +11,7 @@
             <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
             <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="10" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:IntegerField label="Enemy Damage:" value="30" name="hud-integerfield-enemydp" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="No. Potions: " value="3" high-value="6" name="hud-sliderint-potionno" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
             <ui:IntegerField label="Trap Damage:" value="20" name="hud-integerfield-trap" class="text" />
             <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="hud-button-start" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; width: auto; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 88, 49); border-right-color: rgb(132, 88, 49); border-top-color: rgb(132, 88, 49); border-bottom-color: rgb(132, 88, 49);" />
@@ -26,7 +27,7 @@
                 <ui:Button tabindex="-1" text="X" display-tooltip-when-elided="true" name="button-quit" style="background-color: rgb(159, 0, 0); color: rgb(255, 255, 255); border-left-color: rgb(14, 0, 0); border-right-color: rgb(14, 0, 0); border-top-color: rgb(14, 0, 0); border-bottom-color: rgb(14, 0, 0);" />
             </ui:VisualElement>
             <ui:VisualElement style="height: 90%;" />
-            <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="text" style="justify-content: center; -unity-text-align: upper-center; font-size: 22px; color: rgba(219, 0, 0, 255); -unity-font-style: bold;" />
+            <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="text" style="justify-content: center; -unity-text-align: upper-center; font-size: 22px; color: rgb(219, 0, 0); -unity-font-style: bold;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
