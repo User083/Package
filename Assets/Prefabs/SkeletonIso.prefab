@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4753837478718451253}
   - component: {fileID: 654849130814084724}
   - component: {fileID: 946637431329375163}
+  - component: {fileID: 7559412848102701543}
   m_Layer: 0
   m_Name: SkeletonIso
   m_TagString: Enemy
@@ -130,6 +131,8 @@ MonoBehaviour:
   awareOfPlayer: 0
   moveComplete: 0
   hasPackage: 0
+  trapPrefab: {fileID: 2835501200844816397, guid: c4f4f8b72537e6540834d392e078b4f9, type: 3}
+  packagePrefab: {fileID: 7813442608483767924, guid: 43f4c60bfa4e4ea4498125043b5b4215, type: 3}
   state: 0
 --- !u!50 &946637431329375163
 Rigidbody2D:
@@ -152,3 +155,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7559412848102701543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4753837478718451258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0dfafb31ddcb99459fb2e4be356e598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  range: 3
+  prefab: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  isPlayer: 0
+  playerTurn: 0
+  path: []
+  inRangeTiles: []
+  activeTile: {fileID: 0}
+  isAttacking: 0
+  enemyScript: {fileID: 0}
+  attackDamage: 0
+  awareOfPlayer: 0
+  moveComplete: 0
+  hasPackage: 0
+  trapPrefab: {fileID: 0}
+  packagePrefab: {fileID: 0}
+  state: 0

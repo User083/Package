@@ -406,6 +406,7 @@ public class GameManager : MonoBehaviour
         playerChar.currentHealth = 0;
         playerChar.healthBar.value = playerChar.currentHealth;
         playerChar.isDead = true;
+        playerChar.activeTile.isBlocked = false;
         playerChar.spriteRenderer.sprite = deadPlayer;  
         if(playerChar.hasPackage)
         {

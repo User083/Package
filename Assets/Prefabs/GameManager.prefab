@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5913703642227206376
 MonoBehaviour:
@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Debugging: 0
-  UIManager: {fileID: 0}
   HUDManager: {fileID: 0}
   maxTurnCount: 8
-  lifeCount: 3
+  turnCount: 0
+  maxLifeCount: 3
   trapDamage: 30
   agentMaxHealth: 50
   enemyDamage: 30
@@ -58,6 +58,9 @@ MonoBehaviour:
   deliveredScore: 50
   survivedScore: 20
   packageRecoveryScore: 10
+  enemiesToSpawn: 2
+  potionsToSpawn: 3
+  trapDropChance: 5
   turnState: 0
   packagePrefab: {fileID: 7813442608483767924, guid: 43f4c60bfa4e4ea4498125043b5b4215, type: 3}
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
@@ -65,10 +68,12 @@ MonoBehaviour:
   PotionPrefab: {fileID: 659814523168528720, guid: c309fe19c5013644ab10663b40245c95, type: 3}
   enemy: {fileID: 0}
   enemyList: []
+  potionList: []
+  dropTrapList: []
   playerChar: {fileID: 0}
   startTile: {fileID: 0}
   endTile: {fileID: 0}
   packageTile: {fileID: 0}
-  deadPlayer: {fileID: 21300000, guid: 0c257eec3eb8876498c8a7da6d9d6aa0, type: 3}
+  deadPlayer: {fileID: 21300000, guid: 000952bcf22f0414a8e68a30d9b6c934, type: 3}
   livingPlayer: {fileID: 21300000, guid: f651d5ba7737ccd48a8b34b3ecada7df, type: 3}
   endTileReached: 0
