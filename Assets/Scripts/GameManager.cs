@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } }
     public bool Debugging;
     [SerializeField] private HUDManager HUDManager;
+    public GridManager gridManager;
 
     [Header("Turn-Based Variables")]
     public int maxTurnCount = 7;
@@ -70,6 +71,11 @@ public class GameManager : MonoBehaviour
         lifeCount = maxLifeCount;
     }
 
+    private void OnEnable()
+    {
+        gridManager.GenerateGrid();
+    }
+
     List<OverlayInfo> emptyList = new List<OverlayInfo>();
 
     private void Start()
@@ -110,7 +116,6 @@ public class GameManager : MonoBehaviour
         potionsToSpawn = HUDManager.potions.value;
         trapDropChance = HUDManager.dropChance.value;
         UpdateEnemyStats();
-        
 
     } 
 
@@ -126,15 +131,15 @@ public class GameManager : MonoBehaviour
                 enemyList.Add(enemy);
                 if (tempList.Count > 0)
                 {
-                    enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnRangeTile(tempList));
+                    enemy.PositionCharacter(gridManager.GetRandomSpawnRangeTile(tempList));
 
                 }
                 else
                 {
-                    enemy.PositionCharacter(GridManager.Instance.GetRandomSpawnTile());
+                    enemy.PositionCharacter(gridManager.GetRandomSpawnTile());
                 }   
                 enemy.CalculateRange();
-                tempList = GridManager.Instance.GetNeighbourTiles(enemy.activeTile, enemy.inRangeTiles);
+                tempList = gridManager.GetNeighbourTiles(enemy.activeTile, enemy.inRangeTiles);
             }
         }
     }
@@ -150,11 +155,11 @@ public class GameManager : MonoBehaviour
                 potionList.Add(potion);
                 if (tempTile != null)
                 {
-                    PositionItem(GridManager.Instance.GetRandomSpawnRangeTile(GridManager.Instance.GetNeighbourTiles(tempTile, emptyList)), potion);
+                    PositionItem(gridManager.GetRandomSpawnRangeTile(gridManager.GetNeighbourTiles(tempTile, emptyList)), potion);
                 }
                 else
                 {
-                    PositionItem(GridManager.Instance.GetRandomSpawnTile(), potion);
+                    PositionItem(gridManager.GetRandomSpawnTile(), potion);
                 }
                 
             }
@@ -182,17 +187,6 @@ public class GameManager : MonoBehaviour
         }
 
         UpdateUI();
-    }
-
-    private void PlayerTurn()
-    {
-        playerChar.state = AI_Player.State.Evaluate;
-        playerChar.UpdateState();
-        if(playerChar.hasPackage)
-        {
-            UpdateScore(5);
-        }
-  
     }
 
     public void ProcessTurns()
@@ -255,6 +249,18 @@ public class GameManager : MonoBehaviour
         UpdateState();
         UpdateUI();
     }
+
+    private void PlayerTurn()
+    {
+        playerChar.state = AI_Player.State.Evaluate;
+        playerChar.activeTile.isBlocked = false;
+        playerChar.UpdateState();
+        if (playerChar.hasPackage)
+        {
+            UpdateScore(5);
+        }
+
+    }
     public void EnemyTurn()
     {
         if(enemyList.Count > 0)
@@ -262,11 +268,15 @@ public class GameManager : MonoBehaviour
             foreach(var enemy in enemyList)
             {
                 enemy.state = BaseEnemy.State.Evaluate;
+                enemy.activeTile.isBlocked = false;
                 enemy.UpdateState();
+                
             }
         }
         else
         {
+            turnState = TurnState.Processing;
+            UpdateState();
             Debug.Log("No Enemies left");
         }
     
@@ -340,8 +350,7 @@ public class GameManager : MonoBehaviour
         }
 
         playerChar.hasPackage = true;
-
-        GridManager.Instance.ResetAllOverlays();
+        gridManager.ResetAllOverlays();
         endTileReached= false;
         HUDManager.restart.SetEnabled(false);
         HUDManager.UpdateGameOver("");

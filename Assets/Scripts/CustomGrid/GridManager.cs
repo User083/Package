@@ -6,10 +6,6 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour
 {
-    private static GridManager instance;
-
-    public static GridManager Instance { get { return instance; } }
-
     public OverlayInfo overlayTileInfo;
     public GameObject overlayContainer;
     private BoundsInt bounds;
@@ -17,23 +13,6 @@ public class GridManager : MonoBehaviour
     public Dictionary<Vector2Int, OverlayInfo> map;
     public Dictionary<OverlayInfo, TileBase> tileTypes;
     private List<OverlayInfo> overlays;
-    private void Awake()
-    {
-        if(instance != null && instance !=this)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
-
-    }
-    private void OnEnable()
-    {
-        GenerateGrid();
-    }
-
 
     public void GenerateGrid()
     {
@@ -139,10 +118,20 @@ public class GridManager : MonoBehaviour
                 tempList.Add(tile);
             }
         }
-        int i = Random.Range(0, tempList.Count());
+        if (tempList.Count() > 0)
+        {
+            int i = Random.Range(0, tempList.Count() - 1);
 
-        return tempList.ElementAt(i);
+            return tempList.ElementAt(i);
+        }
+        else
+        {
+            Debug.LogWarning("No random tile available");
+            return null;
+        }
     }
+
+
 
 
     public OverlayInfo GetRandomSpawnTile()
@@ -190,6 +179,11 @@ public class GridManager : MonoBehaviour
         foreach(var overlay in overlays)
         {
             overlay.HideTile();
+            if(overlay.hasEnemy)
+            {
+                overlay.isBlocked= false;
+                overlay.hasEnemy=false;
+            }
         }
     }
 

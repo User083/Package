@@ -4410,6 +4410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Debugging: 0
   HUDManager: {fileID: 1611420735}
+  gridManager: {fileID: 577132672}
   maxTurnCount: 8
   turnCount: 0
   maxLifeCount: 3

@@ -87,55 +87,46 @@ public class BaseEnemy : MovingCharacter
         {
             //Chase or attack player
             Debug.Log("Enemy spotted player");
-            OverlayInfo attackTile = GetRandomTile(GridManager.Instance.GetNeighbourTiles(player.activeTile, inRangeTiles));
+            OverlayInfo attackTile = GetRandomTileInRange(GameManager.Instance.gridManager.GetNeighbourTiles(player.activeTile, inRangeTiles));
             if(attackTile != null)
             {
                 state = State.Pursue;
                 FindPath(attackTile);
                 speed = 4;
-                range = 2;
-                GameManager.Instance.Delay(1f);
                 UpdateState();
             }
             else
             {
                 //Wander to random in range tile
-                OverlayInfo randomTile = GetRandomTile(inRangeTiles);
+                OverlayInfo randomTile = GetRandomTileInRange(inRangeTiles);
                 if(randomTile != null)
                 {
                     FindPath(randomTile);
                     state = State.Wander;
                     speed = 2;
-                    range = 4;
-                    GameManager.Instance.Delay(1f);
                     UpdateState();
                 }
                 else
                 {
                     state = State.EndTurn;
-                    GameManager.Instance.Delay(1f);
                     UpdateState();
                 }
                 
-            }
-            
+            }          
         }
         else
         {
-            OverlayInfo randomTile = GetRandomTile(inRangeTiles);
+            OverlayInfo randomTile = GetRandomTileInRange(inRangeTiles);
             if (randomTile != null)
             {
                 FindPath(randomTile);
                 state = State.Wander;
                 speed = 2;
-                range = 4;
-                GameManager.Instance.Delay(1f);
                 UpdateState();
             }
             else
             {
                 state = State.EndTurn;
-                GameManager.Instance.Delay(1f);
                 UpdateState();
             }
             DropTrap();
@@ -213,29 +204,6 @@ public class BaseEnemy : MovingCharacter
   
     }
 
-    private OverlayInfo GetRandomTile(List<OverlayInfo> list)
-    {
-        List<OverlayInfo> tempList = new List<OverlayInfo>();
-
-        foreach (OverlayInfo tile in list)
-        {
-            if (!tile.isBlocked)
-            {
-                tempList.Add(tile);
-            }
-        }
-        if (tempList.Count() > 0)
-        {
-            int i = Random.Range(0, tempList.Count() - 1);
-
-            return tempList.ElementAt(i);
-        }
-        else
-        {
-            Debug.LogWarning("No random tile available");
-            return null; 
-        }
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -250,7 +218,7 @@ public class BaseEnemy : MovingCharacter
         int chance = Random.Range(0, 100);
         if(chance <= GameManager.Instance.trapDropChance)
         {
-            var tile = GetRandomTile(inRangeTiles);
+            var tile = GetRandomTileInRange(inRangeTiles);
             if(tile != null)
             {
                 var trap = Instantiate(trapPrefab);
@@ -266,7 +234,7 @@ public class BaseEnemy : MovingCharacter
     {
         if(hasPackage)
         {
-            var tile = GetRandomTile(inRangeTiles);
+            var tile = GetRandomTileInRange(inRangeTiles);
             if (tile != null)
             {
                 var package = Instantiate(packagePrefab);

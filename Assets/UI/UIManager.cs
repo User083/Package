@@ -24,28 +24,19 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        root = DebugDoc.rootVisualElement;
-
-        
+        root = DebugDoc.rootVisualElement;   
         agentStateInfo = root.Q<Label>("label-playerstate");
         enemyStateInfo = root.Q<Label>("label-enemystate");
         PackageInfo = root.Q<Label>("label-package");
         gameOverInfo = root.Q<Label>("label-gameover");
 
-
-
     }
-
 
     public void UpdateUI(string playerState, string enemyState, string hasPackage)
     {
-        
-
         agentStateInfo.text = "Agent State: " + playerState;
         enemyStateInfo.text = "Enemy State: " + enemyState;
-
         PackageInfo.text = "Package State: " + hasPackage;
-
     }
 
     public void UpdateGameOver(string gameOver)

@@ -21,7 +21,7 @@ public List<OverlayInfo> GetTilesInRange(OverlayInfo startTile, int range)
 
             foreach(var item in tileForPreviousStep)
             {
-                surroundingTiles.AddRange(GridManager.Instance.GetNeighbourTiles(item, new List<OverlayInfo>()));
+                surroundingTiles.AddRange(GameManager.Instance.gridManager.GetNeighbourTiles(item, new List<OverlayInfo>()));
             }
 
             inRangeTiles.AddRange(surroundingTiles);

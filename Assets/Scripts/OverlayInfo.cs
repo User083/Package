@@ -191,6 +191,7 @@ public class OverlayInfo : MonoBehaviour
 
         if(collision.gameObject.tag == "Enemy")
         {
+           
             if(hasPackage)
             {
                 Destroy(tileObject);

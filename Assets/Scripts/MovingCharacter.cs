@@ -67,7 +67,7 @@ public class MovingCharacter : MonoBehaviour
         var newTile = tile;
         if(tile == null)
         {
-            newTile = GridManager.Instance.GetRandomSpawnTile();
+            newTile = GameManager.Instance.gridManager.GetRandomSpawnTile();
             Debug.LogWarning("No position tile - random tile generated");
         }
         transform.position = new Vector3(newTile.transform.position.x, newTile.transform.position.y + 0.0001f, newTile.transform.position.z);
@@ -99,5 +99,29 @@ public class MovingCharacter : MonoBehaviour
             activeTile.hasEnemy = state;
         }
         
+    }
+
+    protected OverlayInfo GetRandomTileInRange(List<OverlayInfo> list)
+    {
+        List<OverlayInfo> tempList = new List<OverlayInfo>();
+
+        foreach (OverlayInfo tile in list)
+        {
+            if (!tile.isBlocked)
+            {
+                tempList.Add(tile);
+            }
+        }
+        if (tempList.Count() > 0)
+        {
+            int i = Random.Range(0, tempList.Count() - 1);
+
+            return tempList.ElementAt(i);
+        }
+        else
+        {
+            Debug.LogWarning("No random tile available");
+            return null;
+        }
     }
 }

@@ -27,7 +27,7 @@ public class PathfindingCore
                 
             }
 
-            var neighbourTiles = GridManager.Instance.GetNeighbourTiles(selectedTile, inRangeTiles);
+            var neighbourTiles = GameManager.Instance.gridManager.GetNeighbourTiles(selectedTile, inRangeTiles);
 
             foreach (var neighbourTile in neighbourTiles)
             {
