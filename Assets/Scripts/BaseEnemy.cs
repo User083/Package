@@ -26,7 +26,7 @@ public class BaseEnemy : MovingCharacter
     private void Start()
     {
         player = GameManager.Instance.playerChar;
-        attackDamage = GameManager.Instance.enemyDamage;
+        
     }
 
     private void LateUpdate()
@@ -211,6 +211,7 @@ public class BaseEnemy : MovingCharacter
         {
             hasPackage= true;
         }
+
     }
 
     private void DropTrap()

@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         lifeCount = maxLifeCount;
         potionsToSpawn = HUDManager.potions.value;
         trapDropChance = HUDManager.dropChance.value;
-        UpdateEnemyStats();
+        
 
     } 
 
@@ -128,6 +128,8 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < enemiesToSpawn; i++)
             {
                 enemy = Instantiate(EnemyPrefab).GetComponent<BaseEnemy>();
+                enemy.range = HUDManager.enemiesRange.value;
+                enemy.attackDamage = HUDManager.enemyDamage.value;
                 enemyList.Add(enemy);
                 if (tempList.Count > 0)
                 {
@@ -288,8 +290,7 @@ public class GameManager : MonoBehaviour
         {
             foreach (var enemy in enemyList)
             {
-                enemy.range = HUDManager.enemiesRange.value;
-                enemy.attackDamage = HUDManager.enemyDamage.value;
+                
 
             }
         }

@@ -7,7 +7,7 @@ public class MovingCharacter : MonoBehaviour
 {
     [Header("Generic Traits")]
     public float speed = 4f;
-    public int range = 3;
+    public int range;
     public GameObject prefab;
     public SpriteRenderer spriteRenderer;
     public bool isPlayer = false;

@@ -6,10 +6,10 @@
             <ui:Toggle label="Debug Info:" name="hud-toggle-debug" value="true" class="text" />
             <ui:IntegerField label="Max Turns:" value="12" name="hud-integerfield-turns" class="text" />
             <ui:IntegerField label="Agent Lives:" value="3" name="hud-integerfield-lives" class="text" />
-            <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="4" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="4" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" low-value="2" class="text" />
             <ui:IntegerField label="Agent Health:" value="100" name="hud-integerfield-health" class="text" />
-            <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" class="text" />
-            <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="7" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
+            <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" low-value="1" class="text" />
+            <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="7" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" low-value="1" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:IntegerField label="Enemy Damage:" value="30" name="hud-integerfield-enemydp" class="text" />
             <ui:SliderInt picking-mode="Ignore" label="Trap Drop Chance:" value="2" high-value="100" name="hud-sliderint-drop" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
             <ui:SliderInt picking-mode="Ignore" label="No. Potions: " value="3" high-value="6" name="hud-sliderint-potionno" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />

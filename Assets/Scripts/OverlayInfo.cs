@@ -190,13 +190,13 @@ public class OverlayInfo : MonoBehaviour
         }
 
         if(collision.gameObject.tag == "Enemy")
-        {
-           
+        {           
             if(hasPackage)
             {
                 Destroy(tileObject);
                 hasPackage = false;
                 GameManager.Instance.packageTile = null;
+                collision.gameObject.GetComponent<BaseEnemy>().hasPackage= true;
             }
         }
     }
