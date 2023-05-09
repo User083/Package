@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     public int enemiesToSpawn = 2;
     public int potionsToSpawn = 3;
     public int trapDropChance = 5;
+    public float healthPercentage= 0.3f;
+    public float turnPercentage = 0.3f;
     public enum TurnState { Processing, PlayerTurn, EnemyTurn, GameOver }
     public TurnState turnState;
 
@@ -463,6 +465,7 @@ public class GameManager : MonoBehaviour
 
     public float GetTurnPercent()
     {
-        return turnCount / maxTurnCount * 100;
+        var turnPercent = (float)turnCount/(float)maxTurnCount;
+        return turnPercent;
     }
 }

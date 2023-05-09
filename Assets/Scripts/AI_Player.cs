@@ -11,9 +11,9 @@ public class AI_Player : MovingCharacter
     public bool isDead;
     public bool hasPackage;
     public Slider healthBar;
+    private List<BaseEnemy> inRangeEnemies;
     
-    
-    public enum State {Wait, Evaluate, Seek, Flee, Combat, EndTurn }
+    public enum State {Idle, Evaluate, Seek, Evade, Retrieve, Heal}
     public State state;
 
 
@@ -23,7 +23,7 @@ public class AI_Player : MovingCharacter
        playerChar = this;
         isPlayer = true;
         currentHealth = GameManager.Instance.agentMaxHealth;
-        state = State.Wait;
+        inRangeEnemies= new List<BaseEnemy>();
         hasPackage = true;
     }
 
@@ -32,7 +32,7 @@ public class AI_Player : MovingCharacter
     {
         if(GameManager.Instance.turnState == GameManager.TurnState.PlayerTurn)
         {
-            if(state == State.Seek)
+            if(pathToEnd.Count() > 0)
             {
                 MovePlayerTo();
             }
@@ -44,19 +44,23 @@ public class AI_Player : MovingCharacter
     {
         switch (state)
         {
-            case State.Wait:
+            case State.Idle:
+                pathToEnd.Clear();
                 break;
             case State.Evaluate:
                 Evaluate();
                 break;
             case State.Seek:
+                FindEnd(GameManager.Instance.endTile);
                 break;
-            case State.Flee:
+            case State.Evade:
+                Evade();
                 break;
-            case State.Combat:
+            case State.Retrieve:
+                FindEnd(GameManager.Instance.packageTile);
                 break;
-            case State.EndTurn:
-                EndMyTurn();
+            case State.Heal:
+                FindEnd(FindHealth());
                 break;
             default:
                 break;
@@ -83,10 +87,10 @@ public class AI_Player : MovingCharacter
         }
         if (pathToEnd.Count() <= 0)
         {
-            state = State.EndTurn;
-            UpdateState();
+            EndMyTurn();
             CalculateRange();
         }
+        
     }
 
     //Find and calculate best path to the goal for the current turn
@@ -113,8 +117,9 @@ public class AI_Player : MovingCharacter
         List<OverlayInfo> enemyList = new List<OverlayInfo>();
         foreach(var tile in inRangeTiles)
         {
-            if(tile.hasEnemy)
+            if(tile.activeEnemy != null)
             {
+                inRangeEnemies.Add(tile.activeEnemy);
                 enemyList.Add(tile);
             }
         }
@@ -125,44 +130,53 @@ public class AI_Player : MovingCharacter
         //Evaluate appropriate move
     public void Evaluate()
     {
+        inRangeEnemies.Clear();
         var enemyCount = NearbyEnemies().Count();
-        
 
-        //if(enemyCount > 0)
-        //{
-        //    Debug.Log("Nearby enemies: " + enemyCount);
-        //    FindEnd(GameManager.Instance.endTile);
-        //    GameManager.Instance.Delay(1f);
-        //    CheckPath();
-        //}
-        if(!hasPackage && FindPackage(GameManager.Instance.packageTile))
+        if (inRangeTiles.Contains(GameManager.Instance.endTile))
         {
-                FindEnd(GameManager.Instance.packageTile);
-                CheckPath();
+            if (canRetrieve())
+            {
+                state = State.Retrieve;
+            }
+            else
+            {
+                state = State.Seek;
+              
+            }
+            
         }
-        else if (GetHealthPercentage() <= 50f && FindHealth() != null && !inRangeTiles.Contains(GameManager.Instance.endTile) && GameManager.Instance.GetTurnPercent() >= 50f)
+        else if (!inRangeTiles.Contains(GameManager.Instance.endTile))
         {
-            FindEnd(FindHealth());
-            CheckPath();
+            if(canRetrieve())
+            {
+                state = State.Retrieve;
+                
+            }
+            else if(canHeal())
+            {
+                state = State.Heal;
+               
+            }
+            else if(enemyCount > 0)
+            {
+                state = State.Evade;     
+            }
+            else
+            {
+                state = State.Seek;
+
+            }
+            
         }
-        else if(GetHealthPercentage() <= 30f && FindHealth() != null && !inRangeTiles.Contains(GameManager.Instance.endTile))
-        {
-                FindEnd(FindHealth());
-                CheckPath();      
-        }
-        else
-        {
-            FindEnd(GameManager.Instance.endTile);
-            GameManager.Instance.Delay(1f);
-            CheckPath();
-        }
+        UpdateState();
     }
 
 
         //End turn
     public void EndMyTurn()
     {
-        state = State.Wait;
+        state = State.Idle;
         GameManager.Instance.turnState = GameManager.TurnState.EnemyTurn;
         UpdateState();
         GameManager.Instance.UpdateState();
@@ -193,22 +207,49 @@ public class AI_Player : MovingCharacter
 
     public float GetHealthPercentage()
     {
-        return Mathf.RoundToInt(currentHealth / GameManager.Instance.agentMaxHealth * 100);
+        return (float)currentHealth / (float)GameManager.Instance.agentMaxHealth;
     }
 
-    public void CheckPath()
+
+    private bool canHeal()
     {
-        if (pathToEnd.Count() > 0)
+        if (GetHealthPercentage() <= GameManager.Instance.healthPercentage && FindHealth() != null && GameManager.Instance.GetTurnPercent() >= GameManager.Instance.turnPercentage)
         {
-            state = State.Seek;
-            UpdateState();
+            return true;
         }
-        else
-        {
-            state = State.EndTurn;
-            UpdateState();
-        }
+
+        return false;
     }
 
+    private bool canRetrieve()
+    {
 
+        if (!hasPackage && inRangeTiles.Contains(GameManager.Instance.packageTile) && GameManager.Instance.GetTurnPercent() >= GameManager.Instance.turnPercentage)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void Evade()
+    {
+        FindEnd(GameManager.Instance.endTile);
+
+        foreach (var enemy in inRangeEnemies)
+        {
+            for (var i = 0; i < enemy.inRangeTiles.Count; i++)
+            {
+                if (pathToEnd.Contains(enemy.inRangeTiles[i]))
+                {
+                    pathToEnd.Remove(enemy.inRangeTiles[i]);
+                    enemy.inRangeTiles[i].ShowEvasionTile();
+                }
+            }
+        }
+
+        if(pathToEnd.Count < 1)
+        {
+            FindEnd(GameManager.Instance.endTile);
+        }
+    }
 }

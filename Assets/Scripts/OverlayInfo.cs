@@ -25,6 +25,7 @@ public class OverlayInfo : MonoBehaviour
     public bool noSpawn;
     private GameObject tileObject = null;
     public TextMeshProUGUI gCostLabel;
+    public BaseEnemy activeEnemy;
 
     
 
@@ -72,6 +73,12 @@ public class OverlayInfo : MonoBehaviour
   
     }
 
+    public void ShowEvasionTile()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(225, 225, 0, 0.5f);
+        gCostLabel.color = new Color(0, 0, 0, 1);
+        gCostLabel.text = "X";
+    }
     public void ShowEnemyTile()
     {
         if (GameManager.Instance.Debugging)

@@ -98,6 +98,10 @@ public class MovingCharacter : MonoBehaviour
             activeTile.isBlocked = state;
             activeTile.hasEnemy = state;
         }
+        if (!state)
+        {
+            activeTile.activeEnemy = null;
+        }
         
     }
 

@@ -13,13 +13,13 @@ public class BaseEnemy : MovingCharacter
     public bool hasPackage;
     public GameObject trapPrefab;
     public GameObject packagePrefab;
-    public enum State { Wait, Evaluate, Wander, Pursue, Attack, EndTurn }
+    public enum State { Idle, Evaluate, Wander, Pursue, Attack }
     public State state;
 
     private void OnEnable()
     {
        enemyScript = this;
-       state = State.Wait;
+       state = State.Idle;
 
     }
 
@@ -41,8 +41,7 @@ public class BaseEnemy : MovingCharacter
                 }
                 else
                 {
-                    state = State.EndTurn;
-                    UpdateState();
+                    EndMyTurn();
                 }
                 
             }
@@ -54,18 +53,12 @@ public class BaseEnemy : MovingCharacter
     {
         switch(state)
         {
-           case State.Wait:
-                break;
+
            case State.Evaluate:
                 Evaluate();
                 break; 
-           case State.Wander:
-                break;
             case State.Attack:
                 AttackPlayer();
-                break;
-            case State.EndTurn:
-                EndMyTurn();
                 break;
             default:
                 break;
@@ -75,8 +68,7 @@ public class BaseEnemy : MovingCharacter
     public void EndMyTurn()
     {
         moveComplete = true;
-        state = State.Wait;
-        UpdateState();
+        state = State.Idle;
         GameManager.Instance.checkEnemiesState();
     }
 
@@ -86,7 +78,6 @@ public class BaseEnemy : MovingCharacter
         if (CheckForPlayer())
         {
             //Chase or attack player
-            Debug.Log("Enemy spotted player");
             OverlayInfo attackTile = GetRandomTileInRange(GameManager.Instance.gridManager.GetNeighbourTiles(player.activeTile, inRangeTiles));
             if(attackTile != null)
             {
@@ -108,8 +99,7 @@ public class BaseEnemy : MovingCharacter
                 }
                 else
                 {
-                    state = State.EndTurn;
-                    UpdateState();
+                    EndMyTurn();
                 }
                 
             }          
@@ -126,8 +116,7 @@ public class BaseEnemy : MovingCharacter
             }
             else
             {
-                state = State.EndTurn;
-                UpdateState();
+                EndMyTurn();
             }
             DropTrap();
             DropPackage();
@@ -150,13 +139,13 @@ public class BaseEnemy : MovingCharacter
         if (Vector2.Distance(transform.position, path[0].transform.position) < 0.000001f)
         {
             PositionCharacter(path[0]);
+            activeTile.activeEnemy = this;
             path.RemoveAt(0);
         }
 
         if (path.Count == 0)
         {
             
-
             if(state == State.Pursue)
             {
                 state = State.Attack;
@@ -164,14 +153,11 @@ public class BaseEnemy : MovingCharacter
             }
             else
             {
-                state = State.EndTurn;
-                UpdateState();
+                EndMyTurn();
             }
-            CalculateRange();
-            
-
+            CalculateRange();            
         }
-
+       
     }
 
     public void FindPath(OverlayInfo overlayTile)
@@ -188,8 +174,7 @@ public class BaseEnemy : MovingCharacter
     public void AttackPlayer()
     {
         GameManager.Instance.DamagePlayer(attackDamage);
-        state = State.EndTurn;
-        UpdateState();
+        EndMyTurn();
     }
     private bool CheckForPlayer()
     {
