@@ -2,6 +2,37 @@ VisualElement {
 }
 
 .text {
-    font-size: 18px;
-    color: rgba(0, 0, 0, 255);
+    font-size: 22px;
+    color: rgb(214, 179, 214);
+    -unity-text-outline-width: 0;
+    text-shadow: 0 0 0 rgb(84, 84, 84);
+    -unity-text-outline-color: rgb(115, 114, 114);
+    -unity-text-align: middle-left;
+    justify-content: flex-start;
+    min-width: auto;
+    -unity-font: url('project://database/Assets/UI/Font/Purple%20Smile.otf?fileID=12800000&guid=38a1c5c8c8b35984fa3323098eae89a1&type=3#Purple Smile');
+    -unity-font-definition: none;
+}
+
+.unity-base-text-field__input {
+    color: black;
+    border-radius: 5px;
+    background-color: white;
+    border-color: #5C255C;
+}
+
+.unity-base-slider__dragger {
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    margin-top: -10px;
+    background-color: #5C255C;
+    border-color: white;
+}
+
+.unity-base-slider__tracker
+{
+    border-radius: 2px;
+    background-color: #5C255C;
+    border-color: white;
 }
