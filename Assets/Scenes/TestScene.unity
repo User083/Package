@@ -597,10 +597,10 @@ Tilemap:
   - first: {x: 2, y: -5, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 18
-      m_TileSpriteIndex: 18
+      m_TileIndex: 9
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 1
-      m_TileColorIndex: 0
+      m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
@@ -3444,7 +3444,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 478dd252a514f2e4c9e4d7ae8708168f, type: 2}
-  - m_RefCount: 23
+  - m_RefCount: 24
     m_Data: {fileID: 11400000, guid: 194a674a2b696f14b920e2a4283fc16f, type: 2}
   - m_RefCount: 9
     m_Data: {fileID: 11400000, guid: e8ec2c408e11b7b45b3944c603931c9a, type: 2}
@@ -3462,7 +3462,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 0f158988cdf921d40a7ea76c82bab608, type: 2}
   - m_RefCount: 17
     m_Data: {fileID: 11400000, guid: 6142ab3fab948174f8d9c79c81c2bf83, type: 2}
-  - m_RefCount: 29
+  - m_RefCount: 28
     m_Data: {fileID: 11400000, guid: dd9e3fd6992f3b34081b33c1a5fddbd5, type: 2}
   - m_RefCount: 12
     m_Data: {fileID: 11400000, guid: 4251ec5abfebd8e41adb806c064fda80, type: 2}
@@ -3499,7 +3499,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 358376713, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
-  - m_RefCount: 23
+  - m_RefCount: 24
     m_Data: {fileID: 260271032, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 9
     m_Data: {fileID: 1648651158, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
@@ -3517,7 +3517,7 @@ Tilemap:
     m_Data: {fileID: 415147013, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 17
     m_Data: {fileID: -15464949, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
-  - m_RefCount: 29
+  - m_RefCount: 28
     m_Data: {fileID: 1864643302, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 12
     m_Data: {fileID: -80965337, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
@@ -3573,9 +3573,9 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 296
+  - m_RefCount: 295
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 24
+  - m_RefCount: 25
     m_Data: {r: 1, g: 1, b: 1, a: 0}
   - m_RefCount: 0
     m_Data: {r: 3.6448e-41, g: 3.6448e-41, b: 3.6448e-41, a: 3.6448e-41}
@@ -4426,6 +4426,8 @@ MonoBehaviour:
   enemiesToSpawn: 2
   potionsToSpawn: 3
   trapDropChance: 5
+  healthPercentage: 0.3
+  turnPercentage: 0.3
   turnState: 0
   packagePrefab: {fileID: 7813442608483767924, guid: 43f4c60bfa4e4ea4498125043b5b4215, type: 3}
   AIPlayerPrefab: {fileID: 4753837478718451258, guid: 8589ffaf59131094db20eb04c0297ed6, type: 3}
@@ -5356,8 +5358,8 @@ Tilemap:
   - first: {x: 2, y: -5, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 10
-      m_TileSpriteIndex: 10
+      m_TileIndex: 12
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -8715,11 +8717,11 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 7daeeca471404524ea03f77554ca0d9d, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 6b68f710e01024942b208f89b155c53a, type: 2}
-  - m_RefCount: 9
+  - m_RefCount: 8
     m_Data: {fileID: 11400000, guid: f8f3d0384c652e540aaa5f35b1a79461, type: 2}
   - m_RefCount: 16
     m_Data: {fileID: 11400000, guid: 50048da7b8558db4290b939fde8fb00d, type: 2}
-  - m_RefCount: 63
+  - m_RefCount: 64
     m_Data: {fileID: 11400000, guid: dd9e3fd6992f3b34081b33c1a5fddbd5, type: 2}
   - m_RefCount: 18
     m_Data: {fileID: 11400000, guid: 7b4fa4f0a8d94aa42820a35771fb7b0f, type: 2}
@@ -8774,11 +8776,11 @@ Tilemap:
     m_Data: {fileID: 1764621504, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 840667561, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
-  - m_RefCount: 9
+  - m_RefCount: 8
     m_Data: {fileID: 1835982781, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 16
     m_Data: {fileID: 2015426907, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
-  - m_RefCount: 63
+  - m_RefCount: 64
     m_Data: {fileID: 1864643302, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}
   - m_RefCount: 18
     m_Data: {fileID: 1353833694, guid: 667ab3e3a5de4764499e8bb4cfdefa5a, type: 3}

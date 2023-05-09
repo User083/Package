@@ -104,6 +104,7 @@ public class AI_Player : MovingCharacter
             pathToEnd.RemoveRange(range - 1, toRemove);
             
         }
+
         if(pathToEnd.Count() < 0)
         {
             SpriteDirection(pathToEnd[pathToEnd.Count() - 1]);
