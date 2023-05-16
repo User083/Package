@@ -1,31 +1,34 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Style.uss?fileID=7433441132597879392&amp;guid=649d43e526bf9624e88bb0edd955ee4c&amp;type=3#Style" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
-        <ui:VisualElement style="width: 15%; justify-content: space-around; background-color: rgba(92, 37, 92, 0.56); align-items: center; flex-wrap: wrap;">
-            <ui:Label tabindex="-1" text="Simulation Settings:" display-tooltip-when-elided="true" name="hud-label-title" class="text" style="font-size: 30px; -unity-font-style: bold; -unity-text-align: middle-center; white-space: normal; justify-content: center; flex-wrap: wrap; color: rgba(250, 249, 250, 255);" />
-            <ui:GroupBox style="justify-content: space-around; align-items: stretch; min-width: auto; min-height: auto; width: 95%; height: 65%;">
+        <ui:VisualElement style="width: 17%; justify-content: space-around; background-color: rgba(92, 37, 92, 0.56); align-items: center; flex-wrap: wrap;">
+            <ui:Label tabindex="-1" text="Simulation Settings:" display-tooltip-when-elided="true" name="hud-label-title" class="text" style="font-size: 30px; -unity-font-style: bold; -unity-text-align: middle-center; white-space: normal; justify-content: center; flex-wrap: wrap; color: rgb(250, 249, 250);" />
+            <ui:GroupBox style="justify-content: center; align-items: stretch; min-width: auto; min-height: auto; width: 95%; height: 70%;">
                 <ui:Toggle label="Debug Info:" name="hud-toggle-debug" value="true" class="text" />
                 <ui:IntegerField label="Max Turns:" value="12" name="hud-integerfield-turns" class="text" />
                 <ui:IntegerField label="Agent Lives:" value="3" name="hud-integerfield-lives" class="text" />
-                <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="4" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" low-value="2" class="text" />
+                <ui:SliderInt picking-mode="Ignore" label="Agent Range:" value="4" high-value="10" name="hud-sliderint-range" show-input-field="false" direction="Horizontal" low-value="2" class="text" style="flex-wrap: wrap;" />
                 <ui:IntegerField label="Agent Health:" value="100" name="hud-integerfield-health" class="text" />
-                <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" low-value="1" class="text" />
-                <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="7" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" low-value="1" class="text" style="flex-grow: 0; justify-content: space-between;" />
+                <ui:SliderInt picking-mode="Ignore" label="No. Enemies:" value="2" high-value="6" name="hud-sliderint-enemies" show-input-field="false" direction="Horizontal" low-value="1" class="text" style="flex-wrap: wrap;" />
+                <ui:SliderInt picking-mode="Ignore" label="Enemy Range:" value="3" high-value="7" name="hud-sliderint-enemiesrange" show-input-field="false" direction="Horizontal" inverted="false" low-value="1" class="text" style="flex-grow: 0; justify-content: space-between; flex-wrap: wrap;" />
                 <ui:IntegerField label="Enemy Damage:" value="30" name="hud-integerfield-enemydp" class="text" />
-                <ui:SliderInt picking-mode="Ignore" label="Trap Drop Chance:" value="2" high-value="50" name="hud-sliderint-drop" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
-                <ui:SliderInt picking-mode="Ignore" label="No. Potions: " value="3" high-value="6" name="hud-sliderint-potionno" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between;" />
-                <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
+                <ui:SliderInt picking-mode="Ignore" label="Trap Drop Chance:" value="2" high-value="50" name="hud-sliderint-drop" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between; flex-wrap: wrap;" />
                 <ui:IntegerField label="Trap Damage:" value="20" name="hud-integerfield-trap" class="text" />
+                <ui:SliderInt picking-mode="Ignore" label="No. Potions: " value="3" high-value="6" name="hud-sliderint-potionno" show-input-field="false" direction="Horizontal" inverted="false" class="text" style="flex-grow: 0; justify-content: space-between; flex-wrap: wrap;" />
+                <ui:IntegerField label="Potion Healing:" value="20" name="hud-integerfield-healing" class="text" />
+                <ui:SliderInt picking-mode="Ignore" label="Turn % Retrieve:" value="30" high-value="80" name="hud-sliderint-turnsleft" show-input-field="false" direction="Horizontal" inverted="false" low-value="1" tooltip="Remaining turns needed to retrieve package" class="text" style="flex-grow: 0; justify-content: space-between; flex-wrap: wrap;" />
+                <ui:SliderInt picking-mode="Ignore" label="HP% before heal:" value="30" high-value="80" name="hud-sliderint-healthleft" show-input-field="false" direction="Horizontal" inverted="false" low-value="1" class="text" style="flex-grow: 0; justify-content: space-between; flex-wrap: wrap;" />
             </ui:GroupBox>
-            <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="hud-button-start" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; width: 80%; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 88, 49); border-right-color: rgb(132, 88, 49); border-top-color: rgb(132, 88, 49); border-bottom-color: rgb(132, 88, 49); -unity-text-align: middle-center; min-width: auto; min-height: auto; justify-content: center; color: rgba(255, 255, 255, 255);" />
-            <ui:Button tabindex="-1" text="Restart" display-tooltip-when-elided="true" name="hud-button-restart" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 87, 49); border-right-color: rgb(132, 87, 49); border-top-color: rgb(132, 87, 49); border-bottom-color: rgb(132, 87, 49); -unity-text-align: middle-center; min-height: auto; min-width: auto; width: 80%; justify-content: center; color: rgb(248, 247, 246);" />
+            <ui:Button tabindex="-1" text="Start" display-tooltip-when-elided="true" name="hud-button-start" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; width: 80%; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 88, 49); border-right-color: rgb(132, 88, 49); border-top-color: rgb(132, 88, 49); border-bottom-color: rgb(132, 88, 49); -unity-text-align: middle-center; min-width: auto; min-height: auto; justify-content: center; color: rgb(255, 255, 255); font-size: 20px;" />
+            <ui:Button tabindex="-1" text="Restart" display-tooltip-when-elided="true" name="hud-button-restart" class="text" style="background-color: rgb(185, 133, 57); -unity-font-style: bold; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-left-color: rgb(132, 87, 49); border-right-color: rgb(132, 87, 49); border-top-color: rgb(132, 87, 49); border-bottom-color: rgb(132, 87, 49); -unity-text-align: middle-center; min-height: auto; min-width: auto; width: 80%; justify-content: center; color: rgb(248, 247, 246); font-size: 20px;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-direction: column; width: 90%;">
             <ui:VisualElement style="height: 5%; flex-direction: row; justify-content: space-between; align-items: center; background-color: rgba(0, 0, 0, 0.57);">
                 <ui:GroupBox style="flex-direction: row; width: 94%; justify-content: space-around;">
                     <ui:Label tabindex="-1" text="Turn:" display-tooltip-when-elided="true" name="label-turn" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
                     <ui:Label tabindex="-1" text="Lives:" display-tooltip-when-elided="true" name="label-lives" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
-                    <ui:Label tabindex="-1" text="State:" display-tooltip-when-elided="true" name="label-state" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                    <ui:Label tabindex="-1" text="Turn State:" display-tooltip-when-elided="true" name="label-state" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
+                    <ui:Label tabindex="-1" text="Agent State:" display-tooltip-when-elided="true" name="label-agentstate" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
                     <ui:Label tabindex="-1" text="Package:" display-tooltip-when-elided="true" name="label-package" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
                     <ui:Label tabindex="-1" text="Score:" display-tooltip-when-elided="true" name="label-score" class="text" style="font-size: 20px; color: rgb(255, 255, 255);" />
                 </ui:GroupBox>
@@ -34,7 +37,7 @@
                 </ui:GroupBox>
             </ui:VisualElement>
             <ui:VisualElement style="height: 90%;" />
-            <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="text" style="justify-content: center; -unity-text-align: upper-center; font-size: 30px; color: rgb(219, 0, 0); -unity-font-style: bold;" />
+            <ui:Label tabindex="-1" display-tooltip-when-elided="true" name="label-gameover" class="text" style="justify-content: center; -unity-text-align: upper-center; font-size: 30px; color: rgb(219, 0, 0); -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-outline-color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0);" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -2,7 +2,7 @@ VisualElement {
 }
 
 .text {
-    font-size: 22px;
+    font-size: 18px;
     color: rgb(214, 179, 214);
     -unity-text-outline-width: 0;
     text-shadow: 0 0 0 rgb(84, 84, 84);
@@ -18,7 +18,7 @@ VisualElement {
     color: black;
     border-radius: 5px;
     background-color: white;
-    border-color: #5C255C;
+    border-color: rgb(92, 37, 92);
 }
 
 .unity-base-slider__dragger {
@@ -26,13 +26,12 @@ VisualElement {
     width: 20px;
     border-radius: 10px;
     margin-top: -10px;
-    background-color: #5C255C;
+    background-color: rgb(92, 37, 92);
     border-color: white;
 }
 
-.unity-base-slider__tracker
-{
+.unity-base-slider__tracker {
     border-radius: 2px;
-    background-color: #5C255C;
+    background-color: rgb(92, 37, 92);
     border-color: white;
 }

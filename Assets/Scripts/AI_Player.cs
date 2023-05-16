@@ -243,7 +243,11 @@ public class AI_Player : MovingCharacter
                 if (pathToEnd.Contains(enemy.inRangeTiles[i]))
                 {
                     pathToEnd.Remove(enemy.inRangeTiles[i]);
-                    enemy.inRangeTiles[i].ShowEvasionTile();
+                    if(GameManager.Instance.Debugging)
+                    {
+                        enemy.inRangeTiles[i].ShowEvasionTile();
+                    }
+                    
                 }
             }
         }

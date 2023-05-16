@@ -13,6 +13,7 @@ public class HUDManager : MonoBehaviour
     private Label State;
     private Label Package;
     private Label GameOver;
+    private Label AgentState;
     private Button Quit;
     public SliderInt enemySlider;
     public IntegerField agentHealth;
@@ -22,6 +23,8 @@ public class HUDManager : MonoBehaviour
     public SliderInt potions;
     public SliderInt dropChance;
     public SliderInt enemiesRange;
+    public SliderInt turnChance;
+    public SliderInt healthChance;
     private Button start;
     public IntegerField turns;
     public IntegerField lives;
@@ -37,6 +40,7 @@ public class HUDManager : MonoBehaviour
     private void OnEnable()
     {
         Score = root.Q<Label>("label-score");
+        AgentState = root.Q<Label>("label-agentstate");
         Turn = root.Q<Label>("label-turn");
         Lives = root.Q<Label>("label-lives");
         GameOver = root.Q<Label>("label-gameover");
@@ -51,6 +55,8 @@ public class HUDManager : MonoBehaviour
         lives = root.Q<IntegerField>("hud-integerfield-lives");
         agentRange = root.Q<SliderInt>("hud-sliderint-range");
         dropChance = root.Q<SliderInt>("hud-sliderint-drop");
+        turnChance = root.Q<SliderInt>("hud-sliderint-turnsleft");
+        healthChance = root.Q<SliderInt>("hud-sliderint-healthleft");
         enemySlider = root.Q<SliderInt>("hud-sliderint-enemies");
         enemiesRange = root.Q<SliderInt>("hud-sliderint-enemiesrange");
         potions = root.Q<SliderInt>("hud-sliderint-potionno");
@@ -59,7 +65,7 @@ public class HUDManager : MonoBehaviour
         debug = root.Q<Toggle>("hud-toggle-debug");
         start.clickable.clicked += () => StartSim();
         restart.clickable.clicked += () => Restart();
-        restart.SetEnabled(false);
+       
     }
 
     private void Start()
@@ -68,13 +74,24 @@ public class HUDManager : MonoBehaviour
         Quit.clickable.clicked += () => SceneManager.LoadScene("MainMenu");
     }
 
-    public void UpdateUI(string turn, string score, string lives, string state, string package)
+    public void ResetUI()
+    {
+        Turn.text = "Turn: ";
+        Score.text = "Score: ";
+        Lives.text = "Lives: ";
+        State.text = "Turn State: ";
+        Package.text = "Package: ";
+        AgentState.text = "Agent State:";
+    }
+
+    public void UpdateUI(string turn, string score, string lives, string state, string package, string agentState)
     {
         Turn.text = "Turn: " + turn + "/" + GameManager.Instance.maxTurnCount.ToString();
         Score.text = "Score: " + score;
         Lives.text = "Lives: " + lives + "/" + GameManager.Instance.maxLifeCount.ToString(); 
-        State.text = "State: " + state;
+        State.text = "Turn State: " + state;
         Package.text = "Package: " + package;
+        AgentState.text = "Agent State: " + agentState;
     }
 
     public void StartSim()
@@ -98,6 +115,8 @@ public class HUDManager : MonoBehaviour
         debug.SetEnabled(toggle);
         dropChance.SetEnabled(toggle);
         potions.SetEnabled(toggle);
+        turnChance.SetEnabled(toggle);
+        healthChance.SetEnabled(toggle);
     }
 
     public void Restart()
@@ -109,5 +128,14 @@ public class HUDManager : MonoBehaviour
     public void UpdateGameOver(string condition)
     {
         GameOver.text = condition;
+        if(condition == "")
+        {
+            GameOver.style.backgroundColor = new Color(0, 0, 0, 0);
+        }
+        else
+        {
+            GameOver.style.backgroundColor = new Color(0, 0, 0, 0.3f);
+        }
+        
     }
 }

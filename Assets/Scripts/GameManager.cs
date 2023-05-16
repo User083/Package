@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         ApplySettings();        
         SpawnEnemies();
         SpawnPotions();
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+        UpdateUI();
         Delay(2f);
         turnState = TurnState.PlayerTurn;
         UpdateState();
@@ -117,7 +117,8 @@ public class GameManager : MonoBehaviour
         lifeCount = maxLifeCount;
         potionsToSpawn = HUDManager.potions.value;
         trapDropChance = HUDManager.dropChance.value;
-        
+        turnPercentage = (float)HUDManager.turnChance.value / 100f;
+        healthPercentage = (float)HUDManager.healthChance.value / 100f;
 
     } 
 
@@ -286,17 +287,6 @@ public class GameManager : MonoBehaviour
     
     }
 
-    public void UpdateEnemyStats()
-    {
-        if (enemyList.Count > 0)
-        {
-            foreach (var enemy in enemyList)
-            {
-                
-
-            }
-        }
-    }
 
     public void SpawnCharacter(OverlayInfo start)
     {
@@ -355,8 +345,9 @@ public class GameManager : MonoBehaviour
         playerChar.hasPackage = true;
         gridManager.ResetAllOverlays();
         endTileReached= false;
-        HUDManager.restart.SetEnabled(false);
         HUDManager.UpdateGameOver("");
+        turnState = TurnState.Processing;
+        HUDManager.ResetUI();
 
     }
 
@@ -410,6 +401,8 @@ public class GameManager : MonoBehaviour
         playerChar.PositionCharacter(startTile);
         lifeCount--;
         turnCount = maxTurnCount;
+        playerChar.state = AI_Player.State.Idle;
+        playerChar.UpdateState();
 
     }
 
@@ -454,7 +447,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState());
+        HUDManager.UpdateUI(turnCount.ToString(), score.ToString(), lifeCount.ToString(), turnState.ToString(), PackageState(), playerChar.state.ToString());
     }
     public void PositionItem(OverlayInfo tile, GameObject item)
     {
